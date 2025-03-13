@@ -1,0 +1,73 @@
+﻿@model IEnumerable<CFE.Models.Empleado>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Lista de Empleados</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Agregar Nuevo Empleado</a>
+</p>
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Rfc)</th>
+            <th>@Html.DisplayNameFor(model => model.Curp)</th>
+            <th>@Html.DisplayNameFor(model => model.Nss)</th>
+            <th>@Html.DisplayNameFor(model => model.ApellidoPaterno)</th>
+            <th>@Html.DisplayNameFor(model => model.ApellidoMaterno)</th>
+            <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+            <th>@Html.DisplayNameFor(model => model.AreaEmpleado)</th>
+            <th>@Html.DisplayNameFor(model => model.Puesto)</th>
+            <th>@Html.DisplayNameFor(model => model.Telefono)</th>
+            <th>@Html.DisplayNameFor(model => model.CorreoElectronico)</th>
+            <th>Foto</th>
+            <th>Estado</th>
+            <th>Área</th>
+            <th>Puesto</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Rfc)</td>
+                <td>@Html.DisplayFor(modelItem => item.Curp)</td>
+                <td>@Html.DisplayFor(modelItem => item.Nss)</td>
+                <td>@Html.DisplayFor(modelItem => item.ApellidoPaterno)</td>
+                <td>@Html.DisplayFor(modelItem => item.ApellidoMaterno)</td>
+                <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+                <td>@Html.DisplayFor(modelItem => item.AreaEmpleado)</td>
+                <td>@Html.DisplayFor(modelItem => item.Puesto)</td>
+                <td>@Html.DisplayFor(modelItem => item.Telefono)</td>
+                <td>@Html.DisplayFor(modelItem => item.CorreoElectronico)</td>
+                <td>
+                    @if (item.Foto != null && item.Foto.Length > 0)
+                    {
+                        <img src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Foto))" alt="Foto" width="100" height="100" class="rounded" />
+                    }
+                    else
+                    {
+                        <span>Sin imagen</span>
+                    }
+                </td>
+                <td>
+                    @(item.EmpleadoActivo.GetValueOrDefault() ? "Activo" : "Inactivo")
+                </td>
+                <td>
+                    @(item.IdAreaNavigation != null ? item.IdAreaNavigation.DescripcionArea : "Sin área")
+                </td>
+                <td>
+                    @(item.IdPuestoNavigation != null ? item.IdPuestoNavigation.DescripcionPuesto : "Sin puesto")
+                </td>
+                <td>
+                    <a asp-action="Edit" class="btn btn-warning btn-sm" asp-route-id="@item.IdEmpleado">Editar</a>
+                    <a asp-action="Details" class="btn btn-info btn-sm" asp-route-id="@item.IdEmpleado">Detalles</a>
+                    <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.IdEmpleado">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
