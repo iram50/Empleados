@@ -8,8 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using CFE.Models;
 using System.IO;
 using Microsoft.AspNetCore.Http;
-using SixLabors.ImageSharp; // Para redimensionar imágenes
-using SixLabors.ImageSharp.Processing; // Para redimensionar imágenes
 
 namespace CFE.Controllers
 {
@@ -52,19 +50,6 @@ namespace CFE.Controllers
         // GET: Empleadoes/Create
         public IActionResult Create()
         {
-            // Verifica que las tablas no estén vacías
-            if (!_context.Areas.Any())
-            {
-                _context.Areas.Add(new Area { DescripcionArea = "Área de Prueba" });
-                _context.SaveChanges();
-            }
-
-            if (!_context.Puestos.Any())
-            {
-                _context.Puestos.Add(new Puesto { DescripcionPuesto = "Puesto de Prueba" });
-                _context.SaveChanges();
-            }
-
             ViewData["IdArea"] = new SelectList(_context.Areas, "IdAreas", "DescripcionArea");
             ViewData["IdPuesto"] = new SelectList(_context.Puestos, "IdPuesto", "DescripcionPuesto");
             return View();
@@ -79,17 +64,11 @@ namespace CFE.Controllers
             {
                 if (FotoArchivo != null && FotoArchivo.Length > 0)
                 {
-                    // Verifica el tamaño de la imagen (por ejemplo, 5 MB)
-                    if (FotoArchivo.Length > 5 * 1024 * 1024) // 5 MB
+                    using (var ms = new MemoryStream())
                     {
-                        ModelState.AddModelError("FotoArchivo", "La imagen no puede ser mayor a 5 MB.");
-                        ViewData["IdArea"] = new SelectList(_context.Areas, "IdAreas", "DescripcionArea", empleado.IdArea);
-                        ViewData["IdPuesto"] = new SelectList(_context.Puestos, "IdPuesto", "DescripcionPuesto", empleado.IdPuesto);
-                        return View(empleado);
+                        await FotoArchivo.CopyToAsync(ms);
+                        empleado.Foto = ms.ToArray();
                     }
-
-                    // Redimensiona la imagen (opcional)
-                    empleado.Foto = RedimensionarImagen(FotoArchivo, 800, 600); // Redimensiona a 800x600
                 }
 
                 _context.Add(empleado);
@@ -100,25 +79,6 @@ namespace CFE.Controllers
             ViewData["IdArea"] = new SelectList(_context.Areas, "IdAreas", "DescripcionArea", empleado.IdArea);
             ViewData["IdPuesto"] = new SelectList(_context.Puestos, "IdPuesto", "DescripcionPuesto", empleado.IdPuesto);
             return View(empleado);
-        }
-
-        // Método para redimensionar la imagen (opcional)
-        private byte[] RedimensionarImagen(IFormFile archivo, int anchoMaximo, int altoMaximo)
-        {
-            using (var imagen = Image.Load(archivo.OpenReadStream()))
-            {
-                imagen.Mutate(x => x.Resize(new ResizeOptions
-                {
-                    Size = new Size(anchoMaximo, altoMaximo),
-                    Mode = ResizeMode.Max
-                }));
-
-                using (var ms = new MemoryStream())
-                {
-                    imagen.Save(ms, new SixLabors.ImageSharp.Formats.Jpeg.JpegEncoder());
-                    return ms.ToArray();
-                }
-            }
         }
 
         // GET: Empleadoes/Edit/5
@@ -163,22 +123,30 @@ namespace CFE.Controllers
                     // Si hay una nueva imagen, reemplazarla
                     if (FotoArchivo != null && FotoArchivo.Length > 0)
                     {
-                        // Verifica el tamaño de la imagen (por ejemplo, 5 MB)
-                        if (FotoArchivo.Length > 5 * 1024 * 1024) // 5 MB
+                        using (var ms = new MemoryStream())
                         {
-                            ModelState.AddModelError("FotoArchivo", "La imagen no puede ser mayor a 5 MB.");
-                            ViewData["IdArea"] = new SelectList(_context.Areas, "IdAreas", "DescripcionArea", empleado.IdArea);
-                            ViewData["IdPuesto"] = new SelectList(_context.Puestos, "IdPuesto", "DescripcionPuesto", empleado.IdPuesto);
-                            return View(empleado);
+                            await FotoArchivo.CopyToAsync(ms);
+                            empleadoExistente.Foto = ms.ToArray(); // Asignar la nueva imagen
                         }
-
-                        // Redimensiona la imagen (opcional)
-                        empleadoExistente.Foto = RedimensionarImagen(FotoArchivo, 800, 600); // Redimensiona a 800x600
                     }
 
-                    // Actualizar datos
-                    _context.Entry(empleadoExistente).CurrentValues.SetValues(empleado);
+                    // Actualizar otros campos
+                    empleadoExistente.Rfc = empleado.Rfc;
+                    empleadoExistente.Curp = empleado.Curp;
+                    empleadoExistente.Nss = empleado.Nss;
+                    empleadoExistente.ApellidoPaterno = empleado.ApellidoPaterno;
+                    empleadoExistente.ApellidoMaterno = empleado.ApellidoMaterno;
+                    empleadoExistente.Nombre = empleado.Nombre;
+                    empleadoExistente.IdArea = empleado.IdArea;
+                    empleadoExistente.AreaEmpleado = empleado.AreaEmpleado;
+                    empleadoExistente.IdPuesto = empleado.IdPuesto;
+                    empleadoExistente.Puesto = empleado.Puesto;
+                    empleadoExistente.Telefono = empleado.Telefono;
+                    empleadoExistente.CorreoElectronico = empleado.CorreoElectronico;
+                    empleadoExistente.EmpleadoActivo = empleado.EmpleadoActivo;
 
+                    // Guardar cambios en la base de datos
+                    _context.Update(empleadoExistente);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
