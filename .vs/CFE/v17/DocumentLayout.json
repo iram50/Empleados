@@ -3,16 +3,12 @@
   "WorkspaceRootPath": "E:\\repos\\CFE\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\views\\empleadoes\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:views\\empleadoes\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\views\\empleadoes\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:views\\empleadoes\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\controllers\\empleadoescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:controllers\\empleadoescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,40 +23,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Delete.cshtml",
-              "DocumentMoniker": "E:\\repos\\CFE\\Views\\Empleadoes\\Delete.cshtml",
-              "RelativeDocumentMoniker": "Views\\Empleadoes\\Delete.cshtml",
-              "ToolTip": "E:\\repos\\CFE\\Views\\Empleadoes\\Delete.cshtml",
-              "RelativeToolTip": "Views\\Empleadoes\\Delete.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAVAAAA",
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "E:\\repos\\CFE\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "E:\\repos\\CFE\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AQIAACYAAAAAAAAAAAAAwEIAAAAHAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-03-13T17:30:15.232Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "EmpleadoesController.cs",
-              "DocumentMoniker": "E:\\repos\\CFE\\Controllers\\EmpleadoesController.cs",
-              "RelativeDocumentMoniker": "Controllers\\EmpleadoesController.cs",
-              "ToolTip": "E:\\repos\\CFE\\Controllers\\EmpleadoesController.cs",
-              "RelativeToolTip": "Controllers\\EmpleadoesController.cs",
-              "ViewState": "AQIAALUAAAAAAAAAAAAQwNEAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T17:19:23.135Z",
+              "WhenOpened": "2025-03-14T15:53:45.808Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "E:\\repos\\CFE\\Views\\Empleadoes\\Edit.cshtml",
-              "RelativeDocumentMoniker": "Views\\Empleadoes\\Edit.cshtml",
-              "ToolTip": "E:\\repos\\CFE\\Views\\Empleadoes\\Edit.cshtml",
-              "RelativeToolTip": "Views\\Empleadoes\\Edit.cshtml",
-              "ViewState": "AQIAAFMAAAAAAAAAAAAAwFgAAAAeAAAA",
+              "Title": "Delete.cshtml",
+              "DocumentMoniker": "E:\\repos\\CFE\\Views\\Empleadoes\\Delete.cshtml",
+              "RelativeDocumentMoniker": "Views\\Empleadoes\\Delete.cshtml",
+              "ToolTip": "E:\\repos\\CFE\\Views\\Empleadoes\\Delete.cshtml",
+              "RelativeToolTip": "Views\\Empleadoes\\Delete.cshtml",
+              "ViewState": "AQIAAFgAAAAAAAAAAAAiwG8AAAAGAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-03-13T17:18:48.539Z",
+              "WhenOpened": "2025-03-13T17:42:14.796Z",
               "EditorCaption": ""
             }
           ]
