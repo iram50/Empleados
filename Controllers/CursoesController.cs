@@ -21,9 +21,8 @@ namespace CFE.Controllers
         // GET: Cursoes
         public async Task<IActionResult> Index()
         {
-              return _context.Cursos != null ? 
-                          View(await _context.Cursos.ToListAsync()) :
-                          Problem("Entity set 'empresaContext.Cursos'  is null.");
+            var cursos = await _context.Cursos.Include(c => c.Instructor).ToListAsync();
+            return View(cursos);
         }
 
         // GET: Cursoes/Details/5
@@ -44,29 +43,43 @@ namespace CFE.Controllers
             return View(curso);
         }
 
-        // GET: Cursoes/Create
         public IActionResult Create()
         {
+            // Verifica si la base de datos tiene instructores
+            var instructores = _context.Instructors.ToList();
+
+            if (instructores == null || instructores.Count == 0)
+            {
+                Console.WriteLine("No hay instructores en la base de datos.");
+                ViewBag.Instructores = new SelectList(new List<Instructor>());
+            }
+            else
+            {
+                Console.WriteLine($"Se encontraron {instructores.Count} instructores.");
+                ViewBag.Instructores = new SelectList(instructores, "Id_Instructor", "NombreInstructor");
+            }
+
             return View();
         }
+
 
         // POST: Cursoes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCurso,NombreCurso,NombreInstructor")] Curso curso)
+        public async Task<IActionResult> Create([Bind("NombreCurso,Id_Instructor")] Curso curso)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(curso);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(curso);
+
+                    _context.Add(curso);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+
         }
 
-        // GET: Cursoes/Edit/5
+
+
+        // GET: Cursoes/Edit/5 
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Cursos == null)
@@ -79,23 +92,35 @@ namespace CFE.Controllers
             {
                 return NotFound();
             }
+
+            // Obtén la lista de instructores desde la base de datos
+            var instructores = await _context.Instructors.ToListAsync();
+
+            if (instructores == null || instructores.Count == 0)
+            {
+                // Maneja el caso cuando no hay instructores disponibles
+                ViewBag.Instructores = new SelectList(new List<Instructor>());
+            }
+            else
+            {
+                ViewBag.Instructores = new SelectList(instructores, "Id_Instructor", "NombreInstructor", curso.Id_Instructor);
+            }
+
             return View(curso);
         }
+
 
         // POST: Cursoes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdCurso,NombreCurso,NombreInstructor")] Curso curso)
+        public async Task<IActionResult> Edit(int id, [Bind("IdCurso,NombreCurso,Id_Instructor")] Curso curso)
         {
             if (id != curso.IdCurso)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
-            {
                 try
                 {
                     _context.Update(curso);
@@ -113,8 +138,6 @@ namespace CFE.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
-            return View(curso);
         }
 
         // GET: Cursoes/Delete/5

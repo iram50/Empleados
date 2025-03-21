@@ -21,7 +21,7 @@ namespace CFE.Controllers
         // GET: Instructors
         public async Task<IActionResult> Index()
         {
-              return _context.Instructors != null ? 
+              return _context.Instructors != null? 
                           View(await _context.Instructors.ToListAsync()) :
                           Problem("Entity set 'empresaContext.Instructors'  is null.");
         }
@@ -35,7 +35,7 @@ namespace CFE.Controllers
             }
 
             var instructor = await _context.Instructors
-                .FirstOrDefaultAsync(m => m.IdInstructor == id);
+                .FirstOrDefaultAsync(m => m.Id_Instructor == id);
             if (instructor == null)
             {
                 return NotFound();
@@ -55,7 +55,7 @@ namespace CFE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdInstructor,NombreInstructor,Descripcion")] Instructor instructor)
+        public async Task<IActionResult> Create([Bind("Id_Instructor,NombreInstructor,Descripcion")] Instructor instructor)
         {
             if (ModelState.IsValid)
             {
@@ -87,9 +87,9 @@ namespace CFE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdInstructor,NombreInstructor,Descripcion")] Instructor instructor)
+        public async Task<IActionResult> Edit(int id, [Bind("Id_Instructor,NombreInstructor,Descripcion")] Instructor instructor)
         {
-            if (id != instructor.IdInstructor)
+            if (id != instructor.Id_Instructor)
             {
                 return NotFound();
             }
@@ -103,7 +103,7 @@ namespace CFE.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!InstructorExists(instructor.IdInstructor))
+                    if (!InstructorExists(instructor.Id_Instructor))
                     {
                         return NotFound();
                     }
@@ -126,7 +126,7 @@ namespace CFE.Controllers
             }
 
             var instructor = await _context.Instructors
-                .FirstOrDefaultAsync(m => m.IdInstructor == id);
+                .FirstOrDefaultAsync(m => m.Id_Instructor == id);
             if (instructor == null)
             {
                 return NotFound();
@@ -156,7 +156,7 @@ namespace CFE.Controllers
 
         private bool InstructorExists(int id)
         {
-          return (_context.Instructors?.Any(e => e.IdInstructor == id)).GetValueOrDefault();
+          return (_context.Instructors?.Any(e => e.Id_Instructor == id)).GetValueOrDefault();
         }
     }
 }

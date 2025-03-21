@@ -61,7 +61,16 @@ namespace CFE.Models
 
                 entity.Property(e => e.NombreCurso).HasMaxLength(255);
 
-                entity.Property(e => e.NombreInstructor).HasMaxLength(255);
+                entity.Property(e => e.Id_Instructor).HasColumnName("Id_Instructor");
+
+                entity.HasOne(e => e.Instructor)
+    
+                .WithMany(e => e.Cursos)
+    
+                .HasForeignKey(e => e.Id_Instructor)
+    
+                .OnDelete(DeleteBehavior.Cascade) // Opcional, depende de si quieres que al eliminar un instructor, se eliminen sus cursos
+    .HasConstraintName("cursos_ibfk_1");
             });
 
             modelBuilder.Entity<Empleado>(entity =>
@@ -194,12 +203,12 @@ namespace CFE.Models
 
             modelBuilder.Entity<Instructor>(entity =>
             {
-                entity.HasKey(e => e.IdInstructor)
+                entity.HasKey(e => e.Id_Instructor)
                     .HasName("PRIMARY");
 
                 entity.ToTable("instructor");
 
-                entity.Property(e => e.IdInstructor).HasColumnName("Id_Instructor");
+                entity.Property(e => e.Id_Instructor).HasColumnName("Id_Instructor");
 
                 entity.Property(e => e.Descripcion).HasColumnType("text");
 
