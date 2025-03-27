@@ -120,7 +120,7 @@ namespace CFE.Controllers
                         return NotFound();
                     }
 
-                    // Si hay una nueva imagen, reemplazarla
+                    // Si hay una nueva imagen, reemplazarla, de lo contrario, conservar la existente
                     if (FotoArchivo != null && FotoArchivo.Length > 0)
                     {
                         using (var ms = new MemoryStream())
@@ -128,6 +128,10 @@ namespace CFE.Controllers
                             await FotoArchivo.CopyToAsync(ms);
                             empleadoExistente.Foto = ms.ToArray(); // Asignar la nueva imagen
                         }
+                    }
+                    else
+                    {
+                        empleado.Foto = empleadoExistente.Foto;
                     }
 
                     // Actualizar otros campos
@@ -144,6 +148,13 @@ namespace CFE.Controllers
                     empleadoExistente.Telefono = empleado.Telefono;
                     empleadoExistente.CorreoElectronico = empleado.CorreoElectronico;
                     empleadoExistente.EmpleadoActivo = empleado.EmpleadoActivo;
+                    empleadoExistente.tipo_contrato = empleado.tipo_contrato;
+                    empleadoExistente.fecha_nacimiento = empleado.fecha_nacimiento;
+                    empleadoExistente.ingreso_cfe = empleado.ingreso_cfe;
+                    empleadoExistente.rpe = empleado.rpe;
+                    empleadoExistente.jefe_inmediato = empleado.jefe_inmediato;
+                    empleadoExistente.escolaridad = empleado.escolaridad;
+                    empleadoExistente.comprobante_escolaridad = empleado.comprobante_escolaridad;
 
                     // Guardar cambios en la base de datos
                     _context.Update(empleadoExistente);
@@ -167,6 +178,7 @@ namespace CFE.Controllers
             ViewData["IdPuesto"] = new SelectList(_context.Puestos, "IdPuesto", "DescripcionPuesto", empleado.IdPuesto);
             return View(empleado);
         }
+
 
         // GET: Empleadoes/Delete/5
         public async Task<IActionResult> Delete(int? id)

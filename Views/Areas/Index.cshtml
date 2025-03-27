@@ -25,10 +25,10 @@
                 @Html.DisplayFor(modelItem => item.DescripcionArea)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdAreas">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdAreas">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdAreas">Delete</a>
-            </td>
+                    <a asp-action="Edit" asp-route-id="@item.IdAreas" class="btn btn-primary">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.IdAreas" class="btn btn-secondary">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.IdAreas" class="btn btn-danger">Delete</a>
+                </td>
         </tr>
 }
     </tbody>

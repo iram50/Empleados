@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CFE")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+61c4fd1e0638adf4b286bf892c77f2ceb3c2c431")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d7f2d9d1b3c1bbca3e1c3d653c34e9213b917ace")]
 [assembly: System.Reflection.AssemblyProductAttribute("CFE")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CFE")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

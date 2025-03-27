@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "E:\\repos\\CFE\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\controllers\\cursoescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:controllers\\cursoescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\controllers\\empleadoescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:controllers\\empleadoescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\models\\empleado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:models\\empleado.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\views\\empleadoes\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:views\\empleadoes\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,20 +22,45 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "CursoesController.cs",
-              "DocumentMoniker": "E:\\repos\\CFE\\Controllers\\CursoesController.cs",
-              "RelativeDocumentMoniker": "Controllers\\CursoesController.cs",
-              "ToolTip": "E:\\repos\\CFE\\Controllers\\CursoesController.cs",
-              "RelativeToolTip": "Controllers\\CursoesController.cs",
-              "ViewState": "AQIAACkAAAAAAAAAAAAqwC0AAAAlAAAA",
+              "DocumentIndex": 1,
+              "Title": "Empleado.cs",
+              "DocumentMoniker": "E:\\repos\\CFE\\Models\\Empleado.cs",
+              "RelativeDocumentMoniker": "Models\\Empleado.cs",
+              "ToolTip": "E:\\repos\\CFE\\Models\\Empleado.cs",
+              "RelativeToolTip": "Models\\Empleado.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-21T16:23:00.463Z",
+              "WhenOpened": "2025-03-26T18:33:00.859Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "EmpleadoesController.cs",
+              "DocumentMoniker": "E:\\repos\\CFE\\Controllers\\EmpleadoesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\EmpleadoesController.cs",
+              "ToolTip": "E:\\repos\\CFE\\Controllers\\EmpleadoesController.cs",
+              "RelativeToolTip": "Controllers\\EmpleadoesController.cs",
+              "ViewState": "AQIAAF4AAAAAAAAAAAAAAGcAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-26T18:09:27.89Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "E:\\repos\\CFE\\Views\\Empleadoes\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Views\\Empleadoes\\Edit.cshtml",
+              "ToolTip": "E:\\repos\\CFE\\Views\\Empleadoes\\Edit.cshtml",
+              "RelativeToolTip": "Views\\Empleadoes\\Edit.cshtml",
+              "ViewState": "AQIAAGkAAAAAAAAAAAAAAHsAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-26T17:41:03.357Z"
             }
           ]
         }

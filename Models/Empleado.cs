@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CFE.Models
 {
@@ -24,6 +25,18 @@ namespace CFE.Models
         public string? Telefono { get; set; }
         public string? CorreoElectronico { get; set; }
         public byte[]? Foto { get; set; }
+
+        public string? tipo_contrato { get; set; }
+        public DateTime? fecha_nacimiento { get; set; }
+        public DateTime? ingreso_cfe { get; set; }
+
+        public string? rpe { get; set; }
+
+        public string? jefe_inmediato { get; set; }
+
+        public string? escolaridad { get; set; }
+
+        public string? comprobante_escolaridad { get; set; }
         public bool? EmpleadoActivo { get; set; }
 
         public virtual Area? IdAreaNavigation { get; set; }

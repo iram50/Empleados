@@ -4,70 +4,97 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Lista de Empleados</h1>
+<div class="container">
+    <h1 class="mb-4">Lista de Empleados</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-success">Agregar Nuevo Empleado</a>
-</p>
-<table class="table table-bordered">
-    <thead class="thead-dark">
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.Rfc)</th>
-            <th>@Html.DisplayNameFor(model => model.Curp)</th>
-            <th>@Html.DisplayNameFor(model => model.Nss)</th>
-            <th>@Html.DisplayNameFor(model => model.ApellidoPaterno)</th>
-            <th>@Html.DisplayNameFor(model => model.ApellidoMaterno)</th>
-            <th>@Html.DisplayNameFor(model => model.Nombre)</th>
-            <th>@Html.DisplayNameFor(model => model.AreaEmpleado)</th>
-            <th>@Html.DisplayNameFor(model => model.Puesto)</th>
-            <th>@Html.DisplayNameFor(model => model.Telefono)</th>
-            <th>@Html.DisplayNameFor(model => model.CorreoElectronico)</th>
-            <th>Foto</th>
-            <th>Estado</th>
-            <th>Área</th>
-            <th>Puesto</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
+    <!-- Botón de agregar -->
+    <div class="mb-4">
+        <a asp-action="Create" class="btn btn-success">Agregar Nuevo Empleado</a>
+    </div>
+
+    <!-- Grid de empleados -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Rfc)</td>
-                <td>@Html.DisplayFor(modelItem => item.Curp)</td>
-                <td>@Html.DisplayFor(modelItem => item.Nss)</td>
-                <td>@Html.DisplayFor(modelItem => item.ApellidoPaterno)</td>
-                <td>@Html.DisplayFor(modelItem => item.ApellidoMaterno)</td>
-                <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
-                <td>@Html.DisplayFor(modelItem => item.AreaEmpleado)</td>
-                <td>@Html.DisplayFor(modelItem => item.Puesto)</td>
-                <td>@Html.DisplayFor(modelItem => item.Telefono)</td>
-                <td>@Html.DisplayFor(modelItem => item.CorreoElectronico)</td>
-                <td>
-                    @if (item.Foto != null && item.Foto.Length > 0)
-                    {
-                        <img src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Foto))" alt="Foto" width="100" height="100" class="rounded" />
-                    }
-                    else
-                    {
-                        <span>Sin imagen</span>
-                    }
-                </td>
-                <td>
-                    @(item.EmpleadoActivo.GetValueOrDefault() ? "Activo" : "Inactivo")
-                </td>
-                <td>
-                    @(item.IdAreaNavigation != null ? item.IdAreaNavigation.DescripcionArea : "Sin área")
-                </td>
-                <td>
-                    @(item.IdPuestoNavigation != null ? item.IdPuestoNavigation.DescripcionPuesto : "Sin puesto")
-                </td>
-                <td>
-                    <a asp-action="Edit" class="btn btn-warning btn-sm" asp-route-id="@item.IdEmpleado">Editar</a>
-                    <a asp-action="Details" class="btn btn-info btn-sm" asp-route-id="@item.IdEmpleado">Detalles</a>
-                    <a asp-action="Delete" class="btn btn-danger btn-sm" asp-route-id="@item.IdEmpleado">Eliminar</a>
-                </td>
-            </tr>
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <!-- Header con nombre y estado -->
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">
+                            @Html.DisplayFor(modelItem => item.Nombre) @Html.DisplayFor(modelItem => item.ApellidoPaterno)
+                            <span class="badge @(item.EmpleadoActivo.GetValueOrDefault() ? "bg-success" : "bg-secondary") float-end">
+                                @(item.EmpleadoActivo.GetValueOrDefault() ? "Activo" : "Inactivo")
+                            </span>
+                        </h5>
+                    </div>
+
+                    <!-- Foto del empleado -->
+                    <div class="text-center mt-3">
+                        @if (item.Foto != null && item.Foto.Length > 0)
+                        {
+                            <img src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Foto))"
+                                 alt="Foto"
+                                 class="img-thumbnail rounded-circle"
+                                 style="width: 120px; height: 120px; object-fit: cover;">
+                        }
+                        else
+                        {
+                            <div class="bg-light rounded-circle d-inline-block p-4">
+                                <i class="fas fa-user fa-3x text-muted"></i>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Detalles del empleado -->
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <strong>RPE:</strong> @Html.DisplayFor(modelItem => item.rpe)
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Puesto:</strong>
+                                @(item.IdPuestoNavigation != null ? item.IdPuestoNavigation.DescripcionPuesto : "Sin puesto")
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Área:</strong>
+                                @(item.IdAreaNavigation != null ? item.IdAreaNavigation.DescripcionArea : "Sin área")
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Teléfono:</strong> @Html.DisplayFor(modelItem => item.Telefono)
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Email:</strong>
+                                <a href="mailto:@item.CorreoElectronico" class="text-truncate d-block">@item.CorreoElectronico</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Acciones -->
+                    <div class="card-footer bg-transparent d-flex justify-content-between">
+                        <a asp-action="Edit" asp-route-id="@item.IdEmpleado" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.IdEmpleado" class="btn btn-sm btn-outline-info">
+                            <i class="fas fa-info-circle"></i> Detalles
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.IdEmpleado" class="btn btn-sm btn-outline-danger">
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </a>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>
+
+<!-- Font Awesome para íconos (opcional) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+@section Scripts {
+    <script>
+        // Opcional: Tooltips para botones
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+}
