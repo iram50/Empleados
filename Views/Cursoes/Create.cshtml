@@ -1,41 +1,80 @@
 ﻿@model CFE.Models.Curso
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Nuevo Curso";
 }
 
-<h1>Create</h1>
-<h4>Curso</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-6">
+                <i class="bi bi-book"></i> @ViewData["Title"]
+            </h1>
+        </div>
+    </div>
 
-            <div class="form-group">
-                <label asp-for="NombreCurso" class="control-label"></label>
-                <input asp-for="NombreCurso" class="form-control" />
-                <span asp-validation-for="NombreCurso" class="text-danger"></span>
-            </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-plus-circle"></i> Información del Curso
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group">
-                <label asp-for="Id_Instructor" class="control-label"></label>
-                <select asp-for="Id_Instructor" class="form-control" asp-items="ViewBag.Instructores">
-                    <option value="">Seleccione un instructor</option>
-                </select>
-                <span asp-validation-for="Id_Instructor" class="text-danger"></span>
-            </div>
+                        <div class="form-group mb-4">
+                            <label asp-for="NombreCurso" class="form-label fw-bold">Nombre del Curso</label>
+                            <input asp-for="NombreCurso" class="form-control" />
+                            <span asp-validation-for="NombreCurso" class="text-danger small"></span>
+                        </div>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                        <div class="form-group mb-4">
+                            <label asp-for="Id_Instructor" class="form-label fw-bold">Instructor</label>
+                            <select asp-for="Id_Instructor" class="form-control" asp-items="ViewBag.Instructores">
+                                <option value="">Seleccione un instructor</option>
+                            </select>
+                            <span asp-validation-for="Id_Instructor" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+                            <a asp-action="Index" class="btn btn-outline-secondary me-3">
+                                <i class="bi bi-arrow-left"></i> Volver al listado
+                            </a>
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i class="bi bi-save"></i> Crear
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@section Styles {
+    <style>
+        .form-control {
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.25rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1.25rem;
+            margin: 0.25rem 0;
+        }
+
+        .btn-outline-secondary {
+            border-width: 2px;
+        }
+
+        .card {
+            border-radius: 0.5rem;
+        }
+    </style>
+}
 
 @section Scripts {
     @{

@@ -21,9 +21,7 @@ namespace CFE.Controllers
         // GET: Puestoes
         public async Task<IActionResult> Index()
         {
-              return _context.Puestos != null ? 
-                          View(await _context.Puestos.ToListAsync()) :
-                          Problem("Entity set 'empresaContext.Puestos'  is null.");
+            return View(await _context.Puestos.ToListAsync());
         }
 
         // GET: Puestoes/Details/5
@@ -47,15 +45,18 @@ namespace CFE.Controllers
         // GET: Puestoes/Create
         public IActionResult Create()
         {
-            return View();
+            // Cargar todos los puestos para la lista lateral
+            var puestosList = _context.Puestos.ToList();
+            ViewData["PuestosList"] = puestosList;
+
+            // Crear un nuevo modelo con IdPuesto = 0
+            return View(new Puesto { IdPuesto = 0 });
         }
 
         // POST: Puestoes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdPuesto,DescripcionPuesto")] Puesto puesto)
+        public async Task<IActionResult> Create([Bind("DescripcionPuesto")] Puesto puesto)
         {
             if (ModelState.IsValid)
             {
@@ -63,6 +64,11 @@ namespace CFE.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            // Si hay errores, recargar los datos necesarios
+            var puestosList = _context.Puestos.ToList();
+            ViewData["PuestosList"] = puestosList;
+
             return View(puesto);
         }
 
@@ -74,17 +80,20 @@ namespace CFE.Controllers
                 return NotFound();
             }
 
+            // Cargar todos los puestos para la lista lateral
+            var puestosList = await _context.Puestos.ToListAsync();
+            ViewData["PuestosList"] = puestosList;
+
             var puesto = await _context.Puestos.FindAsync(id);
             if (puesto == null)
             {
                 return NotFound();
             }
+
             return View(puesto);
         }
 
         // POST: Puestoes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdPuesto,DescripcionPuesto")] Puesto puesto)
@@ -114,6 +123,11 @@ namespace CFE.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            // Si hay errores, recargar los datos necesarios
+            var puestosList = await _context.Puestos.ToListAsync();
+            ViewData["PuestosList"] = puestosList;
+
             return View(puesto);
         }
 
@@ -142,21 +156,21 @@ namespace CFE.Controllers
         {
             if (_context.Puestos == null)
             {
-                return Problem("Entity set 'empresaContext.Puestos'  is null.");
+                return Problem("Entity set 'empresaContext.Puestos' is null.");
             }
             var puesto = await _context.Puestos.FindAsync(id);
             if (puesto != null)
             {
                 _context.Puestos.Remove(puesto);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PuestoExists(int id)
         {
-          return (_context.Puestos?.Any(e => e.IdPuesto == id)).GetValueOrDefault();
+            return (_context.Puestos?.Any(e => e.IdPuesto == id)).GetValueOrDefault();
         }
     }
 }

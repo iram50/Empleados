@@ -21,9 +21,9 @@ namespace CFE.Controllers
         // GET: Areas
         public async Task<IActionResult> Index()
         {
-              return _context.Areas != null ? 
-                          View(await _context.Areas.ToListAsync()) :
-                          Problem("Entity set 'empresaContext.Areas'  is null.");
+            return _context.Areas != null ?
+                View(await _context.Areas.ToListAsync()) :
+                Problem("Entity set 'empresaContext.Areas' is null.");
         }
 
         // GET: Areas/Details/5
@@ -51,8 +51,6 @@ namespace CFE.Controllers
         }
 
         // POST: Areas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdAreas,DescripcionArea")] Area area)
@@ -66,7 +64,7 @@ namespace CFE.Controllers
             return View(area);
         }
 
-        // GET: Areas/Edit/5
+        // GET: Areas/Edit/5 - ÚNICO MÉTODO MODIFICADO
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Areas == null)
@@ -79,12 +77,14 @@ namespace CFE.Controllers
             {
                 return NotFound();
             }
+
+            // Línea añadida para pasar la lista de áreas a la vista
+            ViewData["AreasList"] = await _context.Areas.ToListAsync();
+
             return View(area);
         }
 
         // POST: Areas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdAreas,DescripcionArea")] Area area)
@@ -142,21 +142,21 @@ namespace CFE.Controllers
         {
             if (_context.Areas == null)
             {
-                return Problem("Entity set 'empresaContext.Areas'  is null.");
+                return Problem("Entity set 'empresaContext.Areas' is null.");
             }
             var area = await _context.Areas.FindAsync(id);
             if (area != null)
             {
                 _context.Areas.Remove(area);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool AreaExists(int id)
         {
-          return (_context.Areas?.Any(e => e.IdAreas == id)).GetValueOrDefault();
+            return (_context.Areas?.Any(e => e.IdAreas == id)).GetValueOrDefault();
         }
     }
 }

@@ -71,9 +71,9 @@ namespace CFE.Controllers
         public async Task<IActionResult> Create([Bind("NombreCurso,Id_Instructor")] Curso curso)
         {
 
-                    _context.Add(curso);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+            _context.Add(curso);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
 
         }
 
@@ -87,24 +87,31 @@ namespace CFE.Controllers
                 return NotFound();
             }
 
+            // Cargar todos los cursos para la lista lateral
+            var cursosList = await _context.Cursos
+                .Include(c => c.Instructor)
+                .ToListAsync();
+
             var curso = await _context.Cursos.FindAsync(id);
             if (curso == null)
             {
                 return NotFound();
             }
 
-            // Obtén la lista de instructores desde la base de datos
+            // Lista de instructores desde la base de datos
             var instructores = await _context.Instructors.ToListAsync();
 
             if (instructores == null || instructores.Count == 0)
             {
-                // Maneja el caso cuando no hay instructores disponibles
                 ViewBag.Instructores = new SelectList(new List<Instructor>());
             }
             else
             {
                 ViewBag.Instructores = new SelectList(instructores, "Id_Instructor", "NombreInstructor", curso.Id_Instructor);
             }
+
+            // Pasar la lista de cursos a la vista
+            ViewData["CursosList"] = cursosList;
 
             return View(curso);
         }
@@ -121,23 +128,23 @@ namespace CFE.Controllers
             {
                 return NotFound();
             }
-                try
+            try
+            {
+                _context.Update(curso);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CursoExists(curso.IdCurso))
                 {
-                    _context.Update(curso);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!CursoExists(curso.IdCurso))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
-                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Cursoes/Delete/5
@@ -172,14 +179,14 @@ namespace CFE.Controllers
             {
                 _context.Cursos.Remove(curso);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CursoExists(int id)
         {
-          return (_context.Cursos?.Any(e => e.IdCurso == id)).GetValueOrDefault();
+            return (_context.Cursos?.Any(e => e.IdCurso == id)).GetValueOrDefault();
         }
     }
 }

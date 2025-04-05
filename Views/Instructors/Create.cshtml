@@ -1,38 +1,86 @@
 ﻿@model CFE.Models.Instructor
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Nuevo Instructor";
 }
 
-<h1>Create</h1>
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-6">
+                <i class="bi bi-person-badge"></i> @ViewData["Title"]
+            </h1>
+        </div>
+    </div>
 
-<h4>Instructor</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="NombreInstructor" class="control-label"></label>
-                <input asp-for="NombreInstructor" class="form-control" />
-                <span asp-validation-for="NombreInstructor" class="text-danger"></span>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-plus-circle"></i> Información del Instructor
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="NombreInstructor" class="form-label fw-bold">Nombre del Instructor</label>
+                            <input asp-for="NombreInstructor" class="form-control" placeholder="Ingrese el nombre completo" />
+                            <span asp-validation-for="NombreInstructor" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="Descripcion" class="form-label fw-bold">Descripción/Nivel</label>
+                            <textarea asp-for="Descripcion" class="form-control" rows="3" placeholder="Especialidad, nivel de experiencia o información relevante"></textarea>
+                            <span asp-validation-for="Descripcion" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+                            <a asp-action="Index" class="btn btn-outline-secondary me-3">
+                                <i class="bi bi-arrow-left"></i> Volver al listado
+                            </a>
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i class="bi bi-save"></i> Guardar
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Descripcion" class="control-label"></label>
-                <input asp-for="Descripcion" class="form-control" />
-                <span asp-validation-for="Descripcion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@section Styles {
+    <style>
+        .form-control {
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.25rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1.25rem;
+            margin: 0.25rem 0;
+        }
+
+        .btn-outline-secondary {
+            border-width: 2px;
+        }
+
+        .card {
+            border-radius: 0.5rem;
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+    </style>
+}
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

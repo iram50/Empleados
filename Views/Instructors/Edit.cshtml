@@ -1,39 +1,135 @@
 ﻿@model CFE.Models.Instructor
+@using CFE.Models
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Instructor";
+    var instructoresList = ViewData["InstructoresList"] as IEnumerable<Instructor> ?? new List<Instructor>();
+    var isNew = Model?.Id_Instructor == 0;
 }
 
-<h1>Edit</h1>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Columna de lista de instructores -->
+        <div class="col-md-5">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="bi bi-list-ul"></i> Instructores Existentes</h5>
+                    <a asp-action="Create" class="btn btn-success btn-sm">
+                        <i class="bi bi-plus-circle"></i> Nuevo
+                    </a>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        @if (!isNew)
+                        {
+                            @foreach (var instructor in instructoresList)
+                            {
+                                <a asp-action="Edit" asp-route-id="@instructor.Id_Instructor"
+                                   class="list-group-item list-group-item-action @(instructor.Id_Instructor == Model?.Id_Instructor ? "active" : "")">
+                                    <div class="d-flex justify-content-between">
+                                        <span>@instructor.NombreInstructor</span>
+                                        <small class="text-muted">@(instructor.Descripcion?.Length > 20 ? instructor.Descripcion?.Substring(0, 20) + "..." : instructor.Descripcion)</small>
+                                    </div>
+                                </a>
+                            }
+                        }
+                        else
+                        {
+                            <div class="alert alert-info m-3">
+                                <i class="bi bi-info-circle"></i> Seleccione un instructor existente para editarlo o complete el formulario para crear uno nuevo.
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<h4>Instructor</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id_Instructor" />
-            <div class="form-group">
-                <label asp-for="NombreInstructor" class="control-label"></label>
-                <input asp-for="NombreInstructor" class="form-control" />
-                <span asp-validation-for="NombreInstructor" class="text-danger"></span>
+        <!-- Columna de edición -->
+        <div class="col-md-7">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-pencil-square"></i> @(isNew ? "Nuevo Instructor" : "Editar Instructor")
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="@(isNew ? "Create" : "Edit")">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                        @if (!isNew)
+                        {
+                            <input type="hidden" asp-for="Id_Instructor" />
+                        }
+
+                        <div class="form-group mb-4">
+                            <label asp-for="NombreInstructor" class="form-label fw-bold">Nombre del Instructor</label>
+                            <input asp-for="NombreInstructor" class="form-control" />
+                            <span asp-validation-for="NombreInstructor" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="Descripcion" class="form-label fw-bold">Descripción</label>
+                            <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="Descripcion" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Volver
+                            </a>
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-warning px-4">
+                                    <i class="bi bi-check2-circle"></i> Guardar
+                                </button>
+                                <a asp-action="Create" class="btn btn-success">
+                                    <i class="bi bi-plus-circle"></i> Nuevo
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Descripcion" class="control-label"></label>
-                <input asp-for="Descripcion" class="form-control" />
-                <span asp-validation-for="Descripcion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@section Styles {
+    <style>
+        .list-group-item.active {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            color: white;
+        }
+
+        .list-group-item:hover:not(.active) {
+            background-color: #f8f9fa;
+        }
+
+        .btn-group .btn {
+            margin-right: 5px;
+        }
+
+            .btn-group .btn:last-child {
+                margin-right: 0;
+            }
+
+        .card {
+            border-radius: 0.5rem;
+        }
+
+        .list-group-item {
+            border-left: none;
+            border-right: none;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+    </style>
+}
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

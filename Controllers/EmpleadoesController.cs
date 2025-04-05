@@ -20,12 +20,42 @@ namespace CFE.Controllers
             _context = context;
         }
 
+
+
         // GET: Empleadoes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? nombre, int? idArea, int? idPuesto, bool? empleadoActivo)
         {
-            var empresaContext = _context.Empleados.Include(e => e.IdAreaNavigation).Include(e => e.IdPuestoNavigation);
-            return View(await empresaContext.ToListAsync());
+            var empleados = _context.Empleados
+                .Include(e => e.IdAreaNavigation)
+                .Include(e => e.IdPuestoNavigation)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(nombre))
+            {
+                empleados = empleados.Where(e => e.Nombre.Contains(nombre) || e.ApellidoPaterno.Contains(nombre));
+            }
+
+            if (idArea.HasValue)
+            {
+                empleados = empleados.Where(e => e.IdArea == idArea);
+            }
+
+            if (idPuesto.HasValue)
+            {
+                empleados = empleados.Where(e => e.IdPuesto == idPuesto);
+            }
+
+            if (empleadoActivo.HasValue)
+            {
+                empleados = empleados.Where(e => e.EmpleadoActivo == empleadoActivo);
+            }
+
+            ViewData["IdArea"] = new SelectList(_context.Areas, "IdAreas", "DescripcionArea");
+            ViewData["IdPuesto"] = new SelectList(_context.Puestos, "IdPuesto", "DescripcionPuesto");
+
+            return View(await empleados.ToListAsync());
         }
+
 
         // GET: Empleadoes/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -103,7 +133,7 @@ namespace CFE.Controllers
         // POST: Empleadoes/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Empleado empleado, IFormFile FotoArchivo)
+        public async Task<IActionResult> Edit(int id, Empleado empleado, IFormFile? FotoArchivo)
         {
             if (id != empleado.IdEmpleado)
             {
@@ -120,21 +150,15 @@ namespace CFE.Controllers
                         return NotFound();
                     }
 
-                    // Si hay una nueva imagen, reemplazarla, de lo contrario, conservar la existente
                     if (FotoArchivo != null && FotoArchivo.Length > 0)
                     {
                         using (var ms = new MemoryStream())
                         {
                             await FotoArchivo.CopyToAsync(ms);
-                            empleadoExistente.Foto = ms.ToArray(); // Asignar la nueva imagen
+                            empleadoExistente.Foto = ms.ToArray();
                         }
                     }
-                    else
-                    {
-                        empleado.Foto = empleadoExistente.Foto;
-                    }
 
-                    // Actualizar otros campos
                     empleadoExistente.Rfc = empleado.Rfc;
                     empleadoExistente.Curp = empleado.Curp;
                     empleadoExistente.Nss = empleado.Nss;
@@ -156,9 +180,10 @@ namespace CFE.Controllers
                     empleadoExistente.escolaridad = empleado.escolaridad;
                     empleadoExistente.comprobante_escolaridad = empleado.comprobante_escolaridad;
 
-                    // Guardar cambios en la base de datos
                     _context.Update(empleadoExistente);
                     await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -171,13 +196,13 @@ namespace CFE.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
 
             ViewData["IdArea"] = new SelectList(_context.Areas, "IdAreas", "DescripcionArea", empleado.IdArea);
             ViewData["IdPuesto"] = new SelectList(_context.Puestos, "IdPuesto", "DescripcionPuesto", empleado.IdPuesto);
             return View(empleado);
         }
+
 
 
         // GET: Empleadoes/Delete/5

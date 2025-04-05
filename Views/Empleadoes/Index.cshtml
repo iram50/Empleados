@@ -12,6 +12,45 @@
         <a asp-action="Create" class="btn btn-success">Agregar Nuevo Empleado</a>
     </div>
 
+    <!-- Formulario de búsqueda -->
+    <form method="get" class="mb-4 p-3 bg-light rounded shadow-sm">
+        <div class="row g-3 align-items-center">
+            <div class="col-md-3">
+                <input type="text" name="nombre" class="form-control" placeholder="Buscar por nombre" value="@Context.Request.Query["nombre"]">
+            </div>
+            <div class="col-md-3">
+                <select name="idArea" class="form-select">
+                    <option value="">Seleccione un área</option>
+                    @foreach (var area in ViewBag.IdArea as SelectList)
+                    {
+                        <option value="@area.Value" selected="@(Context.Request.Query["idArea"] == area.Value ? "selected" : null)">@area.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="idPuesto" class="form-select">
+                    <option value="">Seleccione un puesto</option>
+                    @foreach (var puesto in ViewBag.IdPuesto as SelectList)
+                    {
+                        <option value="@puesto.Value" selected="@(Context.Request.Query["idPuesto"] == puesto.Value ? "selected" : null)">@puesto.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="empleadoActivo" class="form-select">
+                    <option value="">Estado</option>
+                    <option value="true" selected="@(Context.Request.Query["empleadoActivo"] == "true" ? "selected" : null)">Activo</option>
+                    <option value="false" selected="@(Context.Request.Query["empleadoActivo"] == "false" ? "selected" : null)">Inactivo</option>
+                </select>
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Buscar</button>
+            <a href="@Url.Action("Index", "Empleadoes")" class="btn btn-secondary"><i class="fas fa-undo"></i> Restablecer</a>
+        </div>
+    </form>
+
+
     <!-- Grid de empleados -->
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         @foreach (var item in Model)

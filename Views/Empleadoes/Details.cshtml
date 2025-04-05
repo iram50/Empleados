@@ -1,131 +1,146 @@
 ﻿@model CFE.Models.Empleado
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles del Empleado";
 }
 
-<h1>Details</h1>
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Detalles del Empleado</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <!-- Columna Izquierda - Información Personal -->
+            <div class="col-md-6">
+                <h5 class="text-primary mb-3">Información Personal</h5>
+                <dl class="row">
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Rfc)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Rfc)</dd>
 
-<div>
-    <h4>Empleado</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Rfc)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Rfc)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Curp)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Curp)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Nss)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Nss)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ApellidoPaterno)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ApellidoPaterno)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ApellidoMaterno)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ApellidoMaterno)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AreaEmpleado)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AreaEmpleado)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Puesto)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Puesto)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Telefono)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Telefono)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CorreoElectronico)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CorreoElectronico)
-        </dd>
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Curp)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Curp)</dd>
 
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.tipo_contrato)
-        </dd>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.fecha_nacimiento)
-        </dd>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ingreso_cfe)
-        </dd>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.rpe)
-        </dd>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.jefe_inmediato)
-        </dd>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.escolaridad)
-        </dd>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.comprobante_escolaridad)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Foto)
-        </dt>
-        <dd class="col-sm-10">
-            @if (Model.Foto != null && Model.Foto.Length > 0)
-            {
-                <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Foto)" alt="Foto del empleado" width="150" class="img-thumbnail" />
-            }
-            else
-            {
-                <span>No hay imagen disponible</span>
-            }
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EmpleadoActivo)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EmpleadoActivo)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IdAreaNavigation)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdAreaNavigation.IdAreas)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IdPuestoNavigation)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdPuestoNavigation.IdPuesto)
-        </dd>
-    </dl>
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Nss)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Nss)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ApellidoPaterno)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.ApellidoPaterno)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ApellidoMaterno)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.ApellidoMaterno)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Nombre)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Nombre)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.fecha_nacimiento)</dt>
+                    <dd class="col-sm-8">@(Model.fecha_nacimiento?.ToString("dd/MM/yyyy") ?? "No especificada")</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Telefono)</dt>
+                    <dd class="col-sm-8">@(Model.Telefono ?? "No especificado")</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CorreoElectronico)</dt>
+                    <dd class="col-sm-8">@(Model.CorreoElectronico ?? "No especificado")</dd>
+                </dl>
+            </div>
+
+            <!-- Columna Derecha - Información Laboral -->
+            <div class="col-md-6">
+                <h5 class="text-primary mb-3">Información Laboral</h5>
+                <dl class="row">
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.AreaEmpleado)</dt>
+                    <dd class="col-sm-8">@(Model.AreaEmpleado ?? "No especificada")</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Puesto)</dt>
+                    <dd class="col-sm-8">@(Model.Puesto ?? "No especificado")</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.rpe)</dt>
+                    <dd class="col-sm-8">@(Model.rpe ?? "No especificado")</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.tipo_contrato)</dt>
+                    <dd class="col-sm-8">@(Model.tipo_contrato ?? "No especificado")</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ingreso_cfe)</dt>
+                    <dd class="col-sm-8">@(Model.ingreso_cfe?.ToString("dd/MM/yyyy") ?? "No especificada")</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.jefe_inmediato)</dt>
+                    <dd class="col-sm-8">@(Model.jefe_inmediato ?? "No especificado")</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.escolaridad)</dt>
+                    <dd class="col-sm-8">@(Model.escolaridad ?? "No especificada")</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.EmpleadoActivo)</dt>
+                    <dd class="col-sm-8">
+                        @if (Model.EmpleadoActivo.HasValue && Model.EmpleadoActivo.Value)
+                        {
+                            <span class="badge bg-success">Activo</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Inactivo</span>
+                        }
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Sección de Foto y Documentos -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h5 class="text-primary mb-3">Fotografía</h5>
+                <div class="text-center">
+                    @if (Model.Foto != null && Model.Foto.Length > 0)
+                    {
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Foto)"
+                             alt="Foto del empleado"
+                             class="img-thumbnail"
+                             style="max-width: 200px;" />
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">No hay fotografía disponible</div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <h5 class="text-primary mb-3">Documentación</h5>
+                @if (!string.IsNullOrEmpty(Model.comprobante_escolaridad))
+                {
+                    <a href="@Model.comprobante_escolaridad" target="_blank" class="btn btn-outline-primary">
+                        <i class="bi bi-file-earmark-text"></i> Ver comprobante de escolaridad
+                    </a>
+                }
+                else
+                {
+                    <div class="alert alert-info">No hay documentos adjuntos</div>
+                }
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdEmpleado">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="mt-4">
+    <a asp-action="Edit" asp-route-id="@Model?.IdEmpleado" class="btn btn-primary">
+        <i class="bi bi-pencil"></i> Editar
+    </a>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Volver al listado
+    </a>
 </div>
+
+<style>
+    .card {
+        border-radius: 0.5rem;
+    }
+    dt {
+        font-weight: 500;
+        color: #495057;
+    }
+    dd {
+        color: #212529;
+    }
+    .badge {
+        font-size: 0.9em;
+        padding: 0.35em 0.65em;
+    }
+</style>

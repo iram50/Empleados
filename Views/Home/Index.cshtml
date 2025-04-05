@@ -1,8 +1,61 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio - CFE Capacitaciones";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    .rounded-circle {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card {
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(33, 40, 50, 0.15);
+    }
+    /* Nuevos estilos para el encabezado */
+    .header-container {
+        background: linear-gradient(135deg, #1e5799 0%, #207cca 100%);
+        padding: 2rem 1rem;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+        color: white;
+    }
+
+    .title-main {
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        letter-spacing: 1px;
+    }
+
+    .subtitle {
+        font-size: 1.25rem;
+        opacity: 0.9;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .logo-container {
+        transition: transform 0.3s ease;
+    }
+
+        .logo-container:hover {
+            transform: scale(1.05);
+        }
+</style>
+
+<div class="header-container">
+    <div class="logo-container mb-4">
+        <img src="~/images/logo-cfe-capacitaciones.png"
+             alt="CFE Capacitaciones"
+             class="img-fluid"
+             style="max-height: 120px;">
+    </div>
+
+    <h1 class="title-main display-4 mb-3">Sistema de Control de Capacitaciones</h1>
+
+    <p class="subtitle lead">
+        Plataforma oficial para la gestión de capacitación del personal CFE
+    </p>
 </div>

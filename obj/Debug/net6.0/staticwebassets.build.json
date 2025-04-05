@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "HfOhHhxSPjMIn8Ghj3WI4LorcgbJZIE7x+dIK/Y6MOg=",
+  "Hash": "WNFb4PLZ1GgYfvdDR2K7NMwv9wgw1xxBLL8guyDbJvw=",
   "Source": "CFE",
   "BasePath": "_content/CFE",
   "Mode": "Default",
@@ -91,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "E:\\repos\\CFE\\wwwroot\\images\\logo-cfe-capacitaciones.png",
+      "SourceId": "CFE",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\repos\\CFE\\wwwroot\\",
+      "BasePath": "_content/CFE",
+      "RelativePath": "images/logo-cfe-capacitaciones.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\logo-cfe-capacitaciones.png"
     },
     {
       "Identity": "E:\\repos\\CFE\\wwwroot\\js\\site.js",

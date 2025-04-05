@@ -21,9 +21,7 @@ namespace CFE.Controllers
         // GET: Instructors
         public async Task<IActionResult> Index()
         {
-              return _context.Instructors != null? 
-                          View(await _context.Instructors.ToListAsync()) :
-                          Problem("Entity set 'empresaContext.Instructors'  is null.");
+            return View(await _context.Instructors.ToListAsync());
         }
 
         // GET: Instructors/Details/5
@@ -47,15 +45,18 @@ namespace CFE.Controllers
         // GET: Instructors/Create
         public IActionResult Create()
         {
-            return View();
+            // Cargar todos los instructores para la lista lateral
+            var instructoresList = _context.Instructors.ToList();
+            ViewData["InstructoresList"] = instructoresList;
+
+            // Crear un nuevo modelo con Id_Instructor = 0
+            return View(new Instructor { Id_Instructor = 0 });
         }
 
         // POST: Instructors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id_Instructor,NombreInstructor,Descripcion")] Instructor instructor)
+        public async Task<IActionResult> Create([Bind("NombreInstructor,Descripcion")] Instructor instructor)
         {
             if (ModelState.IsValid)
             {
@@ -63,6 +64,11 @@ namespace CFE.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            // Si hay errores, recargar los datos necesarios
+            var instructoresList = _context.Instructors.ToList();
+            ViewData["InstructoresList"] = instructoresList;
+
             return View(instructor);
         }
 
@@ -74,17 +80,20 @@ namespace CFE.Controllers
                 return NotFound();
             }
 
+            // Cargar todos los instructores para la lista lateral
+            var instructoresList = await _context.Instructors.ToListAsync();
+            ViewData["InstructoresList"] = instructoresList;
+
             var instructor = await _context.Instructors.FindAsync(id);
             if (instructor == null)
             {
                 return NotFound();
             }
+
             return View(instructor);
         }
 
         // POST: Instructors/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id_Instructor,NombreInstructor,Descripcion")] Instructor instructor)
@@ -114,6 +123,11 @@ namespace CFE.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            // Si hay errores, recargar los datos necesarios
+            var instructoresList = await _context.Instructors.ToListAsync();
+            ViewData["InstructoresList"] = instructoresList;
+
             return View(instructor);
         }
 
@@ -142,21 +156,21 @@ namespace CFE.Controllers
         {
             if (_context.Instructors == null)
             {
-                return Problem("Entity set 'empresaContext.Instructors'  is null.");
+                return Problem("Entity set 'empresaContext.Instructors' is null.");
             }
             var instructor = await _context.Instructors.FindAsync(id);
             if (instructor != null)
             {
                 _context.Instructors.Remove(instructor);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool InstructorExists(int id)
         {
-          return (_context.Instructors?.Any(e => e.Id_Instructor == id)).GetValueOrDefault();
+            return (_context.Instructors?.Any(e => e.Id_Instructor == id)).GetValueOrDefault();
         }
     }
 }
