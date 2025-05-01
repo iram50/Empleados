@@ -68,8 +68,6 @@ namespace CFE.Models
                 .WithMany(e => e.Cursos)
     
                 .HasForeignKey(e => e.Id_Instructor)
-    
-                .OnDelete(DeleteBehavior.Cascade) // Opcional, depende de si quieres que al eliminar un instructor, se eliminen sus cursos
     .HasConstraintName("cursos_ibfk_1");
             });
 

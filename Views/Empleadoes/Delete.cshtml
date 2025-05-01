@@ -89,9 +89,17 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.comprobante_escolaridad)
         </dd>
+
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.residencia_especialidad)
+        </dd>
+
+
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Foto)
         </dt>
+
+
         <dd class="col-sm-10">
             @if (Model.Foto != null && Model.Foto.Length > 0)
             {

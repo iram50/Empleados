@@ -14,7 +14,7 @@
     .card {
         box-shadow: 0 0.15rem 1.75rem 0 rgba(33, 40, 50, 0.15);
     }
-    /* Nuevos estilos para el encabezado */
+
     .header-container {
         background: linear-gradient(135deg, #1e5799 0%, #207cca 100%);
         padding: 2rem 1rem;
@@ -43,8 +43,170 @@
         .logo-container:hover {
             transform: scale(1.05);
         }
+
+    /* Estilos para el carrusel (versión imágenes completas) */
+    .carousel-cfe {
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+        height: 500px; /* Altura fija*/
+        display: flex;
+        align-items: center; /* Centra verticalmente */
+        background-color: #f0f0f0; /* Color de fondo temporal */
+    }
+
+        .carousel-cfe .carousel-item {
+            height: auto;
+        }
+
+        .carousel-cfe img {
+            width: 100%;
+            height: 100%;
+            object-fit: scale-down; /* Escala la imagen para que quepa completamente */
+        }
+
+    /* ---- 1. Header Principal ---- */
+    .header-container {
+        background: linear-gradient(135deg, #003366 0%, #0066cc 100%); /* Azul corporativo */
+        padding: 3rem 1rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        color: white;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        border-bottom: 4px solid #FFD700; /* Línea dorada de énfasis */
+    }
+
+        /* Efecto de onda decorativa */
+        .header-container::before {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%23ffffff" opacity=".25"/></svg>');
+            background-size: cover;
+        }
+
+    /* ---- 2. Texto y Títulos ---- */
+    .title-main {
+        font-weight: 800;
+        font-size: 2.5rem;
+        letter-spacing: 1.5px;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        position: relative;
+        display: inline-block;
+    }
+
+        .title-main::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: #FFD700; /* Subrayado dorado */
+        }
+
+    .subtitle {
+        font-size: 1.3rem;
+        max-width: 800px;
+        margin: 0 auto 2rem;
+        line-height: 1.6;
+        opacity: 0.9;
+        font-weight: 300;
+    }
+
+    /* ---- 3. Logo ---- */
+    .logo-container {
+        transition: all 0.4s ease;
+        margin-bottom: 1.5rem;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    }
+
+        .logo-container:hover {
+            transform: scale(1.05) rotate(-2deg);
+        }
+
+        .logo-container img {
+            max-height: 120px;
+            width: auto;
+        }
+
+    /* ---- 4. Efecto de Partículas*/
+    .particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* ---- 5. Responsive ---- */
+    @@media (max-width: 768px) {
+        .title-main {
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+        }
+    }
+
+    .carousel-cfe {
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden; /* Importante para que el pseudo-elemento no se salga */
+    }
+
+        .carousel-cfe::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 3px solid #FFD700;
+            border-radius: 8px; /* Un poco menor que el contenedor */
+            pointer-events: none; /* Permite interacción con el contenido */
+            z-index: 10; /* Asegura que esté SOBRE la imagen */
+        }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        background: rgba(255, 215, 0, 0.7); /* Fondo amarillo semitransparente */
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0.8;
+        transition: all 0.3s;
+    }
+
+        .carousel-control-prev:hover,
+        .carousel-control-next:hover {
+            opacity: 1;
+            background: rgba(255, 215, 0, 0.9);
+        }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+        width: 25px;
+        height: 25px;
+    }
 </style>
 
+<!-- Encabezado existente -->
 <div class="header-container">
     <div class="logo-container mb-4">
         <img src="~/images/logo-cfe-capacitaciones.png"
@@ -58,4 +220,45 @@
     <p class="subtitle lead">
         Plataforma oficial para la gestión de capacitación del personal CFE
     </p>
+</div>
+
+<!-- Carrusel de imágenes -->
+<div class="container-fluid px-0">
+    <div id="carouselCFE" class="carousel slide carousel-cfe" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="/images/Capacitacion1.jpg" class="d-block w-100" alt="Capacitación CFE">
+                <div class="carousel-caption carousel-caption-cfe">
+                    <h5>Desarrollo Profesional Continuo</h5>
+                    <p>Formación especializada para el personal técnico</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="/images/Capacitacion2.jpg" class="d-block w-100" alt="Taller CFE">
+                <div class="carousel-caption carousel-caption-cfe">
+                    <h5>Talleres Prácticos</h5>
+                    <p>Aprendizaje basado en situaciones reales</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="/images/Capacitacion3.jpg" class="d-block w-100" alt="Sesión CFE">
+                <div class="carousel-caption carousel-caption-cfe">
+                    <h5>Instructores Certificados</h5>
+                    <p>Profesionales con amplia experiencia</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselCFE" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselCFE" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+        </button>
+    </div>
+</div>
+
+
+<div class="container">
 </div>

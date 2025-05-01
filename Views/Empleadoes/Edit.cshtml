@@ -4,166 +4,191 @@
     ViewData["Title"] = "Editar Empleado";
 }
 
-<h1>Editar Empleado</h1>
+<!-- Agregar referencia a Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 
-<h4>Datos del Empleado</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdEmpleado" />
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">@ViewData["Title"]</h1>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Volver al listado
+        </a>
+    </div>
 
-            <div class="form-group">
-                <label asp-for="Rfc" class="control-label"></label>
-                <input asp-for="Rfc" class="form-control" />
-                <span asp-validation-for="Rfc" class="text-danger"></span>
-            </div>
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h2 class="h5 mb-0"><i class="bi bi-person-lines-fill"></i> Datos del Empleado</h2>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="Curp" class="control-label"></label>
-                <input asp-for="Curp" class="form-control" />
-                <span asp-validation-for="Curp" class="text-danger"></span>
-            </div>
+        <div class="card-body">
+            <form asp-action="Edit" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4"></div>
+                <input type="hidden" asp-for="IdEmpleado" />
 
-            <div class="form-group">
-                <label asp-for="Nss" class="control-label"></label>
-                <input asp-for="Nss" class="form-control" />
-                <span asp-validation-for="Nss" class="text-danger"></span>
-            </div>
+                <div class="row">
+                    <!-- Columna 1 -->
+                    <div class="col-md-6">
+                        <fieldset class="border p-3 mb-4 rounded">
+                            <legend class="float-none w-auto px-2"><i class="bi bi-person-vcard"></i> Información Personal</legend>
 
-            <div class="form-group">
-                <label asp-for="ApellidoPaterno" class="control-label"></label>
-                <input asp-for="ApellidoPaterno" class="form-control" />
-                <span asp-validation-for="ApellidoPaterno" class="text-danger"></span>
-            </div>
+                            <div class="mb-3">
+                                <label asp-for="Rfc" class="form-label fw-bold"></label>
+                                <input asp-for="Rfc" class="form-control" placeholder="Ingrese el RFC" />
+                                <span asp-validation-for="Rfc" class="text-danger small"></span>
+                            </div>
 
-            <div class="form-group">
-                <label asp-for="ApellidoMaterno" class="control-label"></label>
-                <input asp-for="ApellidoMaterno" class="form-control" />
-                <span asp-validation-for="ApellidoMaterno" class="text-danger"></span>
-            </div>
+                            <div class="mb-3">
+                                <label asp-for="Curp" class="form-label fw-bold"></label>
+                                <input asp-for="Curp" class="form-control" placeholder="Ingrese la CURP" />
+                                <span asp-validation-for="Curp" class="text-danger small"></span>
+                            </div>
 
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
-            </div>
+                            <div class="mb-3">
+                                <label asp-for="Nss" class="form-label fw-bold"></label>
+                                <input asp-for="Nss" class="form-control" placeholder="Ingrese el NSS" />
+                                <span asp-validation-for="Nss" class="text-danger small"></span>
+                            </div>
 
-            <div class="form-group">
-                <label asp-for="IdArea" class="control-label"></label>
-                <select asp-for="IdArea" class="form-control" asp-items="ViewBag.IdArea"></select>
-                <span asp-validation-for="IdArea" class="text-danger"></span>
-            </div>
+                            <div class="mb-3">
+                                <label asp-for="ApellidoPaterno" class="form-label fw-bold"></label>
+                                <input asp-for="ApellidoPaterno" class="form-control" placeholder="Apellido paterno" />
+                                <span asp-validation-for="ApellidoPaterno" class="text-danger small"></span>
+                            </div>
 
-            <div class="form-group">
-                <label asp-for="IdPuesto" class="control-label"></label>
-                <select asp-for="IdPuesto" class="form-control" asp-items="ViewBag.IdPuesto"></select>
-                <span asp-validation-for="IdPuesto" class="text-danger"></span>
-            </div>
+                            <div class="mb-3">
+                                <label asp-for="ApellidoMaterno" class="form-label fw-bold"></label>
+                                <input asp-for="ApellidoMaterno" class="form-control" placeholder="Apellido materno" />
+                                <span asp-validation-for="ApellidoMaterno" class="text-danger small"></span>
+                            </div>
 
-            <div class="form-group">
-                <label asp-for="Telefono" class="control-label"></label>
-                <input asp-for="Telefono" class="form-control" />
-                <span asp-validation-for="Telefono" class="text-danger"></span>
-            </div>
+                            <div class="mb-3">
+                                <label asp-for="Nombre" class="form-label fw-bold"></label>
+                                <input asp-for="Nombre" class="form-control" placeholder="Nombre(s)" />
+                                <span asp-validation-for="Nombre" class="text-danger small"></span>
+                            </div>
+                        </fieldset>
 
-            <div class="form-group">
-                <label asp-for="CorreoElectronico" class="control-label"></label>
-                <input asp-for="CorreoElectronico" class="form-control" />
-                <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
-            </div>
+                        <fieldset class="border p-3 mb-4 rounded">
+                            <legend class="float-none w-auto px-2"><i class="bi bi-telephone"></i> Contacto</legend>
 
-            <div class="form-group">
-                <label asp-for="tipo_contrato" class="control-label"></label>
-                <input asp-for="tipo_contrato" class="form-control" />
-                <span asp-validation-for="tipo_contrato" class="text-danger"></span>
-            </div>
+                            <div class="mb-3">
+                                <label asp-for="Telefono" class="form-label fw-bold"></label>
+                                <input asp-for="Telefono" class="form-control" placeholder="Teléfono" />
+                                <span asp-validation-for="Telefono" class="text-danger small"></span>
+                            </div>
 
-            <div class="form-group">
-                <label asp-for="fecha_nacimiento" class="control-label"></label>
-                <input asp-for="fecha_nacimiento" class="form-control" type="date" />
-                <span asp-validation-for="fecha_nacimiento" class="text-danger"></span>
-            </div>
+                            <div class="mb-3">
+                                <label asp-for="CorreoElectronico" class="form-label fw-bold"></label>
+                                <input asp-for="CorreoElectronico" class="form-control" placeholder="correo@ejemplo.com" />
+                                <span asp-validation-for="CorreoElectronico" class="text-danger small"></span>
+                            </div>
+                        </fieldset>
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="ingreso_cfe" class="control-label"></label>
-                <input asp-for="ingreso_cfe" class="form-control" type="date" />
-                <span asp-validation-for="ingreso_cfe" class="text-danger"></span>
-            </div>
+                    <!-- Columna 2 -->
+                    <div class="col-md-6">
+                        <fieldset class="border p-3 mb-4 rounded">
+                            <legend class="float-none w-auto px-2"><i class="bi bi-briefcase"></i> Datos Laborales</legend>
 
-            <div class="form-group">
-                <label asp-for="rpe" class="control-label"></label>
-                <input asp-for="rpe" class="form-control" />
-                <span asp-validation-for="rpe" class="text-danger"></span>
-            </div>
+                            <div class="mb-3">
+                                <label asp-for="IdArea" class="form-label fw-bold"></label>
+                                <select asp-for="IdArea" class="form-select" asp-items="ViewBag.IdArea">
+                                    <option value="">-- Seleccione un área --</option>
+                                </select>
+                                <span asp-validation-for="IdArea" class="text-danger small"></span>
+                            </div>
 
-            <div class="form-group">
-                <label asp-for="jefe_inmediato" class="control-label"></label>
-                <input asp-for="jefe_inmediato" class="form-control" />
-                <span asp-validation-for="jefe_inmediato" class="text-danger"></span>
-            </div>
+                            <div class="mb-3">
+                                <label asp-for="IdPuesto" class="form-label fw-bold"></label>
+                                <select asp-for="IdPuesto" class="form-select" asp-items="ViewBag.IdPuesto">
+                                    <option value="">-- Seleccione un puesto --</option>
+                                </select>
+                                <span asp-validation-for="IdPuesto" class="text-danger small"></span>
+                            </div>
 
-            <div class="form-group">
-                <label asp-for="escolaridad" class="control-label"></label>
-                <input asp-for="escolaridad" class="form-control" />
-                <span asp-validation-for="escolaridad" class="text-danger"></span>
-            </div>
+                            <div class="mb-3">
+                                <label asp-for="tipo_contrato" class="form-label fw-bold"></label>
+                                <input asp-for="tipo_contrato" class="form-control" placeholder="Tipo de contrato" />
+                                <span asp-validation-for="tipo_contrato" class="text-danger small"></span>
+                            </div>
 
-            @if (Model.Foto != null && Model.Foto.Length > 0)
-            {
-                <div class="form-group">
-                    <label class="control-label">Foto actual:</label>
-                    <br>
-                    <img id="imgPreview" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Foto)"
-                         alt="Foto del empleado" width="150" height="150" style="border-radius: 10px;">
+                            <div class="mb-3">
+                                <label asp-for="rpe" class="form-label fw-bold"></label>
+                                <input asp-for="rpe" class="form-control" placeholder="RPE" />
+                                <span asp-validation-for="rpe" class="text-danger small"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="jefe_inmediato" class="form-label fw-bold"></label>
+                                <input asp-for="jefe_inmediato" class="form-control" placeholder="Jefe inmediato" />
+                                <span asp-validation-for="jefe_inmediato" class="text-danger small"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="EmpleadoActivo" class="form-label fw-bold"></label>
+                                <select asp-for="EmpleadoActivo" class="form-select">
+                                    <option value="true">Activo</option>
+                                    <option value="false">Inactivo</option>
+                                </select>
+                                <span asp-validation-for="EmpleadoActivo" class="text-danger small"></span>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="border p-3 mb-4 rounded">
+                            <legend class="float-none w-auto px-2"><i class="bi bi-calendar"></i> Fechas Importantes</legend>
+
+                            <div class="mb-3">
+                                <label asp-for="fecha_nacimiento" class="form-label fw-bold"></label>
+                                <input asp-for="fecha_nacimiento" class="form-control" type="date" />
+                                <span asp-validation-for="fecha_nacimiento" class="text-danger small"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="ingreso_cfe" class="form-label fw-bold"></label>
+                                <input asp-for="ingreso_cfe" class="form-control" type="date" />
+                                <span asp-validation-for="ingreso_cfe" class="text-danger small"></span>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="border p-3 mb-4 rounded">
+                            <legend class="float-none w-auto px-2"><i class="bi bi-image"></i> Fotografía</legend>
+
+                            @if (Model.Foto != null && Model.Foto.Length > 0)
+                            {
+                                <div class="mb-3 text-center">
+                                    <label class="form-label fw-bold">Foto actual:</label>
+                                    <img id="imgPreview" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Foto)"
+                                         alt="Foto del empleado" class="img-thumbnail mx-auto d-block" style="max-width: 200px;" />
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Foto actual:</label>
+                                    <div class="alert alert-warning py-2">No hay foto disponible.</div>
+                                </div>
+                            }
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Subir nueva foto</label>
+                                <input type="file" name="FotoArchivo" class="form-control" accept="image/*"
+                                       onchange="document.getElementById('imgPreview').src = window.URL.createObjectURL(this.files[0])" />
+                                <div class="form-text">Formatos aceptados: JPG, PNG (Max. 2MB)</div>
+                            </div>
+                        </fieldset>
+                    </div>
                 </div>
-            }
-            else
-            {
-                <div class="form-group">
-                    <label class="control-label">Foto actual:</label>
-                    <p>No hay foto disponible.</p>
+
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="btn btn-primary me-2">
+                        <i class="bi bi-save"></i> Guardar Cambios
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                    </a>
                 </div>
-            }
-            <!-- Vista previa de la nueva imagen seleccionada -->
-            <div class="form-group">
-                <img id="newImgPreview" src="#" alt="Vista previa" width="150" height="150"
-                     style="border-radius: 10px; display: none;">
-            </div>
-
-            <script>
-                function previewImage(event) {
-                    var reader = new FileReader();
-                    reader.onload = function () {
-                        var img = document.getElementById('imgPreview');
-                        img.src = reader.result;
-                        img.style.display = 'block'; // Mostrar la imagen si estaba oculta
-                    };
-                    reader.readAsDataURL(event.target.files[0]);
-                }
-            </script>
-
-            <div class="form-group">
-                <label class="control-label">Subir nueva foto</label>
-                <input type="file" name="FotoArchivo" class="form-control" accept="image/*" />
-            </div>
-
-            <div class="form-group">
-                <label asp-for="EmpleadoActivo" class="control-label"></label>
-                <select asp-for="EmpleadoActivo" class="form-control">
-                    <option value="true">Activo</option>
-                    <option value="false">Inactivo</option>
-                </select>
-                <span asp-validation-for="EmpleadoActivo" class="text-danger"></span>
-            </div>
-
-
-            <div class="form-group mt-3">
-                <input type="submit" value="Guardar" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -171,4 +196,50 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        // Previsualización de imagen
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.querySelector('input[type="file"]');
+
+            fileInput.addEventListener('change', function (e) {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        document.getElementById('imgPreview').src = e.target.result;
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+        });
+    </script>
 }
+
+<style>
+    .card {
+        border-radius: 0.5rem;
+    }
+
+    fieldset {
+        background-color: rgba(248, 249, 250, 0.5);
+    }
+
+    legend {
+        font-size: 0.95rem;
+        font-weight: 600;
+    }
+
+    .form-label {
+        margin-bottom: 0.3rem;
+    }
+
+    .btn {
+        min-width: 150px;
+    }
+
+    /* Estilo para campos requeridos */
+    .required-field label:after {
+        content: " *";
+        color: #dc3545;
+    }
+</style>

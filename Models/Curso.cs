@@ -16,8 +16,11 @@ namespace CFE.Models
 
         public int IdCurso { get; set; }
         public string NombreCurso { get; set; } = null!;
-        public int Id_Instructor { get; set; }
-        public virtual Instructor Instructor { get; set; } = null!;
+
+        public int? Id_Instructor { get; set; }
+        public virtual Instructor? Instructor { get; set; }
+
         public virtual ICollection<Grupo> Grupos { get; set; }
     }
+
 }

@@ -13,6 +13,18 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "E:\\repos\\CFE\\wwwroot\\images\\Capacitacion1.jpg",
+      "PackagePath": "staticwebassets\\images\\Capacitacion1.jpg"
+    },
+    {
+      "Id": "E:\\repos\\CFE\\wwwroot\\images\\Capacitacion2.jpg",
+      "PackagePath": "staticwebassets\\images\\Capacitacion2.jpg"
+    },
+    {
+      "Id": "E:\\repos\\CFE\\wwwroot\\images\\Capacitacion3.jpg",
+      "PackagePath": "staticwebassets\\images\\Capacitacion3.jpg"
+    },
+    {
       "Id": "E:\\repos\\CFE\\wwwroot\\images\\logo-cfe-capacitaciones.png",
       "PackagePath": "staticwebassets\\images\\logo-cfe-capacitaciones.png"
     },

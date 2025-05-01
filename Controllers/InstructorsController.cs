@@ -158,15 +158,30 @@ namespace CFE.Controllers
             {
                 return Problem("Entity set 'empresaContext.Instructors' is null.");
             }
+
             var instructor = await _context.Instructors.FindAsync(id);
+
             if (instructor != null)
             {
+                // Primero, obtener los cursos que están ligados a este instructor
+                var cursosRelacionados = _context.Cursos.Where(c => c.Id_Instructor == id);
+
+                // Actualizar cada curso para que su Id_Instructor sea NULL
+                foreach (var curso in cursosRelacionados)
+                {
+                    curso.Id_Instructor = null;
+                }
+
+                // Ahora sí, eliminar el instructor
                 _context.Instructors.Remove(instructor);
+
+                // Guardar todos los cambios juntos
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
 
         private bool InstructorExists(int id)
         {

@@ -39,8 +39,27 @@ namespace CFE.Models
         public string? comprobante_escolaridad { get; set; }
         public bool? EmpleadoActivo { get; set; }
 
+        public string? residencia_especialidad { get; set; }
+
+
         public virtual Area? IdAreaNavigation { get; set; }
         public virtual Puesto? IdPuestoNavigation { get; set; }
         public virtual ICollection<Empleadocurso> Empleadocursos { get; set; }
+
+        [NotMapped]
+        public int? Edad
+        {
+            get
+            {
+                if (fecha_nacimiento == null)
+                    return null;
+
+                var hoy = DateTime.Today;
+                var edad = hoy.Year - fecha_nacimiento.Value.Year;
+                if (fecha_nacimiento.Value.Date > hoy.AddYears(-edad)) edad--;
+                return edad;
+            }
+        }
+
     }
 }

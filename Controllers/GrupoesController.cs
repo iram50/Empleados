@@ -47,7 +47,7 @@ namespace CFE.Controllers
         // GET: Grupoes/Create
         public IActionResult Create()
         {
-            ViewData["IdCurso"] = new SelectList(_context.Cursos, "IdCurso", "IdCurso");
+            ViewData["IdCurso"] = new SelectList(_context.Cursos, "IdCurso", "NombreCurso");
             return View();
         }
 
@@ -61,7 +61,7 @@ namespace CFE.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdCurso"] = new SelectList(_context.Cursos, "IdCurso", "IdCurso", grupo.IdCurso);
+            ViewData["IdCurso"] = new SelectList(_context.Cursos, "IdCurso", "NombreCurso", grupo.IdCurso);
             return View(grupo);
         }
 
@@ -77,7 +77,7 @@ namespace CFE.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdCurso"] = new SelectList(_context.Cursos, "IdCurso", "IdCurso", grupo.IdCurso);
+            ViewData["IdCurso"] = new SelectList(_context.Cursos, "IdCurso", "NombreCurso", grupo.IdCurso);
             return View(grupo);
         }
 
@@ -111,7 +111,7 @@ namespace CFE.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdCurso"] = new SelectList(_context.Cursos, "IdCurso", "IdCurso", grupo.IdCurso);
+            ViewData["IdCurso"] = new SelectList(_context.Cursos, "IdCurso", "NombreCurso", grupo.IdCurso);
             return View(grupo);
         }
 

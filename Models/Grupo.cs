@@ -12,8 +12,8 @@ namespace CFE.Models
 
         public int ClaveGrupo { get; set; }
         public int? IdCurso { get; set; }
-        public DateOnly? Fechainicial { get; set; }
-        public DateOnly? FechaFinal { get; set; }
+        public DateTime? Fechainicial { get; set; }
+        public DateTime? FechaFinal { get; set; }
         public string? Horario { get; set; }
         public string? Lugar { get; set; }
         public string? Comentarios { get; set; }

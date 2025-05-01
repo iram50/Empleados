@@ -35,6 +35,9 @@
                     <dt class="col-sm-4">@Html.DisplayNameFor(model => model.fecha_nacimiento)</dt>
                     <dd class="col-sm-8">@(Model.fecha_nacimiento?.ToString("dd/MM/yyyy") ?? "No especificada")</dd>
 
+                    <p>Edad: @(Model.Edad.HasValue ? Model.Edad + " años" : "No especificado")</p>
+
+
                     <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Telefono)</dt>
                     <dd class="col-sm-8">@(Model.Telefono ?? "No especificado")</dd>
 
@@ -67,6 +70,9 @@
 
                     <dt class="col-sm-4">@Html.DisplayNameFor(model => model.escolaridad)</dt>
                     <dd class="col-sm-8">@(Model.escolaridad ?? "No especificada")</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.residencia_especialidad)</dt>
+                    <dd class="col-sm-8">@(Model.residencia_especialidad ?? "No especificada")</dd>
 
                     <dt class="col-sm-4">@Html.DisplayNameFor(model => model.EmpleadoActivo)</dt>
                     <dd class="col-sm-8">
