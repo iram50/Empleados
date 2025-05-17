@@ -1,12 +1,71 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\repos\\CFE\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\controllers\\grupoescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:controllers\\grupoescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\models\\curso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:models\\curso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\views\\grupoes\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:views\\grupoes\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Curso.cs",
+              "DocumentMoniker": "E:\\repos\\CFE\\Models\\Curso.cs",
+              "RelativeDocumentMoniker": "Models\\Curso.cs",
+              "ToolTip": "E:\\repos\\CFE\\Models\\Curso.cs",
+              "RelativeToolTip": "Models\\Curso.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABMAAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-17T13:58:00.539Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "E:\\repos\\CFE\\Views\\Grupoes\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Views\\Grupoes\\Edit.cshtml",
+              "ToolTip": "E:\\repos\\CFE\\Views\\Grupoes\\Edit.cshtml",
+              "RelativeToolTip": "Views\\Grupoes\\Edit.cshtml",
+              "ViewState": "AQIAAC4AAAAAAAAAAAAAAD8AAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-17T13:51:07.451Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GrupoesController.cs",
+              "DocumentMoniker": "E:\\repos\\CFE\\Controllers\\GrupoesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\GrupoesController.cs",
+              "ToolTip": "E:\\repos\\CFE\\Controllers\\GrupoesController.cs",
+              "RelativeToolTip": "Controllers\\GrupoesController.cs",
+              "ViewState": "AQIAANIAAAAAAAAAAAAAAN4AAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-17T13:41:41.733Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

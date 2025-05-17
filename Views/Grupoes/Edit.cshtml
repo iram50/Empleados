@@ -13,11 +13,13 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ClaveGrupo" />
+
             <div class="form-group">
                 <label asp-for="IdCurso" class="control-label"></label>
-                <select asp-for="IdCurso" class="form-control" asp-items="ViewBag.IdCurso"></select>
+                <select asp-for="IdCurso" class="form-control" asp-items="ViewBag.IdCurso" id="IdCurso"></select>
                 <span asp-validation-for="IdCurso" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Fechainicial" class="control-label"></label>
                 <input asp-for="Fechainicial" class="form-control" type="date" />
@@ -29,31 +31,42 @@
                 <input asp-for="FechaFinal" class="form-control" type="date" />
                 <span asp-validation-for="FechaFinal" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Horario" class="control-label"></label>
                 <input asp-for="Horario" class="form-control" />
                 <span asp-validation-for="Horario" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Lugar" class="control-label"></label>
-                <input asp-for="Lugar" class="form-control" />
+                <select asp-for="Lugar" class="form-control">
+                    <option value="Interno">Interno</option>
+                    <option value="Externo">Externo</option>
+                </select>
                 <span asp-validation-for="Lugar" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Comentarios" class="control-label"></label>
                 <input asp-for="Comentarios" class="form-control" />
                 <span asp-validation-for="Comentarios" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Instructor" class="control-label"></label>
-                <input asp-for="Instructor" class="form-control" />
-                <span asp-validation-for="Instructor" class="text-danger"></span>
+
+            <div class="form-group mb-4">
+                <label asp-for="IdInstructor" class="form-label fw-bold">Instructor</label>
+                <select asp-for="IdInstructor" class="form-control" asp-items="@(ViewData["IdInstructor"] as SelectList)" id="IdInstructor">
+                    <option value="">-- Selecciona un instructor --</option>
+                </select>
+                <span asp-validation-for="IdInstructor" class="text-danger small"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="AreaOfrece" class="control-label"></label>
                 <input asp-for="AreaOfrece" class="form-control" />
                 <span asp-validation-for="AreaOfrece" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
                 <select asp-for="Status" class="form-control">
@@ -64,7 +77,18 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label asp-for="IdEmpleado" class="control-label"></label>
+                <select asp-for="IdEmpleado" class="form-control" asp-items="ViewBag.IdEmpleado"></select>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Calificacion" class="form-label">Calificación:</label>
+                <input asp-for="Calificacion" class="form-control" id="Calificacion" />
+                <span asp-validation-for="Calificacion" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -77,5 +101,38 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Autocompletar instructor al seleccionar curso
+        document.getElementById("IdCurso").addEventListener("change", function () {
+            const cursoId = this.value;
+
+            if (!cursoId) return;
+
+            fetch(`/Grupos/ObtenerInstructorPorCurso?cursoId=${cursoId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        const instructorSelect = document.getElementById("IdInstructor");
+                        instructorSelect.value = data.idInstructor;
+                    }
+                })
+                .catch(err => console.error("Error obteniendo instructor:", err));
+        });
+
+        // Validación: calificación no mayor a 100
+        document.querySelector("form").addEventListener("submit", function (e) {
+            const calificacionInput = document.getElementById("Calificacion");
+            const calificacion = parseFloat(calificacionInput.value);
+
+            if (calificacion > 100) {
+                e.preventDefault();
+                alert("La calificación no puede ser mayor a 100.");
+                calificacionInput.focus();
+            }
+        });
+    </script>
 }

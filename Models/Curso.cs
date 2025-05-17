@@ -21,6 +21,13 @@ namespace CFE.Models
         public virtual Instructor? Instructor { get; set; }
 
         public virtual ICollection<Grupo> Grupos { get; set; }
+
+        [NotMapped]
+        public string NombreInstructor => Instructor != null ? Instructor.NombreInstructor : "";
+
+
+
+
     }
 
 }

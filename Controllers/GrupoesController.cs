@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CFE.Models;
+using CFE.ViewModels;
 
 namespace CFE.Controllers
 {
@@ -19,11 +20,67 @@ namespace CFE.Controllers
         }
 
         // GET: Grupoes
-        public async Task<IActionResult> Index()
+        public IActionResult Index(int? empleadoId)
         {
-            var empresaContext = _context.Grupos.Include(g => g.IdCursoNavigation);
-            return View(await empresaContext.ToListAsync());
+            var empleados = _context.Empleados.ToList();
+
+            var cursosInscritos = new List<Grupo>();
+            if (empleadoId.HasValue)
+            {
+                cursosInscritos = _context.Grupos
+                    .Include(g => g.IdCursoNavigation)
+                    .Where(g => g.IdEmpleado == empleadoId)
+                    .ToList();
+            }
+
+            var cursosDisponibles = _context.Cursos
+            .Include(c => c.Instructor)
+            .ToList();
+
+
+            var viewModel = new GruposIndexViewModel
+            {
+                Empleados = empleados,
+                EmpleadoSeleccionadoId = empleadoId,
+                CursosInscritos = cursosInscritos,
+                CursosDisponibles = cursosDisponibles,
+                NuevoGrupo = new Grupo { IdEmpleado = empleadoId ?? 0 }
+            };
+
+            return View(viewModel);
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Inscribir(Grupo nuevoGrupo)
+        {
+            
+                var viewModel = new GruposIndexViewModel
+                {
+                    Empleados = await _context.Empleados.ToListAsync(),
+                    CursosDisponibles = await _context.Cursos.Include(c => c.Instructor).ToListAsync(),
+                    EmpleadoSeleccionadoId = nuevoGrupo.IdEmpleado,
+                    CursosInscritos = await _context.Grupos
+                        .Where(g => g.IdEmpleado == nuevoGrupo.IdEmpleado)
+                        .Include(g => g.IdCursoNavigation)
+                        .Include(g => g.IdInstructorNavigation)
+                        .ToListAsync(),
+                    NuevoGrupo = nuevoGrupo
+                };
+
+            _context.Grupos.Add(nuevoGrupo);
+            var result = await _context.SaveChangesAsync();
+
+            Console.WriteLine($"Filas afectadas: {result}"); // Esto se ve en la consola del servidor (o en logs)
+
+            return RedirectToAction("Index", new { empleadoId = nuevoGrupo.IdEmpleado });
+        }
+
+
+
+
+
+
 
         // GET: Grupoes/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -35,6 +92,7 @@ namespace CFE.Controllers
 
             var grupo = await _context.Grupos
                 .Include(g => g.IdCursoNavigation)
+                .Include(g => g.IdEmpleadoNavigation)
                 .FirstOrDefaultAsync(m => m.ClaveGrupo == id);
             if (grupo == null)
             {
@@ -48,23 +106,22 @@ namespace CFE.Controllers
         public IActionResult Create()
         {
             ViewData["IdCurso"] = new SelectList(_context.Cursos, "IdCurso", "NombreCurso");
+            ViewData["IdEmpleado"] = new SelectList(_context.Empleados, "IdEmpleado", "Nombre");
             return View();
         }
 
+        // POST: Grupoes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClaveGrupo,IdCurso,Fechainicial,FechaFinal,Horario,Lugar,Comentarios,Instructor,AreaOfrece,Status")] Grupo grupo)
+        public async Task<IActionResult> Create([Bind("ClaveGrupo,IdCurso,Fechainicial,FechaFinal,Horario,Lugar,Comentarios,AreaOfrece,Status,IdEmpleado,IdInstructor,Calificacion")] Grupo grupo)
         {
-            if (ModelState.IsValid)
-            {
+
                 _context.Add(grupo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdCurso"] = new SelectList(_context.Cursos, "IdCurso", "NombreCurso", grupo.IdCurso);
-            return View(grupo);
         }
 
+        // GET: Cursoes/Edit/5 
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Grupos == null)
@@ -77,22 +134,25 @@ namespace CFE.Controllers
             {
                 return NotFound();
             }
+
             ViewData["IdCurso"] = new SelectList(_context.Cursos, "IdCurso", "NombreCurso", grupo.IdCurso);
+            ViewData["IdEmpleado"] = new SelectList(_context.Empleados, "IdEmpleado", "Nombre", grupo.IdEmpleado);
+            ViewData["IdInstructor"] = new SelectList(_context.Instructors, "Id_Instructor", "NombreInstructor", grupo.IdInstructor);
+
             return View(grupo);
         }
 
-
+        // POST: Cursoes/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClaveGrupo,IdCurso,Fechainicial,FechaFinal,Horario,Lugar,Comentarios,Instructor,AreaOfrece,Status")] Grupo grupo)
+        public async Task<IActionResult> Edit(int id, [Bind("ClaveGrupo,IdCurso,Fechainicial,FechaFinal,Horario,Lugar,Comentarios,AreaOfrece,Status,IdEmpleado,Calificacion,IdInstructor")] Grupo grupo)
         {
             if (id != grupo.ClaveGrupo)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
+
                 try
                 {
                     _context.Update(grupo);
@@ -100,7 +160,7 @@ namespace CFE.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GrupoExists(grupo.ClaveGrupo))
+                    if (!_context.Grupos.Any(e => e.ClaveGrupo == grupo.ClaveGrupo))
                     {
                         return NotFound();
                     }
@@ -110,28 +170,31 @@ namespace CFE.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdCurso"] = new SelectList(_context.Cursos, "IdCurso", "NombreCurso", grupo.IdCurso);
-            return View(grupo);
         }
 
+
+        // GET: Grupos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Grupos == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
             var grupo = await _context.Grupos
                 .Include(g => g.IdCursoNavigation)
+                .Include(g => g.IdEmpleadoNavigation)
+                .Include(g => g.IdInstructorNavigation)
                 .FirstOrDefaultAsync(m => m.ClaveGrupo == id);
+
             if (grupo == null)
             {
                 return NotFound();
             }
 
-            return View(grupo);
+            return View(grupo); // <- esta vista debe existir: Views/Grupos/Delete.cshtml
         }
+
 
         // POST: Grupoes/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -156,5 +219,19 @@ namespace CFE.Controllers
         {
           return (_context.Grupos?.Any(e => e.ClaveGrupo == id)).GetValueOrDefault();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ObtenerInstructorPorCurso(int cursoId)
+        {
+            var curso = await _context.Cursos
+                .Include(c => c.Instructor)
+                .FirstOrDefaultAsync(c => c.IdCurso == cursoId);
+
+            if (curso == null || curso.Instructor == null)
+                return Json(new { success = false });
+
+            return Json(new { success = true, idInstructor = curso.Instructor.Id_Instructor });
+        }
+
     }
 }

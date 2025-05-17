@@ -186,7 +186,7 @@ namespace CFE.Models
 
                 entity.Property(e => e.IdCurso).HasColumnName("Id_Curso");
 
-                entity.Property(e => e.Instructor).HasMaxLength(255);
+                entity.Property(e => e.IdInstructor).HasMaxLength(255);
 
                 entity.Property(e => e.Lugar).HasMaxLength(255);
 
