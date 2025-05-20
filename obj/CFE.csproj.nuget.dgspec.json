@@ -68,6 +68,10 @@
               "target": "Package",
               "version": "[6.0.2, )"
             },
+            "QuestPDF": {
+              "target": "Package",
+              "version": "[2025.5.0, )"
+            },
             "SixLabors.ImageSharp": {
               "target": "Package",
               "version": "[3.1.7, )"

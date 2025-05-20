@@ -61,14 +61,15 @@ namespace CFE.Models
 
                 entity.Property(e => e.NombreCurso).HasMaxLength(255);
 
-                entity.Property(e => e.Id_Instructor).HasColumnName("Id_Instructor");
+                entity.Property(e => e.Id_Instructor)
+                    .HasColumnName("Id_Instructor")
+                    .IsRequired(false);
 
                 entity.HasOne(e => e.Instructor)
-    
-                .WithMany(e => e.Cursos)
-    
-                .HasForeignKey(e => e.Id_Instructor)
-    .HasConstraintName("cursos_ibfk_1");
+                    .WithMany(e => e.Cursos)
+                    .HasForeignKey(e => e.Id_Instructor)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("cursos_ibfk_1");
             });
 
             modelBuilder.Entity<Empleado>(entity =>
@@ -186,7 +187,14 @@ namespace CFE.Models
 
                 entity.Property(e => e.IdCurso).HasColumnName("Id_Curso");
 
-                entity.Property(e => e.IdInstructor).HasMaxLength(255);
+                entity.Property(e => e.IdInstructor)
+                        .HasColumnName("IdInstructor")
+                        .IsRequired(false);
+                entity.HasOne(d => d.IdInstructorNavigation)
+                .WithMany()
+                .HasForeignKey(d => d.IdInstructor)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_Grupo_instructor");
 
                 entity.Property(e => e.Lugar).HasMaxLength(255);
 

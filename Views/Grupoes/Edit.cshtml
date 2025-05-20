@@ -21,9 +21,9 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="Fechainicial" class="control-label"></label>
-                <input asp-for="Fechainicial" class="form-control" type="date" />
-                <span asp-validation-for="Fechainicial" class="text-danger"></span>
+                <label asp-for="FechaInicial" class="control-label"></label>
+                <input asp-for="FechaInicial" class="form-control" type="date" />
+                <span asp-validation-for="FechaInicial" class="text-danger"></span>
             </div>
 
             <div class="form-group">
@@ -56,7 +56,7 @@
             <div class="form-group mb-4">
                 <label asp-for="IdInstructor" class="form-label fw-bold">Instructor</label>
                 <select asp-for="IdInstructor" class="form-control" asp-items="@(ViewData["IdInstructor"] as SelectList)" id="IdInstructor">
-                    <option value="">-- Selecciona un instructor --</option>
+                    <option value="">Sin Instructor</option>
                 </select>
                 <span asp-validation-for="IdInstructor" class="text-danger small"></span>
             </div>
@@ -106,22 +106,26 @@
     }
 
     <script>
-        // Autocompletar instructor al seleccionar curso
+
         document.getElementById("IdCurso").addEventListener("change", function () {
             const cursoId = this.value;
 
             if (!cursoId) return;
 
-            fetch(`/Grupos/ObtenerInstructorPorCurso?cursoId=${cursoId}`)
+            fetch('@Url.Action("ObtenerInstructorPorCurso", "Grupoes")' + `?cursoId=${cursoId}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) {
-                        const instructorSelect = document.getElementById("IdInstructor");
-                        instructorSelect.value = data.idInstructor;
+                        // Ya no es un select, es un input hidden
+                        document.getElementById("IdInstructor").value = data.idInstructor;
+                    } else {
+                        console.warn("No se encontró instructor para el curso.");
+                        document.getElementById("IdInstructor").value = ""; // Limpiar si no hay instructor
                     }
                 })
                 .catch(err => console.error("Error obteniendo instructor:", err));
         });
+
 
         // Validación: calificación no mayor a 100
         document.querySelector("form").addEventListener("submit", function (e) {

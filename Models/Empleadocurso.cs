@@ -9,6 +9,8 @@ namespace CFE.Models
         public int ClaveGrupo { get; set; }
         public string? EstatusCurso { get; set; }
 
+        public int? Calificacion { get; set; }
+
         public virtual Grupo ClaveGrupoNavigation { get; set; } = null!;
         public virtual Empleado IdEmpleadoNavigation { get; set; } = null!;
     }

@@ -56,8 +56,8 @@
                                 var color = curso.Calificacion < 60 ? "text-danger" : "text-success";
                                 <tr>
                                     <td>@curso.IdCursoNavigation?.NombreCurso</td>
-                                    <td>@curso.IdInstructorNavigation?.NombreInstructor</td>
-                                    <td>@(curso.Fechainicial.ToString("dd/MM/yyyy"))</td>
+                                    <td>@(curso.IdInstructorNavigation != null ? curso.IdInstructorNavigation.NombreInstructor : "Sin Instructor")</td>
+                                    <td>@(curso.FechaInicial.ToString("dd/MM/yyyy"))</td>
                                     <td class="@color">@curso.Calificacion</td>
                                     <td>
                                         <div class="dropdown">
@@ -65,11 +65,28 @@
                                                 <i class="fas fa-chevron-down"></i>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li>
-                                                    <button class="dropdown-item" disabled>
-                                                        <i class="fas fa-file-pdf me-2 text-danger"></i>PDF
-                                                    </button>
-                                                </li>
+                                                @if (curso.Calificacion >= 60)
+                                                {
+                                                    <li>
+                                                        <a class="dropdown-item text-success"
+                                                           asp-action="GenerarConstancia"
+                                                           asp-controller="Empleadocursoes"
+                                                           asp-route-idEmpleado="@Model.EmpleadoSeleccionadoId"
+                                                           asp-route-claveGrupo="@curso.ClaveGrupo"
+                                                           target="_blank">
+                                                            <i class="fas fa-file-pdf me-2"></i>Descargar Constancia
+                                                        </a>
+                                                    </li>
+                                                }
+                                                else
+                                                {
+                                                    <li>
+                                                        <button class="dropdown-item text-muted" disabled>
+                                                            <i class="fas fa-file-pdf me-2"></i>Constancia no disponible
+                                                        </button>
+                                                    </li>
+                                                }
+
                                                 <li>
                                                     <a class="dropdown-item" asp-action="Details" asp-route-id="@curso.ClaveGrupo">
                                                         <i class="fas fa-info-circle me-2 text-primary"></i>Detalles
@@ -122,9 +139,9 @@
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="NuevoGrupo.Fechainicial" class="form-label">Fecha de Inicio:</label>
-                        <input asp-for="NuevoGrupo.Fechainicial" class="form-control" type="date" />
-                        <span asp-validation-for="NuevoGrupo.Fechainicial" class="text-danger"></span>
+                        <label asp-for="NuevoGrupo.FechaInicial" class="form-label">Fecha de Inicio:</label>
+                        <input asp-for="NuevoGrupo.FechaInicial" class="form-control" type="date" />
+                        <span asp-validation-for="NuevoGrupo.FechaInicial" class="text-danger"></span>
                     </div>
 
                     <div class="mb-3">
@@ -191,7 +208,7 @@
                 const instructorNombre = selectedOption.getAttribute("data-instructor-nombre");
 
                 document.getElementById("NuevoGrupo_IdInstructor").value = instructorId || "";
-                document.getElementById("InstructorNombre").value = instructorNombre || "";
+                document.getElementById("InstructorNombre").value = instructorNombre ? instructorNombre : "Sin Instructor";
             });
 
             document.addEventListener("DOMContentLoaded", function () {
@@ -202,9 +219,10 @@
                     const instructorNombre = selectedOption.getAttribute("data-instructor-nombre");
 
                     document.getElementById("NuevoGrupo_IdInstructor").value = instructorId || "";
-                    document.getElementById("InstructorNombre").value = instructorNombre || "";
+                    document.getElementById("InstructorNombre").value = instructorNombre ? instructorNombre : "Sin Instructor";
                 }
             });
+
         </script>
     }
 </div>

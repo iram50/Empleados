@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CFE.Models;
+using CFE.Services;
+
 
 namespace CFE.Controllers
 {
@@ -169,5 +171,35 @@ namespace CFE.Controllers
         {
           return (_context.Empleadocursos?.Any(e => e.IdEmpleado == id)).GetValueOrDefault();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GenerarConstancia(int idEmpleado, int claveGrupo)
+        {
+            var empleadocurso = await _context.Empleadocursos
+                .Include(ec => ec.IdEmpleadoNavigation)
+                .Include(ec => ec.ClaveGrupoNavigation)
+                    .ThenInclude(g => g.IdCursoNavigation)
+                .Include(ec => ec.ClaveGrupoNavigation)
+                       .ThenInclude(g => g.IdInstructorNavigation)
+                .FirstOrDefaultAsync(ec => ec.IdEmpleado == idEmpleado && ec.ClaveGrupo == claveGrupo);
+
+            if (empleadocurso == null)
+            {
+                return NotFound("No se encontró el registro de inscripción del empleado al grupo.");
+            }
+
+            if (empleadocurso.ClaveGrupoNavigation.Calificacion < 59)
+            {
+                return BadRequest("El empleado no alcanzó la calificación mínima para generar constancia.");
+            }
+
+            var constanciaService = new ConstanciaService(); 
+            var pdfBytes = constanciaService.GenerarConstancia(empleadocurso);
+
+            return File(pdfBytes, "application/pdf", "Constancia.pdf");
+        }
+
     }
+
+
 }

@@ -21,7 +21,8 @@ namespace CFE.Models
         [Required]
         public int IdCurso { get; set; }
         [Required]
-        public DateTime Fechainicial { get; set; }
+        public DateTime FechaInicial { get; set; }
+
         [Required]
         public DateTime FechaFinal { get; set; }
         [Required]

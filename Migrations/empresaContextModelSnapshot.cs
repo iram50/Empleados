@@ -47,7 +47,7 @@ namespace CFE.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Id_Curso");
 
-                    b.Property<int>("Id_Instructor")
+                    b.Property<int?>("Id_Instructor")
                         .HasColumnType("int")
                         .HasColumnName("Id_Instructor");
 
@@ -135,6 +135,30 @@ namespace CFE.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("varchar(15)");
 
+                    b.Property<string>("comprobante_escolaridad")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("escolaridad")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("fecha_nacimiento")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("ingreso_cfe")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("jefe_inmediato")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("residencia_especialidad")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("rpe")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("tipo_contrato")
+                        .HasColumnType("longtext");
+
                     b.HasKey("IdEmpleado")
                         .HasName("PRIMARY");
 
@@ -164,6 +188,9 @@ namespace CFE.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Clave_Grupo");
 
+                    b.Property<int?>("Calificacion")
+                        .HasColumnType("int");
+
                     b.Property<string>("EstatusCurso")
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
@@ -185,40 +212,55 @@ namespace CFE.Migrations
                         .HasColumnName("Clave_Grupo");
 
                     b.Property<string>("AreaOfrece")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
+
+                    b.Property<int>("Calificacion")
+                        .HasColumnType("int");
 
                     b.Property<string>("Comentarios")
                         .HasColumnType("text");
 
-                    b.Property<DateOnly?>("FechaFinal")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("FechaFinal")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<DateOnly?>("Fechainicial")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("FechaInicial")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Horario")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int?>("IdCurso")
+                    b.Property<int>("IdCurso")
                         .HasColumnType("int")
                         .HasColumnName("Id_Curso");
 
-                    b.Property<string>("Instructor")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                    b.Property<int?>("IdEmpleado")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IdInstructor")
+                        .HasColumnType("int")
+                        .HasColumnName("IdInstructor");
 
                     b.Property<string>("Lugar")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Status")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
                     b.HasKey("ClaveGrupo")
                         .HasName("PRIMARY");
+
+                    b.HasIndex("IdEmpleado");
+
+                    b.HasIndex("IdInstructor");
 
                     b.HasIndex(new[] { "IdCurso" }, "Id_Curso");
 
@@ -270,8 +312,7 @@ namespace CFE.Migrations
                     b.HasOne("CFE.Models.Instructor", "Instructor")
                         .WithMany("Cursos")
                         .HasForeignKey("Id_Instructor")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
+                        .OnDelete(DeleteBehavior.SetNull)
                         .HasConstraintName("cursos_ibfk_1");
 
                     b.Navigation("Instructor");
@@ -323,9 +364,26 @@ namespace CFE.Migrations
                         .WithMany("Grupos")
                         .HasForeignKey("IdCurso")
                         .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired()
                         .HasConstraintName("grupo_ibfk_1");
 
+                    b.HasOne("CFE.Models.Empleado", "IdEmpleadoNavigation")
+                        .WithMany()
+                        .HasForeignKey("IdEmpleado")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CFE.Models.Instructor", "IdInstructorNavigation")
+                        .WithMany()
+                        .HasForeignKey("IdInstructor")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .HasConstraintName("FK_Grupo_instructor");
+
                     b.Navigation("IdCursoNavigation");
+
+                    b.Navigation("IdEmpleadoNavigation");
+
+                    b.Navigation("IdInstructorNavigation");
                 });
 
             modelBuilder.Entity("CFE.Models.Area", b =>

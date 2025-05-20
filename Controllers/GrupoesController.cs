@@ -31,6 +31,7 @@ namespace CFE.Controllers
                     .Include(g => g.IdCursoNavigation)
                     .Where(g => g.IdEmpleado == empleadoId)
                     .ToList();
+
             }
 
             var cursosDisponibles = _context.Cursos
@@ -49,34 +50,40 @@ namespace CFE.Controllers
 
             return View(viewModel);
         }
-
-
+        //METODO INSCRIBIR
         [HttpPost]
         public async Task<IActionResult> Inscribir(Grupo nuevoGrupo)
         {
-            
-                var viewModel = new GruposIndexViewModel
-                {
-                    Empleados = await _context.Empleados.ToListAsync(),
-                    CursosDisponibles = await _context.Cursos.Include(c => c.Instructor).ToListAsync(),
-                    EmpleadoSeleccionadoId = nuevoGrupo.IdEmpleado,
-                    CursosInscritos = await _context.Grupos
-                        .Where(g => g.IdEmpleado == nuevoGrupo.IdEmpleado)
-                        .Include(g => g.IdCursoNavigation)
-                        .Include(g => g.IdInstructorNavigation)
-                        .ToListAsync(),
-                    NuevoGrupo = nuevoGrupo
-                };
+            // 1. Validar el IdInstructor: si no existe en la base de datos o es cero, asignar null
+            if (nuevoGrupo.IdInstructor == null ||
+                nuevoGrupo.IdInstructor == 0 ||
+                !_context.Instructors.Any(i => i.Id_Instructor == nuevoGrupo.IdInstructor))
+            {
+                nuevoGrupo.IdInstructor = null;
+            }
 
+            // 2. Guardar grupo
             _context.Grupos.Add(nuevoGrupo);
-            var result = await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(); // Aquí se genera el ClaveGrupo automáticamente
 
-            Console.WriteLine($"Filas afectadas: {result}"); // Esto se ve en la consola del servidor (o en logs)
+            // 3. Obtener el ClaveGrupo ya generado
+            int claveGrupoGenerado = nuevoGrupo.ClaveGrupo;
 
+            // 4. Crear registro en Empleadocurso
+            var empleadocurso = new Empleadocurso
+            {
+                IdEmpleado = nuevoGrupo.IdEmpleado ?? 0, // Asegúrate que sea no nulo
+                ClaveGrupo = claveGrupoGenerado,
+                EstatusCurso = "Pendiente",
+                Calificacion = nuevoGrupo.Calificacion
+            };
+
+            _context.Empleadocursos.Add(empleadocurso);
+            await _context.SaveChangesAsync();
+
+            // 5. Redirigir
             return RedirectToAction("Index", new { empleadoId = nuevoGrupo.IdEmpleado });
         }
-
-
 
 
 
@@ -113,7 +120,7 @@ namespace CFE.Controllers
         // POST: Grupoes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClaveGrupo,IdCurso,Fechainicial,FechaFinal,Horario,Lugar,Comentarios,AreaOfrece,Status,IdEmpleado,IdInstructor,Calificacion")] Grupo grupo)
+        public async Task<IActionResult> Create([Bind("ClaveGrupo,IdCurso,FechaInicial,FechaFinal,Horario,Lugar,Comentarios,AreaOfrece,Status,IdEmpleado,IdInstructor,Calificacion")] Grupo grupo)
         {
 
                 _context.Add(grupo);
@@ -142,35 +149,50 @@ namespace CFE.Controllers
             return View(grupo);
         }
 
-        // POST: Cursoes/Edit/5
+        // POST: Grupoes/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClaveGrupo,IdCurso,Fechainicial,FechaFinal,Horario,Lugar,Comentarios,AreaOfrece,Status,IdEmpleado,Calificacion,IdInstructor")] Grupo grupo)
+        public async Task<IActionResult> Edit(int id, [Bind("ClaveGrupo,IdCurso,FechaInicial,FechaFinal,Horario,Lugar,Comentarios,AreaOfrece,Status,IdEmpleado,Calificacion,IdInstructor")] Grupo grupo)
         {
             if (id != grupo.ClaveGrupo)
             {
                 return NotFound();
             }
 
+            try
+            {
+                // 1. Actualizar Grupo
+                _context.Update(grupo);
 
-                try
+                // 2. Buscar y actualizar Empleadocurso
+                var empleadocurso = await _context.Empleadocursos
+                    .FirstOrDefaultAsync(ec => ec.ClaveGrupo == grupo.ClaveGrupo);
+
+                if (empleadocurso != null)
                 {
-                    _context.Update(grupo);
-                    await _context.SaveChangesAsync();
+                    empleadocurso.IdEmpleado = grupo.IdEmpleado ?? empleadocurso.IdEmpleado; // por si es null
+                    empleadocurso.Calificacion = grupo.Calificacion;
+                    _context.Update(empleadocurso);
                 }
-                catch (DbUpdateConcurrencyException)
+
+                // 3. Guardar cambios
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.Grupos.Any(e => e.ClaveGrupo == grupo.ClaveGrupo))
                 {
-                    if (!_context.Grupos.Any(e => e.ClaveGrupo == grupo.ClaveGrupo))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return NotFound();
                 }
-                return RedirectToAction(nameof(Index));
+                else
+                {
+                    throw;
+                }
+            }
+
+            return RedirectToAction("Index", new { empleadoId = grupo.IdEmpleado });
         }
+
 
 
         // GET: Grupos/Delete/5
