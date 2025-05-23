@@ -42,11 +42,12 @@
             @Html.DisplayFor(model => model.Comentarios)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IdInstructor)
+            Instructor
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdInstructor)
+            @(Model.IdInstructorNavigation != null ? Model.IdInstructorNavigation.NombreInstructor : "Sin Instructor")
         </dd>
+
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.AreaOfrece)
         </dt>
@@ -63,7 +64,7 @@
             @Html.DisplayNameFor(model => model.IdCursoNavigation)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdCursoNavigation.IdCurso)
+            @Html.DisplayFor(model => model.IdCursoNavigation.NombreCurso)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Calificacion)
@@ -75,7 +76,7 @@
             Empleado
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdEmpleado)
+            @Html.DisplayFor(model => model.IdEmpleadoNavigation.Nombre)
         </dd>
 
     </dl>

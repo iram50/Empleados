@@ -89,7 +89,6 @@ namespace CFE.Controllers
 
 
 
-        // GET: Grupoes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Grupos == null)
@@ -100,7 +99,9 @@ namespace CFE.Controllers
             var grupo = await _context.Grupos
                 .Include(g => g.IdCursoNavigation)
                 .Include(g => g.IdEmpleadoNavigation)
+                .Include(g => g.IdInstructorNavigation) // <-- ESTA LÍNEA ES CLAVE
                 .FirstOrDefaultAsync(m => m.ClaveGrupo == id);
+
             if (grupo == null)
             {
                 return NotFound();
@@ -108,6 +109,7 @@ namespace CFE.Controllers
 
             return View(grupo);
         }
+
 
         // GET: Grupoes/Create
         public IActionResult Create()

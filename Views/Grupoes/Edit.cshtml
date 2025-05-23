@@ -54,12 +54,18 @@
             </div>
 
             <div class="form-group mb-4">
-                <label asp-for="IdInstructor" class="form-label fw-bold">Instructor</label>
-                <select asp-for="IdInstructor" class="form-control" asp-items="@(ViewData["IdInstructor"] as SelectList)" id="IdInstructor">
+                <label class="form-label fw-bold">Instructor</label>
+                <select class="form-control" id="IdInstructor" disabled>
                     <option value="">Sin Instructor</option>
+                    @foreach (var instructor in (SelectList)ViewData["IdInstructor"])
+                    {
+                        <option value="@instructor.Value">@instructor.Text</option>
+                    }
                 </select>
+                <input type="hidden" asp-for="IdInstructor" id="IdInstructorHidden" />
                 <span asp-validation-for="IdInstructor" class="text-danger small"></span>
             </div>
+
 
             <div class="form-group">
                 <label asp-for="AreaOfrece" class="control-label"></label>
@@ -116,15 +122,19 @@
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) {
-                        // Ya no es un select, es un input hidden
+                        // Cambia el select visible
                         document.getElementById("IdInstructor").value = data.idInstructor;
+
+                        // Actualiza el campo oculto que sí se envía al servidor
+                        document.getElementById("IdInstructorHidden").value = data.idInstructor;
                     } else {
-                        console.warn("No se encontró instructor para el curso.");
-                        document.getElementById("IdInstructor").value = ""; // Limpiar si no hay instructor
+                        document.getElementById("IdInstructor").value = "";
+                        document.getElementById("IdInstructorHidden").value = "";
                     }
                 })
                 .catch(err => console.error("Error obteniendo instructor:", err));
         });
+
 
 
         // Validación: calificación no mayor a 100

@@ -14,7 +14,7 @@ namespace CFE.Models
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Muy importante
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ClaveGrupo { get; set; }
         [Required]
         public int? IdEmpleado { get; set; }
