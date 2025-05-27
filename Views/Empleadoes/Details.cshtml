@@ -5,14 +5,14 @@
 }
 
 <div class="card shadow">
-    <div class="card-header bg-primary text-white">
+    <div class="card-header bg-cfe text-white">
         <h4 class="mb-0">Detalles del Empleado</h4>
     </div>
     <div class="card-body">
         <div class="row">
             <!-- Columna Izquierda - Información Personal -->
             <div class="col-md-6">
-                <h5 class="text-primary mb-3">Información Personal</h5>
+                <h5 class="text-cfe mb-3">Información Personal</h5>
                 <dl class="row">
                     <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Rfc)</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.Rfc)</dd>
@@ -35,8 +35,8 @@
                     <dt class="col-sm-4">@Html.DisplayNameFor(model => model.fecha_nacimiento)</dt>
                     <dd class="col-sm-8">@(Model.fecha_nacimiento?.ToString("dd/MM/yyyy") ?? "No especificada")</dd>
 
-                    <p>Edad: @(Model.Edad.HasValue ? Model.Edad + " años" : "No especificado")</p>
-
+                    <dt class="col-sm-4">Edad</dt>
+                    <dd class="col-sm-8">@(Model.Edad.HasValue ? Model.Edad + " años" : "No especificado")</dd>
 
                     <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Telefono)</dt>
                     <dd class="col-sm-8">@(Model.Telefono ?? "No especificado")</dd>
@@ -48,13 +48,14 @@
 
             <!-- Columna Derecha - Información Laboral -->
             <div class="col-md-6">
-                <h5 class="text-primary mb-3">Información Laboral</h5>
+                <h5 class="text-cfe mb-3">Información Laboral</h5>
                 <dl class="row">
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.AreaEmpleado)</dt>
-                    <dd class="col-sm-8">@(Model.AreaEmpleado ?? "No especificada")</dd>
+                    <dt class="col-sm-4">Área</dt>
+                    <dd class="col-sm-8">@(Model.IdAreaNavigation?.DescripcionArea ?? "No especificada")</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Puesto)</dt>
-                    <dd class="col-sm-8">@(Model.Puesto ?? "No especificado")</dd>
+                    <dt class="col-sm-4">Puesto</dt>
+                    <dd class="col-sm-8">@(Model.IdPuestoNavigation?.DescripcionPuesto ?? "No especificado")</dd>
+
 
                     <dt class="col-sm-4">@Html.DisplayNameFor(model => model.rpe)</dt>
                     <dd class="col-sm-8">@(Model.rpe ?? "No especificado")</dd>
@@ -92,7 +93,7 @@
         <!-- Sección de Foto y Documentos -->
         <div class="row mt-4">
             <div class="col-md-6">
-                <h5 class="text-primary mb-3">Fotografía</h5>
+                <h5 class="text-cfe mb-3">Fotografía</h5>
                 <div class="text-center">
                     @if (Model.Foto != null && Model.Foto.Length > 0)
                     {
@@ -109,10 +110,10 @@
             </div>
 
             <div class="col-md-6">
-                <h5 class="text-primary mb-3">Documentación</h5>
+                <h5 class="text-cfe mb-3">Documentación</h5>
                 @if (!string.IsNullOrEmpty(Model.comprobante_escolaridad))
                 {
-                    <a href="@Model.comprobante_escolaridad" target="_blank" class="btn btn-outline-primary">
+                    <a href="@Model.comprobante_escolaridad" target="_blank" class="btn btn-outline-cfe">
                         <i class="bi bi-file-earmark-text"></i> Ver comprobante de escolaridad
                     </a>
                 }
@@ -126,10 +127,10 @@
 </div>
 
 <div class="mt-4">
-    <a asp-action="Edit" asp-route-id="@Model?.IdEmpleado" class="btn btn-primary">
+    <a asp-action="Edit" asp-route-id="@Model?.IdEmpleado" class="btn btn-cfe">
         <i class="bi bi-pencil"></i> Editar
     </a>
-    <a asp-action="Index" class="btn btn-secondary">
+    <a asp-action="Index" class="btn btn-outline-secondary">
         <i class="bi bi-arrow-left"></i> Volver al listado
     </a>
 </div>
@@ -138,15 +139,47 @@
     .card {
         border-radius: 0.5rem;
     }
+
     dt {
         font-weight: 500;
         color: #495057;
     }
+
     dd {
         color: #212529;
     }
+
     .badge {
         font-size: 0.9em;
         padding: 0.35em 0.65em;
     }
+
+    .bg-cfe {
+        background-color: #008a54 !important;
+    }
+
+    .text-cfe {
+        color: #008a54 !important;
+    }
+
+    .btn-cfe {
+        background-color: #008a54;
+        border-color: #006a40;
+        color: white;
+    }
+
+        .btn-cfe:hover {
+            background-color: #006a40;
+            border-color: #005030;
+        }
+
+    .btn-outline-cfe {
+        color: #008a54;
+        border-color: #008a54;
+    }
+
+        .btn-outline-cfe:hover {
+            background-color: #008a54;
+            color: white;
+        }
 </style>

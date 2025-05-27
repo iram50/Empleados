@@ -23,6 +23,9 @@ namespace CFE.Models
         public virtual DbSet<Grupo> Grupos { get; set; } = null!;
         public virtual DbSet<Instructor> Instructors { get; set; } = null!;
         public virtual DbSet<Puesto> Puestos { get; set; } = null!;
+        public virtual DbSet<Usuario> Usuarios { get; set; }
+        public virtual DbSet<Rol> Roles { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -233,8 +236,59 @@ namespace CFE.Models
                 entity.Property(e => e.DescripcionPuesto).HasMaxLength(255);
             });
 
+
+            modelBuilder.Entity<Rol>(entity =>
+            {
+                entity.ToTable("Roles");
+
+                entity.HasKey(e => e.Id_Rol);
+
+                entity.Property(e => e.Id_Rol)
+                    .HasColumnName("Id_Rol");
+
+                entity.Property(e => e.Nombre_Rol)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Usuario>(entity =>
+            {
+                entity.ToTable("usuarios");
+
+                entity.HasKey(e => e.Id_usuario);
+
+                entity.Property(e => e.Id_usuario)
+                    .HasColumnName("Id_usuario");
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.UsuarioNombre)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Clave)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.RolId)
+                    .HasColumnName("RolId");
+
+                entity.HasOne(d => d.Rol)
+                    .WithMany(p => p.Usuarios)
+                    .HasForeignKey(d => d.Id_usuario)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("FK_Usuarios_Roles");
+            });
+
+
+
             OnModelCreatingPartial(modelBuilder);
         }
+
+
+
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }

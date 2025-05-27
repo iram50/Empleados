@@ -69,6 +69,7 @@ namespace CFE.Controllers
                 .Include(e => e.IdAreaNavigation)
                 .Include(e => e.IdPuestoNavigation)
                 .FirstOrDefaultAsync(m => m.IdEmpleado == id);
+
             if (empleado == null)
             {
                 return NotFound();

@@ -16,7 +16,8 @@
     <div class="row">
         <div class="col-md-6">
             <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header bg-cfe text-white">
+                    <!-- Cambiado a bg-cfe -->
                     <h5 class="mb-0">
                         <i class="bi bi-plus-circle"></i> Información del Curso
                     </h5>
@@ -43,7 +44,8 @@
                             <a asp-action="Index" class="btn btn-outline-secondary me-3">
                                 <i class="bi bi-arrow-left"></i> Volver al listado
                             </a>
-                            <button type="submit" class="btn btn-primary px-4">
+                            <button type="submit" class="btn btn-cfe px-4">
+                                <!-- Cambiado a btn-cfe -->
                                 <i class="bi bi-save"></i> Crear
                             </button>
                         </div>
@@ -56,14 +58,36 @@
 
 @section Styles {
     <style>
+        .bg-cfe {
+            background-color: #008a54 !important; /* Verde corporativo CFE */
+        }
+
+        .btn-cfe {
+            background-color: #008a54 !important;
+            color: white !important;
+            border: none !important;
+        }
+
+            .btn-cfe:hover {
+                background-color: #006f45 !important; /* Verde más oscuro al pasar el mouse */
+                color: white !important;
+            }
+
         .form-control {
             padding: 0.5rem 0.75rem;
             border-radius: 0.25rem;
+            border: 1px solid #ced4da;
         }
+
+            .form-control:focus {
+                border-color: #008a54;
+                box-shadow: 0 0 0 0.25rem rgba(0, 138, 84, 0.25);
+            }
 
         .btn {
             padding: 0.5rem 1.25rem;
             margin: 0.25rem 0;
+            font-weight: 500;
         }
 
         .btn-outline-secondary {
@@ -72,6 +96,11 @@
 
         .card {
             border-radius: 0.5rem;
+            border: none;
+        }
+
+        .card-header {
+            font-weight: 600;
         }
     </style>
 }

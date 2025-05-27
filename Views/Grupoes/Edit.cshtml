@@ -1,109 +1,117 @@
 ﻿@model CFE.Models.Grupo
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Grupo";
 }
 
-<h1>Edit</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-8">
+            <div class="border border-3 border-success rounded-4 shadow-lg p-4 bg-white">
 
-<h4>Grupo</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ClaveGrupo" />
+                <div class="text-center mb-4">
+                    <h1 class="text-success fw-bold">
+                        <i class="bi bi-pencil-square me-2"></i>Editar Grupo
+                    </h1>
+                    <hr class="border-success opacity-75" style="width: 60px; margin: auto;">
+                </div>
 
-            <div class="form-group">
-                <label asp-for="IdCurso" class="control-label"></label>
-                <select asp-for="IdCurso" class="form-control" asp-items="ViewBag.IdCurso" id="IdCurso"></select>
-                <span asp-validation-for="IdCurso" class="text-danger"></span>
+                <div class="border border-dark rounded-3 p-4">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="ClaveGrupo" />
+
+                        <div class="mb-3">
+                            <label asp-for="IdCurso" class="form-label fw-bold">Curso:</label>
+                            <select asp-for="IdCurso" class="form-select" asp-items="ViewBag.IdCurso" id="IdCurso"></select>
+                            <span asp-validation-for="IdCurso" class="text-danger"></span>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="FechaInicial" class="form-label fw-bold">Fecha inicial:</label>
+                                <input asp-for="FechaInicial" class="form-control" type="date" />
+                                <span asp-validation-for="FechaInicial" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="FechaFinal" class="form-label fw-bold">Fecha final:</label>
+                                <input asp-for="FechaFinal" class="form-control" type="date" />
+                                <span asp-validation-for="FechaFinal" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Horario" class="form-label fw-bold">Horario:</label>
+                            <input asp-for="Horario" class="form-control" />
+                            <span asp-validation-for="Horario" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Lugar" class="form-label fw-bold">Lugar:</label>
+                            <select asp-for="Lugar" class="form-select">
+                                <option value="Interno">Interno</option>
+                                <option value="Externo">Externo</option>
+                            </select>
+                            <span asp-validation-for="Lugar" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Comentarios" class="form-label fw-bold">Comentarios:</label>
+                            <input asp-for="Comentarios" class="form-control" />
+                            <span asp-validation-for="Comentarios" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Instructor:</label>
+                            <select class="form-select" id="IdInstructor" disabled>
+                                <option value="">Sin Instructor</option>
+                                @foreach (var instructor in (SelectList)ViewData["IdInstructor"])
+                                {
+                                    <option value="@instructor.Value">@instructor.Text</option>
+                                }
+                            </select>
+                            <input type="hidden" asp-for="IdInstructor" id="IdInstructorHidden" />
+                            <span asp-validation-for="IdInstructor" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="AreaOfrece" class="form-label fw-bold">Área que ofrece:</label>
+                            <input asp-for="AreaOfrece" class="form-control" />
+                            <span asp-validation-for="AreaOfrece" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Status" class="form-label fw-bold">Estado:</label>
+                            <select asp-for="Status" class="form-select">
+                                <option value="Activo">Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                            </select>
+                            <span asp-validation-for="Status" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="IdEmpleado" class="form-label fw-bold">Empleado:</label>
+                            <select asp-for="IdEmpleado" class="form-select" asp-items="ViewBag.IdEmpleado"></select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Calificacion" class="form-label fw-bold">Calificación:</label>
+                            <input asp-for="Calificacion" class="form-control" id="Calificacion" />
+                            <span asp-validation-for="Calificacion" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-center gap-3">
+                            <input type="submit" value="Guardar" class="btn btn-success px-4" />
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left-circle"></i> Volver
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
             </div>
-
-            <div class="form-group">
-                <label asp-for="FechaInicial" class="control-label"></label>
-                <input asp-for="FechaInicial" class="form-control" type="date" />
-                <span asp-validation-for="FechaInicial" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="FechaFinal" class="control-label"></label>
-                <input asp-for="FechaFinal" class="form-control" type="date" />
-                <span asp-validation-for="FechaFinal" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Horario" class="control-label"></label>
-                <input asp-for="Horario" class="form-control" />
-                <span asp-validation-for="Horario" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Lugar" class="control-label"></label>
-                <select asp-for="Lugar" class="form-control">
-                    <option value="Interno">Interno</option>
-                    <option value="Externo">Externo</option>
-                </select>
-                <span asp-validation-for="Lugar" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Comentarios" class="control-label"></label>
-                <input asp-for="Comentarios" class="form-control" />
-                <span asp-validation-for="Comentarios" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-4">
-                <label class="form-label fw-bold">Instructor</label>
-                <select class="form-control" id="IdInstructor" disabled>
-                    <option value="">Sin Instructor</option>
-                    @foreach (var instructor in (SelectList)ViewData["IdInstructor"])
-                    {
-                        <option value="@instructor.Value">@instructor.Text</option>
-                    }
-                </select>
-                <input type="hidden" asp-for="IdInstructor" id="IdInstructorHidden" />
-                <span asp-validation-for="IdInstructor" class="text-danger small"></span>
-            </div>
-
-
-            <div class="form-group">
-                <label asp-for="AreaOfrece" class="control-label"></label>
-                <input asp-for="AreaOfrece" class="form-control" />
-                <span asp-validation-for="AreaOfrece" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control">
-                    <option value="Activo">Activo</option>
-                    <option value="Inactivo">Inactivo</option>
-                </select>
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="IdEmpleado" class="control-label"></label>
-                <select asp-for="IdEmpleado" class="form-control" asp-items="ViewBag.IdEmpleado"></select>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Calificacion" class="form-label">Calificación:</label>
-                <input asp-for="Calificacion" class="form-control" id="Calificacion" />
-                <span asp-validation-for="Calificacion" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Guardar" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div class="mt-3">
-    <a asp-action="Index" class="btn btn-outline-secondary">
-        <i class="bi bi-arrow-left"></i> Volver al Listado
-    </a>
 </div>
 
 @section Scripts {
@@ -112,7 +120,6 @@
     }
 
     <script>
-
         document.getElementById("IdCurso").addEventListener("change", function () {
             const cursoId = this.value;
 
@@ -122,10 +129,7 @@
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) {
-                        // Cambia el select visible
                         document.getElementById("IdInstructor").value = data.idInstructor;
-
-                        // Actualiza el campo oculto que sí se envía al servidor
                         document.getElementById("IdInstructorHidden").value = data.idInstructor;
                     } else {
                         document.getElementById("IdInstructor").value = "";
@@ -135,9 +139,6 @@
                 .catch(err => console.error("Error obteniendo instructor:", err));
         });
 
-
-
-        // Validación: calificación no mayor a 100
         document.querySelector("form").addEventListener("submit", function (e) {
             const calificacionInput = document.getElementById("Calificacion");
             const calificacion = parseFloat(calificacionInput.value);

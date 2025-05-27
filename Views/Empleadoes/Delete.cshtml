@@ -1,138 +1,112 @@
 ﻿@model CFE.Models.Empleado
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar";
 }
 
-<h1>Delete</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-8">
 
-<h3>Seguro que desea eliminar este empleado?</h3>
-<div>
-    <h4>Empleado</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Rfc)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Rfc)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Curp)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Curp)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Nss)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Nss)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ApellidoPaterno)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ApellidoPaterno)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ApellidoMaterno)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ApellidoMaterno)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AreaEmpleado)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AreaEmpleado)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Puesto)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Puesto)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Telefono)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Telefono)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CorreoElectronico)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.tipo_contrato)
-        </dd>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.fecha_nacimiento)
-        </dd>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ingreso_cfe)
-        </dd>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.rpe)
-        </dd>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.jefe_inmediato)
-        </dd>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.escolaridad)
-        </dd>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.comprobante_escolaridad)
-        </dd>
+            <div class="border border-3 border-danger rounded-4 shadow-lg p-5 bg-light">
+                <div class="text-center mb-4">
+                    <h1 class="text-danger fw-bold">Eliminar Empleado</h1>
+                    <p class="fs-5">¿Estás seguro que deseas eliminar este empleado?</p>
+                    <hr class="border-danger border-2 opacity-75" style="width: 60px; margin: auto;">
+                </div>
 
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.residencia_especialidad)
-        </dd>
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body">
+                        <dl class="row mb-0">
+                            <dt class="col-sm-4">RFC</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.Rfc)</dd>
+
+                            <dt class="col-sm-4">CURP</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.Curp)</dd>
+
+                            <dt class="col-sm-4">NSS</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.Nss)</dd>
+
+                            <dt class="col-sm-4">Apellido Paterno</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.ApellidoPaterno)</dd>
+
+                            <dt class="col-sm-4">Apellido Materno</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.ApellidoMaterno)</dd>
+
+                            <dt class="col-sm-4">Nombre</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.Nombre)</dd>
+
+                            <dt class="col-sm-4">Área</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.AreaEmpleado)</dd>
+
+                            <dt class="col-sm-4">Puesto</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.Puesto)</dd>
+
+                            <dt class="col-sm-4">Teléfono</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.Telefono)</dd>
+
+                            <dt class="col-sm-4">Correo</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.CorreoElectronico)</dd>
 
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Foto)
-        </dt>
+                            <dt class="col-sm-4">Nacimiento</dt>
+                            <dd class="col-sm-8">@Model.fecha_nacimiento?.ToString("dd/MM/yyyy")</dd>
 
+                            <dt class="col-sm-4">Ingreso CFE</dt>
+                            <dd class="col-sm-8">@Model.ingreso_cfe?.ToString("dd/MM/yyyy")</dd>
 
-        <dd class="col-sm-10">
-            @if (Model.Foto != null && Model.Foto.Length > 0)
-            {
-                <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Foto)" alt="Foto del empleado" width="150" class="img-thumbnail" />
-            }
-            else
-            {
-                <span>No hay imagen disponible</span>
-            }
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EmpleadoActivo)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EmpleadoActivo)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IdAreaNavigation)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdAreaNavigation.IdAreas)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IdPuestoNavigation)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdPuestoNavigation.IdPuesto)
-        </dd>
-    </dl>
+                            <dt class="col-sm-4">RPE</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.rpe)</dd>
 
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="IdEmpleado" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+                            <dt class="col-sm-4">Jefe inmediato</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.jefe_inmediato)</dd>
+
+                            <dt class="col-sm-4">Escolaridad</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.escolaridad)</dd>
+
+                            <dt class="col-sm-4">Comprobante</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.comprobante_escolaridad)</dd>
+
+                            <dt class="col-sm-4">Residencia/Especialidad</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.residencia_especialidad)</dd>
+
+                            <dt class="col-sm-4">Foto</dt>
+                            <dd class="col-sm-8">
+                                @if (Model.Foto != null && Model.Foto.Length > 0)
+                                {
+                                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Foto)" alt="Foto del empleado" width="150" class="img-thumbnail shadow-sm" />
+                                }
+                                else
+                                {
+                                    <span>No hay imagen disponible</span>
+                                }
+                            </dd>
+
+                            <dt class="col-sm-4">Activo</dt>
+                            <dd class="col-sm-8">@((Model.EmpleadoActivo ?? false) ? "Sí" : "No")</dd>
+
+                            <dt class="col-sm-4">Área (ID)</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.IdAreaNavigation.IdAreas)</dd>
+
+                            <dt class="col-sm-4">Puesto (ID)</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.IdPuestoNavigation.IdPuesto)</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="IdEmpleado" />
+                    <div class="d-flex justify-content-center gap-4">
+                        <button type="submit" class="btn btn-outline-danger btn-lg">
+                            <i class="bi bi-trash-fill me-1"></i> Eliminar
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg">
+                            <i class="bi bi-x-circle me-1"></i> Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
 </div>

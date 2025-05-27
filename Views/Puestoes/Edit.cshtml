@@ -14,7 +14,7 @@
             <div class="card shadow-sm mb-4">
                 <div class="card-header bg-light d-flex justify-content-between align-items-center">
                     <h5 class="mb-0"><i class="bi bi-list-ul"></i> Puestos Existentes</h5>
-                    <a asp-action="Create" class="btn btn-success btn-sm">
+                    <a asp-action="Create" class="btn btn-cfe btn-sm">
                         <i class="bi bi-plus-circle"></i> Nuevo
                     </a>
                 </div>
@@ -46,7 +46,7 @@
         <!-- Columna de edición -->
         <div class="col-md-7">
             <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header bg-cfe text-white">
                     <h5 class="mb-0">
                         <i class="bi bi-pencil-square"></i> @(isNew ? "Nuevo Puesto" : "Editar Puesto")
                     </h5>
@@ -73,7 +73,7 @@
                                 <button type="submit" class="btn btn-warning px-4">
                                     <i class="bi bi-check2-circle"></i> Guardar
                                 </button>
-                                <a asp-action="Create" class="btn btn-success">
+                                <a asp-action="Create" class="btn btn-secondary">
                                     <i class="bi bi-plus-circle"></i> Nuevo
                                 </a>
                             </div>
@@ -87,9 +87,24 @@
 
 @section Styles {
     <style>
+        .bg-cfe {
+            background-color: #008a54 !important;
+        }
+
+        .btn-cfe {
+            background-color: #008a54 !important;
+            color: white !important;
+            border: none !important;
+        }
+
+            .btn-cfe:hover {
+                background-color: #006f45 !important;
+                color: white !important;
+            }
+
         .list-group-item.active {
-            background-color: #0d6efd;
-            border-color: #0d6efd;
+            background-color: #008a54;
+            border-color: #008a54;
             color: white;
         }
 

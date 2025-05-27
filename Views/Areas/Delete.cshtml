@@ -1,27 +1,60 @@
 ﻿@model CFE.Models.Area
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar Área";
 }
 
-<h1>Eliminar</h1>
+<div class="card shadow-lg border-danger">
+    <div class="card-header bg-danger text-white">
+        <h3 class="mb-0">
+            <i class="bi bi-exclamation-triangle-fill"></i> @ViewData["Title"]
+        </h3>
+    </div>
 
-<h3>Seguro que deseas eliminar esta area?</h3>
-<div>
-    <h4>Area</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DescripcionArea)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DescripcionArea)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="IdAreas" />
-        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <a asp-action="Index">Volver a la lista</a>
-    </form>
+    <div class="card-body">
+        <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading"><i class="bi bi-exclamation-octagon"></i> ¡Atención!</h4>
+            <p>¿Estás seguro que deseas eliminar permanentemente este área? Esta acción no se puede deshacer.</p>
+            <hr>
+            <p class="mb-0">Se eliminarán todos los datos asociados a este registro.</p>
+        </div>
+
+        <!-- Contenedor con borde para mostrar el nombre del área -->
+        <div class="p-4 border rounded text-center">
+            <h5 class="text-muted mb-3">Área a eliminar:</h5>
+            <h4 class="text-danger fw-bold">@Model.DescripcionArea</h4>
+        </div>
+    </div>
+
+    <div class="card-footer bg-light">
+        <form asp-action="Delete" class="d-flex justify-content-between">
+            <input type="hidden" asp-for="IdAreas" />
+
+            <div>
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Cancelar y volver
+                </a>
+            </div>
+
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash-fill"></i> Confirmar eliminación
+            </button>
+        </form>
+    </div>
 </div>
+
+@section Styles {
+    <style>
+        .border-danger {
+            border: 1px solid #dc3545 !important;
+        }
+
+        .card-header {
+            font-weight: 600;
+        }
+
+        .alert {
+            border-left: 4px solid #ffc107;
+        }
+    </style>
+}

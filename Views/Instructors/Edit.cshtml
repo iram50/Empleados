@@ -14,7 +14,7 @@
             <div class="card shadow-sm mb-4">
                 <div class="card-header bg-light d-flex justify-content-between align-items-center">
                     <h5 class="mb-0"><i class="bi bi-list-ul"></i> Instructores Existentes</h5>
-                    <a asp-action="Create" class="btn btn-success btn-sm">
+                    <a asp-action="Create" class="btn btn-cfe btn-sm">
                         <i class="bi bi-plus-circle"></i> Nuevo
                     </a>
                 </div>
@@ -25,7 +25,7 @@
                             @foreach (var instructor in instructoresList)
                             {
                                 <a asp-action="Edit" asp-route-id="@instructor.Id_Instructor"
-                                   class="list-group-item list-group-item-action @(instructor.Id_Instructor == Model?.Id_Instructor ? "active" : "")">
+                                   class="list-group-item list-group-item-action @(instructor.Id_Instructor == Model?.Id_Instructor ? "active-cfe" : "")">
                                     <div class="d-flex justify-content-between">
                                         <span>@instructor.NombreInstructor</span>
                                         <small class="text-muted">@(instructor.Descripcion?.Length > 20 ? instructor.Descripcion?.Substring(0, 20) + "..." : instructor.Descripcion)</small>
@@ -47,7 +47,7 @@
         <!-- Columna de edición -->
         <div class="col-md-7">
             <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header bg-cfe text-white">
                     <h5 class="mb-0">
                         <i class="bi bi-pencil-square"></i> @(isNew ? "Nuevo Instructor" : "Editar Instructor")
                     </h5>
@@ -77,10 +77,10 @@
                                 <i class="bi bi-arrow-left"></i> Volver
                             </a>
                             <div class="btn-group">
-                                <button type="submit" class="btn btn-warning px-4">
+                                <button type="submit" class="btn btn-warning px-4 text-white">
                                     <i class="bi bi-check2-circle"></i> Guardar
                                 </button>
-                                <a asp-action="Create" class="btn btn-success">
+                                <a asp-action="Create" class="btn btn-cfe">
                                     <i class="bi bi-plus-circle"></i> Nuevo
                                 </a>
                             </div>
@@ -94,13 +94,28 @@
 
 @section Styles {
     <style>
-        .list-group-item.active {
-            background-color: #0d6efd;
-            border-color: #0d6efd;
-            color: white;
+        .bg-cfe {
+            background-color: #008a54 !important;
         }
 
-        .list-group-item:hover:not(.active) {
+        .btn-cfe {
+            background-color: #008a54 !important;
+            color: white !important;
+            border: none !important;
+        }
+
+            .btn-cfe:hover {
+                background-color: #006f45 !important;
+                color: white !important;
+            }
+
+        .active-cfe {
+            background-color: #008a54 !important;
+            border-color: #008a54 !important;
+            color: white !important;
+        }
+
+        .list-group-item:hover:not(.active-cfe) {
             background-color: #f8f9fa;
         }
 
@@ -128,8 +143,4 @@
     </style>
 }
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+

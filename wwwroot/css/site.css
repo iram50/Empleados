@@ -1,18 +1,60 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+}
+
+.btn-cfe {
+    background-color: #008a54;
+    color: white;
+    border: none;
+}
+
+    .btn-cfe:hover {
+        background-color: #006f45;
+        color: white;
+    }
+
+.bg-cfe {
+    background-color: #008a54 !important;
+}
+
+.btn-cfe {
+    background-color: #008a54;
+    color: #fff;
+    border: none;
+}
+
+    .btn-cfe:hover {
+        background-color: #006a40;
+        color: #fff;
+    }
+
+.btn-group .btn {
+    margin-right: 5px;
+}
+
+    .btn-group .btn:last-child {
+        margin-right: 0;
+    }
+
+.btn-sm {
+    padding: 0.35rem 0.75rem;
+}
+
+h1.display-6 i {
+    color: #008a54;
 }

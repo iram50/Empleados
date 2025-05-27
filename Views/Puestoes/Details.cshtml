@@ -1,28 +1,58 @@
 ﻿@model CFE.Models.Puesto
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles del Puesto";
 }
 
-<h1>Detalles</h1>
+<div class="card shadow-sm">
+    <div class="card-header bg-cfe text-white">
+        <h4 class="mb-0">
+            <i class="bi bi-info-circle"></i> @ViewData["Title"]
+        </h4>
+    </div>
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <h5 class="text-muted mb-3">Información del Puesto</h5>
+                <div class="p-3 bg-light rounded">
+                    <dl class="row">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DescripcionPuesto)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.DescripcionPuesto)</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div>
-    <h4>Puesto</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DescripcionPuesto)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DescripcionPuesto)
-        </dd>
-    </dl>
+    <div class="card-footer">
+        <div class="d-flex justify-content-between align-items-center">
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Volver al listado
+            </a>
+
+            <a asp-action="Edit" asp-route-id="@Model?.IdPuesto" class="btn btn-cfe">
+                <i class="bi bi-pencil"></i> Editar
+            </a>
+        </div>
+
+      
 </div>
-<div class="mt-4">
-    <a asp-action="Edit" asp-route-id="@Model?.IdPuesto" class="btn btn-primary">
-        <i class="bi bi-pencil"></i> Editar
-    </a>
-    <a asp-action="Index" class="btn btn-secondary">
-        <i class="bi bi-arrow-left"></i> Volver al listado
-    </a>
-</div>
+
+@section Styles {
+    <style>
+        .bg-cfe {
+            background-color: #008a54 !important;
+        }
+
+        .btn-cfe {
+            background-color: #008a54 !important;
+            color: white !important;
+            border: none !important;
+        }
+
+            .btn-cfe:hover {
+                background-color: #006f45 !important;
+                color: white !important;
+            }
+    </style>
+}

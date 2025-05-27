@@ -1,0 +1,12 @@
+﻿@model IEnumerable<CFE.Models.Usuario>
+
+@{
+    ViewData["Title"] = "Loggin";
+}
+
+<form method="post">
+    <input type="text" name="UsuarioNombre" placeholder="Usuario" required />
+    <input type="password" name="Clave" placeholder="Clave" required />
+    <button type="submit">Iniciar Sesión</button>
+    <p style="color:red">@ViewBag.Error</p>
+</form>

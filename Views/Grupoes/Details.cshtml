@@ -1,86 +1,75 @@
 ﻿@model CFE.Models.Grupo
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles del Grupo";
 }
 
-<h1>Detalles</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-8">
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Grupo</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaInicial)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FechaInicial)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaFinal)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FechaFinal)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Horario)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Horario)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Lugar)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Lugar)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Comentarios)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Comentarios)
-        </dd>
-        <dt class="col-sm-2">
-            Instructor
-        </dt>
-        <dd class="col-sm-10">
-            @(Model.IdInstructorNavigation != null ? Model.IdInstructorNavigation.NombreInstructor : "Sin Instructor")
-        </dd>
+            <!-- 🟩 Contenedor con borde verde -->
+            <div class="border border-3 border-success rounded-4 shadow-lg p-5 bg-white">
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AreaOfrece)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AreaOfrece)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IdCursoNavigation)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdCursoNavigation.NombreCurso)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Calificacion)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Calificacion)
-        </dd>
-        <dt class="col-sm-2">
-            Empleado
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdEmpleadoNavigation.Nombre)
-        </dd>
+                <div class="text-center mb-4">
+                    <h1 class="text-success fw-bold">
+                        <i class="bi bi-info-circle-fill me-2"></i>Detalles del Grupo
+                    </h1>
+                    <hr class="border-success opacity-75" style="width: 60px; margin: auto;">
+                </div>
 
-    </dl>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.ClaveGrupo">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+                <div class="border border-dark rounded-3 p-4 mb-4">
+
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">Fecha de inicio</dt>
+                        <dd class="col-sm-8">@Model.FechaInicial.ToString("dd/MM/yyyy")</dd>
+
+                        <dt class="col-sm-4">Fecha de fin</dt>
+                        <dd class="col-sm-8">@Model.FechaFinal.ToString("dd/MM/yyyy")</dd>
+
+                        <dt class="col-sm-4">Horario</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.Horario)</dd>
+
+                        <dt class="col-sm-4">Lugar</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.Lugar)</dd>
+
+                        <dt class="col-sm-4">Comentarios</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.Comentarios)</dd>
+
+                        <dt class="col-sm-4">Instructor</dt>
+                        <dd class="col-sm-8">
+                            @(Model.IdInstructorNavigation != null
+                                ? Model.IdInstructorNavigation.NombreInstructor
+                                : "Sin Instructor")
+                        </dd>
+
+                        <dt class="col-sm-4">Área que ofrece</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.AreaOfrece)</dd>
+
+                        <dt class="col-sm-4">Estado</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.Status)</dd>
+
+                        <dt class="col-sm-4">Curso</dt>
+                        <dd class="col-sm-8">@Model.IdCursoNavigation?.NombreCurso</dd>
+
+                        <dt class="col-sm-4">Calificación</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.Calificacion)</dd>
+
+                        <dt class="col-sm-4">Empleado</dt>
+                        <dd class="col-sm-8">@Model.IdEmpleadoNavigation?.Nombre</dd>
+                    </dl>
+                </div>
+
+                <div class="d-flex justify-content-center gap-4 mt-4">
+                    <a asp-action="Edit" asp-route-id="@Model?.ClaveGrupo" class="btn btn-outline-primary btn-lg">
+                        <i class="bi bi-pencil-square"></i> Editar
+                    </a>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg">
+                        <i class="bi bi-arrow-left-circle"></i> Volver
+                    </a>
+                </div>
+
+            </div> <!-- Fin borde verde -->
+        </div>
+    </div>
 </div>

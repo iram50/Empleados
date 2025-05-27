@@ -22,9 +22,10 @@
                         @foreach (var area in areasList)
                         {
                             <a asp-action="Edit" asp-route-id="@area.IdAreas"
-                               class="list-group-item list-group-item-action @(area.IdAreas == Model?.IdAreas ? "active" : "")">
+                               class="list-group-item list-group-item-action @(area.IdAreas == Model?.IdAreas ? "cfe-active" : "")">
                                 @area.DescripcionArea
                             </a>
+
                         }
                     </div>
                 </div>
@@ -34,7 +35,7 @@
         <!-- Columna de edición -->
         <div class="col-md-7">
             <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header text-white" style="background-color: #008a54;">
                     <h5 class="mb-0">
                         @(Model?.IdAreas == 0 ? "Crear Nueva Área" : "Editar Área")
                     </h5>
@@ -67,19 +68,42 @@
 
 @section Styles {
     <style>
+
+        .cfe-active {
+            background-color: #008a54 !important;
+            border-color: #008a54 !important;
+            color: white !important;
+        }
+
+        .list-group-item:hover:not(.cfe-active) {
+            background-color: #f8f9fa;
+        }
+
+
+
         .list-group-item.active {
-            background-color: #0d6efd;
-            border-color: #0d6efd;
+            background-color: #008a54;
+            border-color: #008a54;
+            color: white;
         }
 
         .list-group-item:hover:not(.active) {
             background-color: #f8f9fa;
         }
+
+        .card-header.bg-primary {
+            background-color: #008a54 !important;
+            color: white !important;
+        }
+
+        .bg-cfe-green {
+            background-color: #008a54 !important;
+            color: white !important;
+        }
+
     </style>
 }
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+
+
+  

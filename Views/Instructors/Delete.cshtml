@@ -1,33 +1,61 @@
 ﻿@model CFE.Models.Instructor
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar Instructor";
 }
 
-<h1>Eliminar</h1>
+<div class="card shadow-lg border-danger">
+    <div class="card-header bg-danger text-white">
+        <h3 class="mb-0">
+            <i class="bi bi-exclamation-triangle-fill"></i> @ViewData["Title"]
+        </h3>
+    </div>
 
-<h3>Seguro que desea eliminar este instructor?</h3>
-<div>
-    <h4>Instructor</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NombreInstructor)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NombreInstructor)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id_Instructor" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Volver a la lista</a>
-    </form>
+    <div class="card-body">
+        <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading"><i class="bi bi-exclamation-octagon"></i> ¡Atención!</h4>
+            <p>¿Estás seguro que deseas eliminar permanentemente este instructor?</p>
+            <hr>
+            <p class="mb-0">Todos los cursos asociados a este instructor quedarán sin asignación.</p>
+        </div>
+
+        <!-- Contenedor centrado con el nombre y descripción -->
+        <div class="p-4 border rounded text-center">
+            <h5 class="text-muted mb-3">Instructor a eliminar:</h5>
+            <h4 class="text-danger fw-bold mb-2">@Model.NombreInstructor</h4>
+            <p class="text-secondary fst-italic">@Model.Descripcion</p>
+        </div>
+    </div>
+
+    <div class="card-footer bg-light">
+        <form asp-action="Delete" class="d-flex justify-content-between">
+            <input type="hidden" asp-for="Id_Instructor" />
+
+            <div>
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Cancelar y volver
+                </a>
+            </div>
+
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash-fill"></i> Confirmar eliminación
+            </button>
+        </form>
+
+        <div class="text-muted small mt-3">
+            <i class="bi bi-info-circle"></i> Verifique que no haya cursos asignados antes de eliminar.
+        </div>
+    </div>
 </div>
+
+@section Styles {
+    <style>
+        .border-danger {
+            border: 2px solid #dc3545;
+        }
+
+        .alert-warning {
+            border-left: 5px solid #ffc107;
+        }
+    </style>
+}

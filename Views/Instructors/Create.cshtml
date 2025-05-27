@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header bg-cfe text-white">
                     <h5 class="mb-0">
                         <i class="bi bi-plus-circle"></i> Información del Instructor
                     </h5>
@@ -41,7 +41,7 @@
                             <a asp-action="Index" class="btn btn-outline-secondary me-3">
                                 <i class="bi bi-arrow-left"></i> Volver al listado
                             </a>
-                            <button type="submit" class="btn btn-primary px-4">
+                            <button type="submit" class="btn btn-cfe px-4">
                                 <i class="bi bi-save"></i> Guardar
                             </button>
                         </div>
@@ -54,28 +54,16 @@
 
 @section Styles {
     <style>
-        .form-control {
-            padding: 0.5rem 0.75rem;
-            border-radius: 0.25rem;
+        .btn-cfe {
+            background-color: #008a54 !important;
+            color: white !important;
+            border: none !important;
         }
 
-        .btn {
-            padding: 0.5rem 1.25rem;
-            margin: 0.25rem 0;
-        }
-
-        .btn-outline-secondary {
-            border-width: 2px;
-        }
-
-        .card {
-            border-radius: 0.5rem;
-        }
-
-        textarea.form-control {
-            min-height: 100px;
-            resize: vertical;
-        }
+            .btn-cfe:hover {
+                background-color: #006f45 !important;
+                color: white !important;
+            }
     </style>
 }
 
@@ -84,3 +72,4 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+

@@ -1,33 +1,74 @@
 ﻿@model CFE.Models.Curso
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar Curso";
 }
 
-<h1>Eliminar</h1>
+<div class="card shadow-lg border-danger">
+    <div class="card-header bg-danger text-white">
+        <h3 class="mb-0">
+            <i class="bi bi-exclamation-triangle-fill"></i> @ViewData["Title"]
+        </h3>
+    </div>
 
-<h3>Seguro que desea eliminar este curso?</h3>
-<div>
-    <h4>Curso</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NombreCurso)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NombreCurso)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id_Instructor)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id_Instructor)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="IdCurso" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Volver a la lista</a>
-    </form>
+    <div class="card-body">
+        <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading"><i class="bi bi-exclamation-octagon"></i> ¡Atención!</h4>
+            <p>¿Estás seguro que deseas eliminar permanentemente este curso? Esta acción no se puede deshacer.</p>
+            <hr>
+            <p class="mb-0">Todos los registros asociados a este curso se perderán.</p>
+        </div>
+
+        <div class="p-4 border rounded text-center">
+            <h5 class="text-muted mb-3">Curso a eliminar:</h5>
+            <h4 class="text-danger fw-bold mb-2">@Model.NombreCurso</h4>
+            <p class="text-secondary fst-italic">
+                @if (Model.Instructor != null)
+                {
+                    <span>Instructor asignado: @Model.Instructor.NombreInstructor</span>
+                }
+                else
+                {
+                    <span>Instructor no asignado</span>
+                }
+            </p>
+        </div>
+    </div>
+
+    <div class="card-footer bg-light">
+        <form asp-action="Delete" class="d-flex justify-content-between">
+            <input type="hidden" asp-for="IdCurso" />
+
+            <div>
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Cancelar y volver
+                </a>
+            </div>
+
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash-fill"></i> Confirmar eliminación
+            </button>
+        </form>
+
+        <div class="text-muted small mt-3">
+            <i class="bi bi-info-circle"></i> Esta acción eliminará permanentemente el registro.
+        </div>
+    </div>
 </div>
+
+@section Styles {
+    <style>
+        .border-danger {
+            border: 2px solid #dc3545;
+        }
+
+        .alert-warning {
+            border-left: 5px solid #ffc107;
+        }
+
+        .card-header {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+    </style>
+}

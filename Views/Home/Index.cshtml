@@ -15,60 +15,9 @@
         box-shadow: 0 0.15rem 1.75rem 0 rgba(33, 40, 50, 0.15);
     }
 
-    .header-container {
-        background: linear-gradient(135deg, #1e5799 0%, #207cca 100%);
-        padding: 2rem 1rem;
-        border-radius: 10px;
-        margin-bottom: 2rem;
-        color: white;
-    }
-
-    .title-main {
-        font-weight: 700;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        letter-spacing: 1px;
-    }
-
-    .subtitle {
-        font-size: 1.25rem;
-        opacity: 0.9;
-        max-width: 800px;
-        margin: 0 auto;
-    }
-
-    .logo-container {
-        transition: transform 0.3s ease;
-    }
-
-        .logo-container:hover {
-            transform: scale(1.05);
-        }
-
-    /* Estilos para el carrusel (versión imágenes completas) */
-    .carousel-cfe {
-        border-radius: 10px;
-        overflow: hidden;
-        margin-bottom: 2rem;
-        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
-        height: 500px; /* Altura fija*/
-        display: flex;
-        align-items: center; /* Centra verticalmente */
-        background-color: #f0f0f0; /* Color de fondo temporal */
-    }
-
-        .carousel-cfe .carousel-item {
-            height: auto;
-        }
-
-        .carousel-cfe img {
-            width: 100%;
-            height: 100%;
-            object-fit: scale-down; /* Escala la imagen para que quepa completamente */
-        }
-
     /* ---- 1. Header Principal ---- */
     .header-container {
-        background: linear-gradient(135deg, #003366 0%, #0066cc 100%); /* Azul corporativo */
+        background: linear-gradient(135deg, #006a40 0%, #008a54 100%); /* Verde corporativo */
         padding: 3rem 1rem;
         border-radius: 15px;
         margin-bottom: 2rem;
@@ -101,6 +50,7 @@
         text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
         position: relative;
         display: inline-block;
+        color: white;
     }
 
         .title-main::after {
@@ -121,6 +71,7 @@
         line-height: 1.6;
         opacity: 0.9;
         font-weight: 300;
+        color: white;
     }
 
     /* ---- 3. Logo ---- */
@@ -128,6 +79,12 @@
         transition: all 0.4s ease;
         margin-bottom: 1.5rem;
         filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        background-color: rgba(255, 255, 255, 0.2);
+        padding: 15px;
+        border-radius: 50%;
+        display: inline-block;
+        backdrop-filter: blur(5px);
+        border: 2px solid rgba(255, 255, 255, 0.3);
     }
 
         .logo-container:hover {
@@ -135,36 +92,32 @@
         }
 
         .logo-container img {
-            max-height: 120px;
+            max-height: 100px;
             width: auto;
         }
 
-    /* ---- 4. Efecto de Partículas*/
-    .particles {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 1;
+    /* Estilo para el logo de CFE en el header */
+    .cfe-logo-header {
+        max-height: 100px;
+        margin: 0 auto 20px;
+        display: block;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
     }
 
-    /* ---- 5. Responsive ---- */
-    @@media (max-width: 768px) {
-        .title-main {
-            font-size: 2rem;
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-        }
+    .header-content {
+        margin-top: 20px;
     }
 
+    /* ---- 4. Carrusel ---- */
     .carousel-cfe {
         position: relative;
         border-radius: 10px;
-        overflow: hidden; /* Importante para que el pseudo-elemento no se salga */
+        overflow: hidden;
+        margin-bottom: 2rem;
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+        height: 500px;
+        display: flex;
+        align-items: center;
     }
 
         .carousel-cfe::before {
@@ -175,14 +128,24 @@
             right: 0;
             bottom: 0;
             border: 3px solid #FFD700;
-            border-radius: 8px; /* Un poco menor que el contenedor */
-            pointer-events: none; /* Permite interacción con el contenido */
-            z-index: 10; /* Asegura que esté SOBRE la imagen */
+            border-radius: 8px;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .carousel-cfe .carousel-item {
+            height: auto;
+        }
+
+        .carousel-cfe img {
+            width: 100%;
+            height: 100%;
+            object-fit: scale-down;
         }
 
     .carousel-control-prev,
     .carousel-control-next {
-        background: rgba(255, 215, 0, 0.7); /* Fondo amarillo semitransparente */
+        background: rgba(255, 215, 0, 0.7);
         width: 40px;
         height: 40px;
         border-radius: 50%;
@@ -204,15 +167,54 @@
         width: 25px;
         height: 25px;
     }
+
+    .carousel-caption-cfe {
+        background: rgba(0, 138, 84, 0.7);
+        border-radius: 5px;
+        padding: 15px;
+    }
+
+    /* ---- 5. Responsive ---- */
+    @@media (max-width: 768px) {
+        .title-main {
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+        }
+
+        .carousel-cfe {
+            height: 300px;
+        }
+
+        .logo-container img {
+            max-height: 80px;
+        }
+
+        .cfe-logo-header {
+            max-height: 80px;
+        }
+    }
 </style>
 
-<!-- Encabezado existente -->
+<!-- Encabezado principal -->
 <div class="header-container">
-    <div class="logo-container mb-4">
-        <img src="~/images/logo-cfe-capacitaciones.png"
-             alt="CFE Capacitaciones"
-             class="img-fluid"
-             style="max-height: 120px;">
+    <!-- Logo centrado arriba del título -->
+    <div class="d-flex justify-content-center">
+        <div class="logo-container mb-4" style="
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            display: inline-block;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            border: 2px solid #FFD700;">
+            <img src="~/images/logo-cfe-capacitaciones.png"
+                 alt="CFE Capacitaciones"
+                 class="img-fluid"
+                 style="max-height: 100px; display: block;">
+        </div>
     </div>
 
     <h1 class="title-main display-4 mb-3">Sistema de Control de Capacitaciones</h1>
@@ -221,6 +223,7 @@
         Plataforma oficial para la gestión de capacitación del personal CFE
     </p>
 </div>
+
 
 <!-- Carrusel de imágenes -->
 <div class="container-fluid px-0">
@@ -259,6 +262,17 @@
     </div>
 </div>
 
-
 <div class="container">
+    <!-- Espacio para contenido adicional si es necesario -->
 </div>
+
+@section Scripts {
+    <script>
+        // Inicialización del carrusel
+        var myCarousel = document.querySelector('#carouselCFE');
+        var carousel = new bootstrap.Carousel(myCarousel, {
+            interval: 5000,
+            wrap: true
+        });
+    </script>
+}
