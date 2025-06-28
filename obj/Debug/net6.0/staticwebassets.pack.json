@@ -25,8 +25,40 @@
       "PackagePath": "staticwebassets\\images\\Capacitacion3.jpg"
     },
     {
+      "Id": "E:\\repos\\CFE\\wwwroot\\images\\LTLRLH_27052025.JPG",
+      "PackagePath": "staticwebassets\\images\\LTLRLH_27052025.JPG"
+    },
+    {
+      "Id": "E:\\repos\\CFE\\wwwroot\\images\\MuestreoFloraDTU CCI Los Cabos 1.JPG",
+      "PackagePath": "staticwebassets\\images\\MuestreoFloraDTU CCI Los Cabos 1.JPG"
+    },
+    {
+      "Id": "E:\\repos\\CFE\\wwwroot\\images\\SELR_27052025.JPG",
+      "PackagePath": "staticwebassets\\images\\SELR_27052025.JPG"
+    },
+    {
+      "Id": "E:\\repos\\CFE\\wwwroot\\images\\SEMOE_27052025.JPG",
+      "PackagePath": "staticwebassets\\images\\SEMOE_27052025.JPG"
+    },
+    {
+      "Id": "E:\\repos\\CFE\\wwwroot\\images\\Verificacion LTs Subterraneas.jpg",
+      "PackagePath": "staticwebassets\\images\\Verificacion LTs Subterraneas.jpg"
+    },
+    {
+      "Id": "E:\\repos\\CFE\\wwwroot\\images\\image001.jpg",
+      "PackagePath": "staticwebassets\\images\\image001.jpg"
+    },
+    {
+      "Id": "E:\\repos\\CFE\\wwwroot\\images\\image002.png",
+      "PackagePath": "staticwebassets\\images\\image002.png"
+    },
+    {
       "Id": "E:\\repos\\CFE\\wwwroot\\images\\logo-cfe-capacitaciones.png",
       "PackagePath": "staticwebassets\\images\\logo-cfe-capacitaciones.png"
+    },
+    {
+      "Id": "E:\\repos\\CFE\\wwwroot\\images\\logo-gobierno-mexico.png",
+      "PackagePath": "staticwebassets\\images\\logo-gobierno-mexico.png"
     },
     {
       "Id": "E:\\repos\\CFE\\wwwroot\\js\\site.js",

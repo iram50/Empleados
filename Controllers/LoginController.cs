@@ -53,7 +53,8 @@ namespace CFE.Controllers
             // Iniciar sesión
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Bienvenida", "Home");
+
         }
 
 

@@ -1,6 +1,9 @@
 ﻿using CFE.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+
 
 namespace CFE.Controllers
 {
@@ -12,6 +15,15 @@ namespace CFE.Controllers
         {
             _logger = logger;
         }
+
+        [Authorize]
+        public IActionResult Bienvenida()
+        {
+            var nombreUsuario = User.Identity?.Name ?? "Usuario";
+            ViewBag.Nombre = nombreUsuario;
+            return View();
+        }
+
 
         public IActionResult Index()
         {

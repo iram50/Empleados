@@ -3,8 +3,28 @@
   "WorkspaceRootPath": "E:\\repos\\CFE\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\controllers\\empleadoescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:controllers\\empleadoescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\views\\home\\bienvenida.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:views\\home\\bienvenida.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\views\\login\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:views\\login\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,19 +34,84 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "EmpleadoesController.cs",
-              "DocumentMoniker": "E:\\repos\\CFE\\Controllers\\EmpleadoesController.cs",
-              "RelativeDocumentMoniker": "Controllers\\EmpleadoesController.cs",
-              "ToolTip": "E:\\repos\\CFE\\Controllers\\EmpleadoesController.cs",
-              "RelativeToolTip": "Controllers\\EmpleadoesController.cs",
-              "ViewState": "AQIAADEAAAAAAAAAAAAAADsAAAAkAAAA",
+              "DocumentIndex": 4,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "E:\\repos\\CFE\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
+              "ToolTip": "E:\\repos\\CFE\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Controllers\\HomeController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-27T18:52:07.882Z",
+              "WhenOpened": "2025-06-27T21:03:55.94Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Bienvenida.cshtml",
+              "DocumentMoniker": "E:\\repos\\CFE\\Views\\Home\\Bienvenida.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Bienvenida.cshtml",
+              "ToolTip": "E:\\repos\\CFE\\Views\\Home\\Bienvenida.cshtml",
+              "RelativeToolTip": "Views\\Home\\Bienvenida.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-27T21:02:54.087Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "E:\\repos\\CFE\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "E:\\repos\\CFE\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AQIAAEQAAAAAAAAAAAAAAFQAAABIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-27T21:01:49.146Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Usuario.cs",
+              "DocumentMoniker": "E:\\repos\\CFE\\Models\\Usuario.cs",
+              "RelativeDocumentMoniker": "Models\\Usuario.cs",
+              "ToolTip": "E:\\repos\\CFE\\Models\\Usuario.cs",
+              "RelativeToolTip": "Models\\Usuario.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-27T17:36:17.615Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "LoginController.cs",
+              "DocumentMoniker": "E:\\repos\\CFE\\Controllers\\LoginController.cs",
+              "RelativeDocumentMoniker": "Controllers\\LoginController.cs",
+              "ToolTip": "E:\\repos\\CFE\\Controllers\\LoginController.cs",
+              "RelativeToolTip": "Controllers\\LoginController.cs",
+              "ViewState": "AQIAACUAAAAAAAAAAAAAADgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-27T17:36:10.576Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "E:\\repos\\CFE\\Views\\Login\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Login\\Index.cshtml",
+              "ToolTip": "E:\\repos\\CFE\\Views\\Login\\Index.cshtml",
+              "RelativeToolTip": "Views\\Login\\Index.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-27T17:35:54.128Z",
               "EditorCaption": ""
             }
           ]
