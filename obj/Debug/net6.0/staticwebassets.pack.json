@@ -45,12 +45,24 @@
       "PackagePath": "staticwebassets\\images\\Verificacion LTs Subterraneas.jpg"
     },
     {
+      "Id": "E:\\repos\\CFE\\wwwroot\\images\\Verificacion_LTs_Subterraneas.jpg",
+      "PackagePath": "staticwebassets\\images\\Verificacion_LTs_Subterraneas.jpg"
+    },
+    {
       "Id": "E:\\repos\\CFE\\wwwroot\\images\\image001.jpg",
       "PackagePath": "staticwebassets\\images\\image001.jpg"
     },
     {
       "Id": "E:\\repos\\CFE\\wwwroot\\images\\image002.png",
       "PackagePath": "staticwebassets\\images\\image002.png"
+    },
+    {
+      "Id": "E:\\repos\\CFE\\wwwroot\\images\\logo-638871611234567890.png",
+      "PackagePath": "staticwebassets\\images\\logo-638871611234567890.png"
+    },
+    {
+      "Id": "E:\\repos\\CFE\\wwwroot\\images\\logo-638872938017443492.jpg",
+      "PackagePath": "staticwebassets\\images\\logo-638872938017443492.jpg"
     },
     {
       "Id": "E:\\repos\\CFE\\wwwroot\\images\\logo-cfe-capacitaciones.png",

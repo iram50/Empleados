@@ -14,9 +14,12 @@
             <div class="card shadow-sm mb-4">
                 <div class="card-header bg-light d-flex justify-content-between align-items-center">
                     <h5 class="mb-0"><i class="bi bi-list-ul"></i> Instructores Existentes</h5>
+                                @if (User.IsInRole("Admin"))
+    {
                     <a asp-action="Create" class="btn btn-cfe btn-sm">
                         <i class="bi bi-plus-circle"></i> Nuevo
                     </a>
+    }
                 </div>
                 <div class="card-body p-0">
                     <div class="list-group list-group-flush">
@@ -80,9 +83,6 @@
                                 <button type="submit" class="btn btn-warning px-4 text-white">
                                     <i class="bi bi-check2-circle"></i> Guardar
                                 </button>
-                                <a asp-action="Create" class="btn btn-cfe">
-                                    <i class="bi bi-plus-circle"></i> Nuevo
-                                </a>
                             </div>
                         </div>
                     </form>

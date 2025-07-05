@@ -23,16 +23,16 @@
                     <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Nss)</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.Nss)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ApellidoPaterno)</dt>
+                    <dt class="col-sm-4">Apellido Paterno</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.ApellidoPaterno)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ApellidoMaterno)</dt>
+                    <dt class="col-sm-4">Apellido Materno</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.ApellidoMaterno)</dd>
 
                     <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Nombre)</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.Nombre)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.fecha_nacimiento)</dt>
+                    <dt class="col-sm-4">Fecha de Nacimiento</dt>
                     <dd class="col-sm-8">@(Model.fecha_nacimiento?.ToString("dd/MM/yyyy") ?? "No especificada")</dd>
 
                     <dt class="col-sm-4">Edad</dt>
@@ -57,25 +57,25 @@
                     <dd class="col-sm-8">@(Model.IdPuestoNavigation?.DescripcionPuesto ?? "No especificado")</dd>
 
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.rpe)</dt>
+                    <dt class="col-sm-4">RPE</dt>
                     <dd class="col-sm-8">@(Model.rpe ?? "No especificado")</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.tipo_contrato)</dt>
+                    <dt class="col-sm-4">Tipo de Contrato</dt>
                     <dd class="col-sm-8">@(Model.tipo_contrato ?? "No especificado")</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ingreso_cfe)</dt>
+                    <dt class="col-sm-4">Ingreo a la CFE</dt>
                     <dd class="col-sm-8">@(Model.ingreso_cfe?.ToString("dd/MM/yyyy") ?? "No especificada")</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.jefe_inmediato)</dt>
+                    <dt class="col-sm-4">Ingreso a la CFE</dt>
                     <dd class="col-sm-8">@(Model.jefe_inmediato ?? "No especificado")</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.escolaridad)</dt>
+                    <dt class="col-sm-4">Escolaridad</dt>
                     <dd class="col-sm-8">@(Model.escolaridad ?? "No especificada")</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.residencia_especialidad)</dt>
+                    <dt class="col-sm-4">Residencia de Especialidad</dt>
                     <dd class="col-sm-8">@(Model.residencia_especialidad ?? "No especificada")</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.EmpleadoActivo)</dt>
+                    <dt class="col-sm-4">Estado</dt>
                     <dd class="col-sm-8">
                         @if (Model.EmpleadoActivo.HasValue && Model.EmpleadoActivo.Value)
                         {
@@ -126,14 +126,18 @@
     </div>
 </div>
 
-<div class="mt-4">
-    <a asp-action="Edit" asp-route-id="@Model?.IdEmpleado" class="btn btn-cfe">
-        <i class="bi bi-pencil"></i> Editar
-    </a>
+    <div class="mt-4">
+            @if (User.IsInRole("Admin") || User.IsInRole("Moder"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.IdEmpleado" class="btn btn-cfe">
+            <i class="bi bi-pencil"></i> Editar
+        </a>
+    }
     <a asp-action="Index" class="btn btn-outline-secondary">
         <i class="bi bi-arrow-left"></i> Volver al listado
     </a>
-</div>
+    </div>
+
 
 <style>
     .card {

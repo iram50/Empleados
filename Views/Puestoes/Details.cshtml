@@ -29,10 +29,12 @@
             <a asp-action="Index" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left"></i> Volver al listado
             </a>
-
+                        @if (User.IsInRole("Admin") || User.IsInRole("Moder"))
+    {
             <a asp-action="Edit" asp-route-id="@Model?.IdPuesto" class="btn btn-cfe">
                 <i class="bi bi-pencil"></i> Editar
             </a>
+    }
         </div>
 
       

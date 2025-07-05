@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using CFE.Models;
 
@@ -18,7 +19,7 @@ namespace CFE.Controllers
             _context = context;
         }
 
-        // GET: Areas
+        [Authorize(Roles = "Admin,User,Moder")]
         public async Task<IActionResult> Index()
         {
             return _context.Areas != null ?
@@ -26,33 +27,26 @@ namespace CFE.Controllers
                 Problem("Entity set 'empresaContext.Areas' is null.");
         }
 
-        // GET: Areas/Details/5
+        [Authorize(Roles = "Admin,User,Moder")]
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Areas == null)
-            {
-                return NotFound();
-            }
+            if (id == null || _context.Areas == null) return NotFound();
 
-            var area = await _context.Areas
-                .FirstOrDefaultAsync(m => m.IdAreas == id);
-            if (area == null)
-            {
-                return NotFound();
-            }
+            var area = await _context.Areas.FirstOrDefaultAsync(m => m.IdAreas == id);
+            if (area == null) return NotFound();
 
             return View(area);
         }
 
-        // GET: Areas/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Areas/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("IdAreas,DescripcionArea")] Area area)
         {
             if (ModelState.IsValid)
@@ -64,35 +58,24 @@ namespace CFE.Controllers
             return View(area);
         }
 
-        // GET: Areas/Edit/5 - ÚNICO MÉTODO MODIFICADO
+        [Authorize(Roles = "Admin,Moder")]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Areas == null)
-            {
-                return NotFound();
-            }
+            if (id == null || _context.Areas == null) return NotFound();
 
             var area = await _context.Areas.FindAsync(id);
-            if (area == null)
-            {
-                return NotFound();
-            }
+            if (area == null) return NotFound();
 
-            // Línea añadida para pasar la lista de áreas a la vista
             ViewData["AreasList"] = await _context.Areas.ToListAsync();
-
             return View(area);
         }
 
-        // POST: Areas/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Moder")]
         public async Task<IActionResult> Edit(int id, [Bind("IdAreas,DescripcionArea")] Area area)
         {
-            if (id != area.IdAreas)
-            {
-                return NotFound();
-            }
+            if (id != area.IdAreas) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -103,47 +86,33 @@ namespace CFE.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AreaExists(area.IdAreas))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!AreaExists(area.IdAreas)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
             return View(area);
         }
 
-        // GET: Areas/Delete/5
+        [Authorize(Roles = "Admin,Moder")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Areas == null)
-            {
-                return NotFound();
-            }
+            if (id == null || _context.Areas == null) return NotFound();
 
-            var area = await _context.Areas
-                .FirstOrDefaultAsync(m => m.IdAreas == id);
-            if (area == null)
-            {
-                return NotFound();
-            }
+            var area = await _context.Areas.FirstOrDefaultAsync(m => m.IdAreas == id);
+            if (area == null) return NotFound();
 
             return View(area);
         }
 
-        // POST: Areas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Moder")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Areas == null)
-            {
                 return Problem("Entity set 'empresaContext.Areas' is null.");
-            }
+
             var area = await _context.Areas.FindAsync(id);
             if (area != null)
             {

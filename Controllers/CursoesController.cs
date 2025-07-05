@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,167 +17,114 @@ namespace CFE.Controllers
             _context = context;
         }
 
-        // GET: Cursoes
+        // GET: Cursoes (todos los roles pueden ver)
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var cursos = await _context.Cursos.Include(c => c.Instructor).ToListAsync();
             return View(cursos);
         }
 
-        // GET: Cursoes/Details/5
+        // GET: Cursoes/Details/5 (todos los roles pueden ver)
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Cursos == null)
-            {
                 return NotFound();
-            }
 
-            var curso = await _context.Cursos
-                .FirstOrDefaultAsync(m => m.IdCurso == id);
+            var curso = await _context.Cursos.Include(c => c.Instructor).FirstOrDefaultAsync(m => m.IdCurso == id);
             if (curso == null)
-            {
                 return NotFound();
-            }
 
             return View(curso);
         }
 
+        // GET: Cursoes/Create (solo Admin)
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
-            // Verifica si la base de datos tiene instructores
-            var instructores = _context.Instructors.ToList();
-
-            if (instructores == null || instructores.Count == 0)
-            {
-                Console.WriteLine("No hay instructores en la base de datos.");
-                ViewBag.Instructores = new SelectList(new List<Instructor>());
-            }
-            else
-            {
-                Console.WriteLine($"Se encontraron {instructores.Count} instructores.");
-                ViewBag.Instructores = new SelectList(instructores, "Id_Instructor", "NombreInstructor");
-            }
-
+            ViewBag.Instructores = new SelectList(_context.Instructors, "Id_Instructor", "NombreInstructor");
             return View();
         }
 
-
-        // POST: Cursoes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Cursoes/Create (solo Admin)
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("NombreCurso,Id_Instructor")] Curso curso)
         {
-
-            _context.Add(curso);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-
+            if (ModelState.IsValid)
+            {
+                _context.Add(curso);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(curso);
         }
 
-
-
-        // GET: Cursoes/Edit/5 
+        // GET: Cursoes/Edit/5 (Admin y Moder)
+        [Authorize(Roles = "Admin,Moder")]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Cursos == null)
-            {
-                return NotFound();
-            }
-
-            // Cargar todos los cursos para la lista lateral
-            var cursosList = await _context.Cursos
-                .Include(c => c.Instructor)
-                .ToListAsync();
+            if (id == null) return NotFound();
 
             var curso = await _context.Cursos.FindAsync(id);
-            if (curso == null)
-            {
-                return NotFound();
-            }
+            if (curso == null) return NotFound();
 
-            // Lista de instructores desde la base de datos
-            var instructores = await _context.Instructors.ToListAsync();
-
-            if (instructores == null || instructores.Count == 0)
-            {
-                ViewBag.Instructores = new SelectList(new List<Instructor>());
-            }
-            else
-            {
-                ViewBag.Instructores = new SelectList(instructores, "Id_Instructor", "NombreInstructor", curso.Id_Instructor);
-            }
-
-            // Pasar la lista de cursos a la vista
-            ViewData["CursosList"] = cursosList;
+            ViewBag.Instructores = new SelectList(_context.Instructors, "Id_Instructor", "NombreInstructor", curso.Id_Instructor);
+            ViewData["CursosList"] = await _context.Cursos.Include(c => c.Instructor).ToListAsync();
 
             return View(curso);
         }
 
-
-        // POST: Cursoes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Cursoes/Edit/5 (Admin y Moder)
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Moder")]
         public async Task<IActionResult> Edit(int id, [Bind("IdCurso,NombreCurso,Id_Instructor")] Curso curso)
         {
-            if (id != curso.IdCurso)
+            if (id != curso.IdCurso) return NotFound();
+
+            if (ModelState.IsValid)
             {
-                return NotFound();
-            }
-            try
-            {
-                _context.Update(curso);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CursoExists(curso.IdCurso))
+                try
                 {
-                    return NotFound();
+                    _context.Update(curso);
+                    await _context.SaveChangesAsync();
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    throw;
+                    if (!CursoExists(curso.IdCurso))
+                        return NotFound();
+                    else
+                        throw;
                 }
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
+            return View(curso);
         }
 
-        // GET: Cursoes/Delete/5
+        // GET: Cursoes/Delete/5 (Admin y Moder)
+        [Authorize(Roles = "Admin,Moder")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Cursos == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var curso = await _context.Cursos
-                .FirstOrDefaultAsync(m => m.IdCurso == id);
-            if (curso == null)
-            {
-                return NotFound();
-            }
+            var curso = await _context.Cursos.Include(c => c.Instructor).FirstOrDefaultAsync(m => m.IdCurso == id);
+            if (curso == null) return NotFound();
 
             return View(curso);
         }
 
-        // POST: Cursoes/Delete/5
+        // POST: Cursoes/Delete/5 (Admin y Moder)
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Moder")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Cursos == null)
-            {
-                return Problem("Entity set 'empresaContext.Cursos'  is null.");
-            }
             var curso = await _context.Cursos.FindAsync(id);
             if (curso != null)
-            {
                 _context.Cursos.Remove(curso);
-            }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -186,7 +132,7 @@ namespace CFE.Controllers
 
         private bool CursoExists(int id)
         {
-            return (_context.Cursos?.Any(e => e.IdCurso == id)).GetValueOrDefault();
+            return _context.Cursos.Any(e => e.IdCurso == id);
         }
     }
 }

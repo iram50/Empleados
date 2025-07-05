@@ -25,6 +25,8 @@ namespace CFE.Models
         public virtual DbSet<Puesto> Puestos { get; set; } = null!;
         public virtual DbSet<Usuario> Usuarios { get; set; }
         public virtual DbSet<Rol> Roles { get; set; }
+        public virtual DbSet<Configuracion> Configuracion { get; set; }
+
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -277,11 +279,23 @@ namespace CFE.Models
 
                 entity.HasOne(d => d.Rol)
                     .WithMany(p => p.Usuarios)
-                    .HasForeignKey(d => d.Id_usuario)
+                    .HasForeignKey(d => d.RolId) 
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_Usuarios_Roles");
             });
 
+            modelBuilder.Entity<Configuracion>(entity =>
+            {
+                entity.ToTable("Configuracion");
+
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("Id");
+
+                entity.Property(e => e.NombreLogo)
+                    .HasMaxLength(100);
+            });
 
 
             OnModelCreatingPartial(modelBuilder);

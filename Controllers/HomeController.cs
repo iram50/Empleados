@@ -16,11 +16,23 @@ namespace CFE.Controllers
             _logger = logger;
         }
 
-        [Authorize]
         public IActionResult Bienvenida()
         {
-            var nombreUsuario = User.Identity?.Name ?? "Usuario";
-            ViewBag.Nombre = nombreUsuario;
+            var nombre = User.Identity?.Name ?? "Usuario";
+            ViewBag.Nombre = nombre;
+
+            // Recuperar el rol desde los claims si lo guardaste como claim personalizado
+            var rolIdClaim = User.Claims.FirstOrDefault(c => c.Type == "RolId")?.Value;
+
+            if (int.TryParse(rolIdClaim, out int rolId))
+            {
+                ViewBag.RolId = rolId;
+            }
+            else
+            {
+                ViewBag.RolId = 0; // Sin rol válido
+            }
+
             return View();
         }
 

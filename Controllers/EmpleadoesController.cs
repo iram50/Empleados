@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using CFE.Models;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CFE.Controllers
 {
+    [Authorize]
     public class EmpleadoesController : Controller
     {
         private readonly empresaContext _context;
@@ -20,9 +22,7 @@ namespace CFE.Controllers
             _context = context;
         }
 
-
-
-        // GET: Empleadoes
+        [Authorize(Roles = "Admin,Moder,User")]
         public async Task<IActionResult> Index(string? nombre, int? idArea, int? idPuesto, bool? empleadoActivo)
         {
             var empleados = _context.Empleados
@@ -56,8 +56,7 @@ namespace CFE.Controllers
             return View(await empleados.ToListAsync());
         }
 
-
-        // GET: Empleadoes/Details/5
+        [Authorize(Roles = "Admin,Moder,User")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Empleados == null)
@@ -78,7 +77,7 @@ namespace CFE.Controllers
             return View(empleado);
         }
 
-        // GET: Empleadoes/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["IdArea"] = new SelectList(_context.Areas, "IdAreas", "DescripcionArea");
@@ -86,9 +85,9 @@ namespace CFE.Controllers
             return View();
         }
 
-        // POST: Empleadoes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(Empleado empleado, IFormFile FotoArchivo)
         {
             if (ModelState.IsValid)
@@ -112,7 +111,7 @@ namespace CFE.Controllers
             return View(empleado);
         }
 
-        // GET: Empleadoes/Edit/5
+        [Authorize(Roles = "Admin,Moder")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Empleados == null)
@@ -131,9 +130,9 @@ namespace CFE.Controllers
             return View(empleado);
         }
 
-        // POST: Empleadoes/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Moder")]
         public async Task<IActionResult> Edit(int id, Empleado empleado, IFormFile? FotoArchivo)
         {
             if (id != empleado.IdEmpleado)
@@ -204,9 +203,7 @@ namespace CFE.Controllers
             return View(empleado);
         }
 
-
-
-        // GET: Empleadoes/Delete/5
+        [Authorize(Roles = "Admin,Moder")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Empleados == null)
@@ -226,9 +223,9 @@ namespace CFE.Controllers
             return View(empleado);
         }
 
-        // POST: Empleadoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Moder")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var empleado = await _context.Empleados.FindAsync(id);

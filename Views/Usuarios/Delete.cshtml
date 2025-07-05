@@ -1,0 +1,36 @@
+﻿@model CFE.Models.Usuario
+
+@{
+    ViewData["Title"] = "Eliminar Usuario";
+}
+
+<div class="container mt-4">
+    <h2 class="text-danger mb-3">¿Estás seguro de que deseas eliminar este usuario?</h2>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-4">Nombre completo</dt>
+                <dd class="col-sm-8">@Model.Nombre</dd>
+
+                <dt class="col-sm-4">Nombre de usuario</dt>
+                <dd class="col-sm-8">@Model.UsuarioNombre</dd>
+
+                <dt class="col-sm-4">Rol</dt>
+                <dd class="col-sm-8">@Model.Rol?.Nombre_Rol</dd>
+            </dl>
+        </div>
+    </div>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id_usuario" />
+        <div class="d-flex justify-content-between mt-4">
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Cancelar
+            </a>
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Confirmar Eliminación
+            </button>
+        </div>
+    </form>
+</div>

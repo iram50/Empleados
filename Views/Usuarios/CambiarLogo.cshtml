@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Cambiar Logo";
+    var context = Context.RequestServices.GetService(typeof(CFE.Models.empresaContext)) as CFE.Models.empresaContext;
+    var logoActual = context?.Configuracion.FirstOrDefault()?.NombreLogo ?? "logo-default.png";
+}
+
+<h2>Cambiar Logo</h2>
+
+
+<form method="post" enctype="multipart/form-data" asp-action="CambiarLogo">
+    <div class="mb-3">
+        <label for="nuevoLogo" class="form-label">Selecciona un nuevo logo</label>
+        <input type="file" class="form-control" name="nuevoLogo" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar Logo</button>
+</form>

@@ -40,12 +40,13 @@ namespace CFE.Controllers
                 return View();
             }
 
-            // Crear claims
             var claims = new List<Claim>
-    {
-        new Claim(ClaimTypes.Name, user.Nombre),
-        new Claim(ClaimTypes.Role, user.Rol.Nombre_Rol ?? "Usuario")
-    };
+            {
+            new Claim(ClaimTypes.Name, user.Nombre),
+            new Claim(ClaimTypes.Role, user.Rol?.Nombre_Rol ?? "Usuario"),
+            new Claim("RolId", user.RolId.ToString()) // <- este es nuevo
+            };
+
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);

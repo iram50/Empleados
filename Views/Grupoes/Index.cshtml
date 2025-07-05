@@ -36,7 +36,7 @@
     {
         <div class="row">
             <!-- PARTE 2: Cursos del empleado seleccionado -->
-            <div class="col-md-6">
+            <div class="@((User.IsInRole("Admin") ? "col-md-6" : "col-12"))">
                 <h4>Cursos Inscritos</h4>
                 @if (Model.CursosInscritos != null && Model.CursosInscritos.Any())
                 {
@@ -117,6 +117,8 @@
             </div>
 
             <!-- PARTE 3: Formulario para inscribir a un nuevo curso -->
+            @if (User.IsInRole("Admin"))
+            {
             <div class="col-md-6">
                 <h4>Inscribir a Nuevo Curso</h4>
                 <form asp-action="Inscribir" method="post">
@@ -197,6 +199,7 @@
                     <button type="submit" class="btn btn-primary">Inscribir</button>
                 </form>
             </div>
+            }
         </div>
     }
 

@@ -4,33 +4,209 @@
     ViewData["Title"] = "Login";
 }
 
-<!-- Contenedor centrado -->
-<div class="container d-flex justify-content-center align-items-center min-vh-100">
-    <div class="card shadow p-4" style="width: 100%; max-width: 400px;">
-        <h2 class="text-center mb-4">Iniciar Sesión</h2>
+<style>
+    /* ESTILO PARA EL FONDO*/
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-        <form method="post">
-            <div class="mb-3">
-                <label for="usuario" class="form-label">Usuario</label>
-                <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Ingresa tu usuario" required />
+    .login-page-background {
+        background-image: url('/images/Verificacion_LTs_Subterraneas.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    .login-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        z-index: 1;
+    }
+
+    .login-container {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 450px;
+        padding: 20px;
+    }
+
+    .login-card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 25px rgba(0, 106, 64, 0.3);
+        overflow: hidden;
+    }
+
+    .login-header {
+        background: linear-gradient(135deg, #006a40 0%, #008a54 100%);
+        padding: 25px;
+        text-align: center;
+        color: white;
+    }
+
+    .login-logo {
+        max-width: 200px;
+        height: auto;
+        margin-bottom: 15px;
+    }
+
+    .login-title {
+        font-size: 1.5rem;
+        margin: 0;
+        font-weight: 600;
+    }
+
+    .login-body {
+        padding: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        border-radius: 6px;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        transition: all 0.3s;
+    }
+
+        .form-control:focus {
+            border-color: #006a40;
+            box-shadow: 0 0 0 0.25rem rgba(0, 106, 64, 0.2);
+        }
+
+    .btn-login {
+        background: linear-gradient(135deg, #006a40 0%, #008a54 100%);
+        border: none;
+        padding: 12px;
+        font-weight: 600;
+        color: white;
+        border-radius: 6px;
+        width: 100%;
+        transition: all 0.3s;
+    }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 106, 64, 0.3);
+        }
+
+    .forgot-password {
+        color: #006a40;
+        text-decoration: none;
+        font-size: 0.9rem;
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+    .input-icon {
+        background-color: #f8f9fa;
+        border-right: none;
+    }
+
+    @@media (max-width: 576px) {
+        .login-card {
+            margin: 15px;
+        }
+
+        .login-body {
+            padding: 20px;
+        }
+    }
+</style>
+
+<!-- Estructura HTML con fondo -->
+<div class="login-page-background">
+    <!-- Capa semitransparente -->
+    <div class="login-overlay"></div>
+
+    <!-- Contenedor del login -->
+    <div class="login-container">
+        <div class="login-card">
+            <!-- Encabezado con logo -->
+            <div class="login-header">
+                <img src="~/images/logo-cfe-capacitaciones.png" alt="CFE Capacitaciones" class="login-logo">
+                <h2 class="login-title">Inicio de Sesión</h2>
             </div>
 
-            <div class="mb-3">
-                <label for="clave" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="clave" name="clave" placeholder="Ingresa tu contraseña" required />
-            </div>
+            <!-- Cuerpo del formulario -->
+            <div class="login-body">
+                <form method="post">
+                    <!-- Campo Usuario -->
+                    <div class="form-group">
+                        <label for="usuario" class="form-label">Usuario</label>
+                        <div class="input-group">
+                            <span class="input-group-text input-icon">
+                                <i class="bi bi-person-fill"></i>
+                            </span>
+                            <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Ingresa tu usuario" required>
+                        </div>
+                    </div>
 
-            @if (ViewBag.Error != null)
-            {
-                <div class="alert alert-danger" role="alert">
-                    @ViewBag.Error
-                </div>
-            }
+                    <!-- Campo Contraseña -->
+                    <div class="form-group">
+                        <label for="clave" class="form-label">Contraseña</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="clave" name="clave" placeholder="Ingresa tu contraseña" required />
+                            <button type="button" class="btn btn-outline-secondary" onclick="togglePassword()" tabindex="-1">
+                                <i id="toggleIcon" class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
 
-            <div class="d-grid">
-                <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                    <!-- Mensaje de error -->
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger mt-3">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            @ViewBag.Error
+                        </div>
+                    }
+
+                    <!-- Botón de login -->
+                    <div class="form-group mt-4">
+                        <button type="submit" class="btn btn-login">
+                            <i class="bi bi-box-arrow-in-right me-2"></i> Ingresar
+                        </button>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+
+
+@section Scripts {
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById("clave");
+            const icon = document.getElementById("toggleIcon");
+            const isHidden = passwordInput.type === "password";
+            passwordInput.type = isHidden ? "text" : "password";
+            icon.classList.toggle("fa-eye");
+            icon.classList.toggle("fa-eye-slash");
+        }
+    </script>
+}
 

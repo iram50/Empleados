@@ -58,9 +58,16 @@
     <header>
         <nav class="navbar navbar-expand navbar-dark">
             <div class="container-fluid">
+                @{
+                    var context = Context.RequestServices.GetService(typeof(CFE.Models.empresaContext)) as CFE.Models.empresaContext;
+                    var logo = context?.Configuracion.FirstOrDefault()?.NombreLogo ?? "logo-default.png";
+                }
+
                 <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
-                    <i class="fas fa-bolt me-2"></i>CFE
+                    <img src="~/images/@logo" alt="Logo" style="height: 40px;" />
                 </a>
+
+
 
                 @if (User.Identity?.IsAuthenticated ?? false)
                 {
@@ -92,18 +99,21 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Grupoes" asp-action="Index">
-                                <i class="fas fa-users-cog"></i> Grupos
+                                <i class="fas fa-users-cog"></i> Inscripciones
                             </a>
                         </li>
                     </ul>
 
                     <!-- Nombre del usuario y logout -->
                     <div class="d-flex ms-auto align-items-center">
-                        <span class="text-white me-3">Hola, @User.Identity.Name</span>
+                        <a asp-controller="Home" asp-action="Bienvenida" class="text-white me-3 text-decoration-none">
+                            Hola, @User.Identity.Name
+                        </a>
                         <form asp-controller="Login" asp-action="Logout" method="post" class="d-inline">
                             <button type="submit" class="btn btn-outline-light btn-sm">Cerrar sesión</button>
                         </form>
                     </div>
+
                 }
                 else
                 {

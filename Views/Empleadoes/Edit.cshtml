@@ -50,13 +50,13 @@
                             </div>
 
                             <div class="mb-3">
-                                <label asp-for="ApellidoPaterno" class="form-label fw-bold"></label>
+                                <label asp-for="ApellidoPaterno" class="form-label fw-bold">Apellido Paterno</label>
                                 <input asp-for="ApellidoPaterno" class="form-control" placeholder="Apellido paterno" />
                                 <span asp-validation-for="ApellidoPaterno" class="text-danger small"></span>
                             </div>
 
                             <div class="mb-3">
-                                <label asp-for="ApellidoMaterno" class="form-label fw-bold"></label>
+                                <label asp-for="ApellidoMaterno" class="form-label fw-bold">Apellido Materno</label>
                                 <input asp-for="ApellidoMaterno" class="form-control" placeholder="Apellido materno" />
                                 <span asp-validation-for="ApellidoMaterno" class="text-danger small"></span>
                             </div>
@@ -91,7 +91,7 @@
                             <legend class="float-none w-auto px-2"><i class="bi bi-briefcase"></i> Datos Laborales</legend>
 
                             <div class="mb-3">
-                                <label asp-for="IdArea" class="form-label fw-bold"></label>
+                                <label asp-for="IdArea" class="form-label fw-bold">Área</label>
                                 <select asp-for="IdArea" class="form-select" asp-items="ViewBag.IdArea">
                                     <option value="">-- Seleccione un área --</option>
                                 </select>
@@ -99,7 +99,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label asp-for="IdPuesto" class="form-label fw-bold"></label>
+                                <label asp-for="IdPuesto" class="form-label fw-bold">Puesto</label>
                                 <select asp-for="IdPuesto" class="form-select" asp-items="ViewBag.IdPuesto">
                                     <option value="">-- Seleccione un puesto --</option>
                                 </select>
@@ -107,25 +107,25 @@
                             </div>
 
                             <div class="mb-3">
-                                <label asp-for="tipo_contrato" class="form-label fw-bold"></label>
+                                <label asp-for="tipo_contrato" class="form-label fw-bold">Tipo de Contrato</label>
                                 <input asp-for="tipo_contrato" class="form-control" placeholder="Tipo de contrato" />
                                 <span asp-validation-for="tipo_contrato" class="text-danger small"></span>
                             </div>
 
                             <div class="mb-3">
-                                <label asp-for="rpe" class="form-label fw-bold"></label>
+                                <label asp-for="rpe" class="form-label fw-bold">RPE</label>
                                 <input asp-for="rpe" class="form-control" placeholder="RPE" />
                                 <span asp-validation-for="rpe" class="text-danger small"></span>
                             </div>
 
                             <div class="mb-3">
-                                <label asp-for="jefe_inmediato" class="form-label fw-bold"></label>
+                                <label asp-for="jefe_inmediato" class="form-label fw-bold">Jefe Inmeadiato</label>
                                 <input asp-for="jefe_inmediato" class="form-control" placeholder="Jefe inmediato" />
                                 <span asp-validation-for="jefe_inmediato" class="text-danger small"></span>
                             </div>
 
                             <div class="mb-3">
-                                <label asp-for="EmpleadoActivo" class="form-label fw-bold"></label>
+                                <label asp-for="EmpleadoActivo" class="form-label fw-bold">Estado</label>
                                 <select asp-for="EmpleadoActivo" class="form-select">
                                     <option value="true">Activo</option>
                                     <option value="false">Inactivo</option>
@@ -138,13 +138,13 @@
                             <legend class="float-none w-auto px-2"><i class="bi bi-calendar"></i> Fechas Importantes</legend>
 
                             <div class="mb-3">
-                                <label asp-for="fecha_nacimiento" class="form-label fw-bold"></label>
+                                <label asp-for="fecha_nacimiento" class="form-label fw-bold">Fecha de Nacimiento</label>
                                 <input asp-for="fecha_nacimiento" class="form-control" type="date" />
                                 <span asp-validation-for="fecha_nacimiento" class="text-danger small"></span>
                             </div>
 
                             <div class="mb-3">
-                                <label asp-for="ingreso_cfe" class="form-label fw-bold"></label>
+                                <label asp-for="ingreso_cfe" class="form-label fw-bold">Ingreso en la CFE</label>
                                 <input asp-for="ingreso_cfe" class="form-control" type="date" />
                                 <span asp-validation-for="ingreso_cfe" class="text-danger small"></span>
                             </div>

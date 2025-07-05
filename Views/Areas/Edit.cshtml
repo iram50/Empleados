@@ -13,9 +13,13 @@
             <div class="card shadow-sm mb-4">
                 <div class="card-header bg-light d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Áreas Existentes</h5>
-                    <a asp-action="Create" class="btn btn-success btn-sm">
-                        <i class="bi bi-plus-circle"></i> Nueva
-                    </a>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Create" class="btn btn-success btn-sm">
+                            <i class="bi bi-plus-circle"></i> Nueva
+                        </a>
+                    }
                 </div>
                 <div class="card-body p-0">
                     <div class="list-group list-group-flush">
@@ -25,7 +29,6 @@
                                class="list-group-item list-group-item-action @(area.IdAreas == Model?.IdAreas ? "cfe-active" : "")">
                                 @area.DescripcionArea
                             </a>
-
                         }
                     </div>
                 </div>
@@ -34,41 +37,49 @@
 
         <!-- Columna de edición -->
         <div class="col-md-7">
-            <div class="card shadow-sm">
-                <div class="card-header text-white" style="background-color: #008a54;">
-                    <h5 class="mb-0">
-                        @(Model?.IdAreas == 0 ? "Crear Nueva Área" : "Editar Área")
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <form asp-action="Edit">
-                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-                        <input type="hidden" asp-for="IdAreas" />
+            @if (User.IsInRole("Admin") || User.IsInRole("Moder"))
+            {
+                <div class="card shadow-sm">
+                    <div class="card-header text-white" style="background-color: #008a54;">
+                        <h5 class="mb-0">
+                            @(Model?.IdAreas == 0 ? "Crear Nueva Área" : "Editar Área")
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Edit">
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                            <input type="hidden" asp-for="IdAreas" />
 
-                        <div class="form-group mb-3">
-                            <label asp-for="DescripcionArea" class="form-label fw-bold">Descripción</label>
-                            <input asp-for="DescripcionArea" class="form-control" />
-                            <span asp-validation-for="DescripcionArea" class="text-danger small"></span>
-                        </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="DescripcionArea" class="form-label fw-bold">Descripción</label>
+                                <input asp-for="DescripcionArea" class="form-control" />
+                                <span asp-validation-for="DescripcionArea" class="text-danger small"></span>
+                            </div>
 
-                        <div class="d-flex justify-content-between">
-                            <a asp-action="Index" class="btn btn-outline-secondary">
-                                <i class="bi bi-arrow-left"></i> Volver
-                            </a>
-                            <button type="submit" class="btn btn-warning">
-                                <i class="bi bi-save"></i> Guardar
-                            </button>
-                        </div>
-                    </form>
+                            <div class="d-flex justify-content-between">
+                                <a asp-action="Index" class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-left"></i> Volver
+                                </a>
+                                <button type="submit" class="btn btn-warning">
+                                    <i class="bi bi-save"></i> Guardar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    No tienes permisos para editar esta área. Solo puedes visualizar la información.
+                </div>
+            }
         </div>
     </div>
 </div>
 
 @section Styles {
     <style>
-
         .cfe-active {
             background-color: #008a54 !important;
             border-color: #008a54 !important;
@@ -78,8 +89,6 @@
         .list-group-item:hover:not(.cfe-active) {
             background-color: #f8f9fa;
         }
-
-
 
         .list-group-item.active {
             background-color: #008a54;
@@ -100,10 +109,5 @@
             background-color: #008a54 !important;
             color: white !important;
         }
-
     </style>
 }
-
-
-
-  

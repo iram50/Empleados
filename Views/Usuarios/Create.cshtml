@@ -1,0 +1,34 @@
+﻿@model CFE.Models.Usuario
+
+@{
+    ViewData["Title"] = "Agregar Usuario";
+}
+
+<h2>Agregar Nuevo Usuario</h2>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label class="form-label">Nombre completo</label>
+        <input asp-for="Nombre" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Nombre de usuario</label>
+        <input asp-for="UsuarioNombre" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Contraseña</label>
+        <input asp-for="Clave" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Rol</label>
+        <select asp-for="RolId" class="form-select">
+            @foreach (var rol in ViewBag.Roles)
+            {
+                <option value="@rol.Id_Rol">@rol.Nombre_Rol</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+
