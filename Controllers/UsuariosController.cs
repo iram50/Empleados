@@ -48,7 +48,6 @@ namespace CFE.Controllers
 
         // Mostrar formulario para editar usuario
         [HttpGet]
-        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             var usuario = await _context.Usuarios.FindAsync(id);
@@ -67,43 +66,40 @@ namespace CFE.Controllers
         // Procesar edición del usuario
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Usuario usuario)
-        {
-            if (!ModelState.IsValid)
-            {
-                var roles = await _context.Roles.ToListAsync();
-                ViewBag.Roles = new SelectList(roles, "Id_Rol", "NombreRol", usuario.RolId);
-                return View(usuario);
-            }
+		public async Task<IActionResult> Edit(Usuario usuario)
+		{
+			if (ModelState.IsValid)
+			{
+				var usuarioExistente = await _context.Usuarios.FindAsync(usuario.Id_usuario);
+				if (usuarioExistente == null)
+				{
+					return NotFound();
+				}
 
-            var usuarioExistente = await _context.Usuarios.FindAsync(usuario.Id_usuario);
-            if (usuarioExistente == null)
-                return NotFound();
+				usuarioExistente.Nombre = usuario.Nombre;
+				usuarioExistente.UsuarioNombre = usuario.UsuarioNombre;
+				usuarioExistente.RolId = usuario.RolId;
 
-            usuarioExistente.Nombre = usuario.Nombre;
-            usuarioExistente.UsuarioNombre = usuario.UsuarioNombre;
-            usuarioExistente.Clave = usuario.Clave;
-            usuarioExistente.RolId = usuario.RolId;
+				// Solo actualizar la contraseña si el campo tiene valor
+				if (!string.IsNullOrWhiteSpace(usuario.Clave))
+				{
+					usuarioExistente.Clave = usuario.Clave;
+				}
 
-            try
-            {
-                _context.Update(usuarioExistente);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            catch (DbUpdateException)
-            {
-                var roles = await _context.Roles.ToListAsync();
-                ViewBag.Roles = new SelectList(roles, "Id_Rol", "NombreRol", usuario.RolId);
-                ModelState.AddModelError("", "Error al actualizar el usuario.");
-                return View(usuario);
-            }
-        }
+				await _context.SaveChangesAsync();
+				return RedirectToAction(nameof(Index));
+			}
+
+			ViewBag.Roles = new SelectList(_context.Roles.ToList(), "IdRol", "NombreRol", usuario.RolId);
+			return View(usuario);
+		}
 
 
 
-        // Mostrar confirmación de borrado
-        [HttpGet]
+
+
+		// Mostrar confirmación de borrado
+		[HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

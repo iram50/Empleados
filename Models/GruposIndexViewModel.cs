@@ -18,8 +18,15 @@ namespace CFE.ViewModels
         // Cursos disponibles para inscripción
         public List<Curso> CursosDisponibles { get; set; }
 
-        // Grupo nuevo para registrar
         public Grupo NuevoGrupo { get; set; }
+
+        // Grupo nuevo para registrar
+        public List<Grupo> NuevosGrupos { get; set; } = new();
+
+        public List<int> EmpleadosIds { get; set; } = new();
+
+        public string NombreEmpleadoSeleccionado { get; set; }
+
     }
 }
 

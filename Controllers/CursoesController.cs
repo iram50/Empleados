@@ -25,7 +25,7 @@ namespace CFE.Controllers
             return View(cursos);
         }
 
-        // GET: Cursoes/Details/5 (todos los roles pueden ver)
+        // GET: Cursoes/Details/
         [Authorize]
         public async Task<IActionResult> Details(int? id)
         {

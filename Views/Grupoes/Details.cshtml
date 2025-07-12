@@ -61,9 +61,12 @@
                 </div>
 
                 <div class="d-flex justify-content-center gap-4 mt-4">
+                    @if (User.IsInRole("Admin") || User.IsInRole("Moder"))
+                            {
                     <a asp-action="Edit" asp-route-id="@Model?.ClaveGrupo" class="btn btn-outline-primary btn-lg">
                         <i class="bi bi-pencil-square"></i> Editar
                     </a>
+                            }
                     <a asp-action="Index" class="btn btn-outline-secondary btn-lg">
                         <i class="bi bi-arrow-left-circle"></i> Volver
                     </a>

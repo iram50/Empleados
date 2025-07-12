@@ -4,14 +4,12 @@ using QuestPDF.Infrastructure;
 using System;
 using CFE.Models;
 
-
 namespace CFE.Services
 {
     public class ConstanciaService
     {
         public byte[] GenerarConstancia(Empleadocurso empleadocurso)
         {
-
             QuestPDF.Settings.License = LicenseType.Community;
 
             var empleado = empleadocurso.IdEmpleadoNavigation;
@@ -35,50 +33,73 @@ namespace CFE.Services
                         col.Spacing(15);
 
                         // Logos centrados arriba
-                        // Logos centrados arriba
                         col.Item().AlignCenter().Row(row =>
                         {
-                            row.Spacing(30); // Espacio entre logos
-
+                            row.Spacing(30);
                             row.AutoItem().Height(50).Image(logoGobiernoBytes);
                             row.AutoItem().Height(50).Image(logoCFEBytes);
-
                         });
 
                         col.Item().AlignCenter().Text("La Coordinación de Proyectos de Transmisión y Transformación\na través de la Residencia Regional Noroeste")
                             .FontSize(11).AlignCenter();
 
-                        col.Item().AlignCenter().Text("Otorga el presente").FontSize(10);
-
-                        // Título
-                        col.Item().AlignCenter().Text("Reconocimiento")
-                            .FontSize(26).Bold().FontColor(Colors.Green.Medium);
-
-                        // Nombre
-                        col.Item().AlignCenter().Text($"a {empleado.Nombre} {empleado.ApellidoPaterno} {empleado.ApellidoMaterno}")
-                            .FontSize(16).Bold().FontColor(Colors.Grey.Darken3);
-
-                        // Descripción
-                        col.Item().AlignCenter().Text(text =>
+                        // Lógica condicional para el tipo de constancia
+                        if (calificacion >= 80)
                         {
-                            text.Span("por haber acreditado el curso ").FontSize(11);
-                            text.Span($"\"{curso?.NombreCurso}\"").Italic().FontSize(11);
-                            text.Span($" impartido por {instructor?.NombreInstructor},").FontSize(11);
-                            text.Span($" con una calificación de {calificacion}.").FontSize(11);
-                        });
+                            // *** Contenido para ACREDITACIÓN (Calificación >= 80) ***
+                            col.Item().AlignCenter().Text("Otorga el presente").FontSize(10);
+                            col.Item().AlignCenter().Text("Reconocimiento")
+                                .FontSize(26).Bold().FontColor(Colors.Green.Medium);
 
-                        // Título del curso (resaltado)
-                        col.Item().AlignCenter().Text($"{curso?.NombreCurso}")
-                            .FontSize(18).Bold().FontColor(Colors.Green.Darken2);
+                            col.Item().AlignCenter().Text($"a {empleado.Nombre} {empleado.ApellidoPaterno} {empleado.ApellidoMaterno}")
+                                .FontSize(16).Bold().FontColor(Colors.Grey.Darken3);
 
-                        // Fechas
-                        col.Item().AlignCenter().Text(text =>
+                            col.Item().AlignCenter().Text(text =>
+                            {
+                                text.Span("por haber acreditado el curso ").FontSize(11);
+                                text.Span($"\"{curso?.NombreCurso}\"").Italic().FontSize(11);
+                                text.Span($" impartido por {instructor?.NombreInstructor},").FontSize(11);
+                                text.Span($" con una calificación de {calificacion}.").FontSize(11);
+                            });
+
+                            col.Item().AlignCenter().Text($"{curso?.NombreCurso}")
+                                .FontSize(18).Bold().FontColor(Colors.Green.Darken2);
+
+                            col.Item().AlignCenter().Text(text =>
+                            {
+                                text.Span("Realizado del ").FontSize(11);
+                                text.Span($"{grupo?.FechaInicial:dd 'de' MMMM} al {grupo?.FechaFinal:dd 'de' MMMM 'de' yyyy}")
+                                    .FontSize(11).FontColor(Colors.Purple.Medium);
+                            });
+                        }
+                        else // Aquí entran calificaciones menores a 80
                         {
-                            text.Span("Realizado del ").FontSize(11);
-                            text.Span($"{grupo?.FechaInicial:dd 'de' MMMM} al {grupo?.FechaFinal:dd 'de' MMMM 'de' yyyy}")
-                                .FontSize(11).FontColor(Colors.Purple.Medium);
-                        });
+                            // *** Contenido para PARTICIPACIÓN (Calificación < 80) ***
+                            col.Item().AlignCenter().Text("Otorga el presente").FontSize(10);
+                            col.Item().AlignCenter().Text("Constancia de Participación") // Nuevo título
+                                .FontSize(26).Bold().FontColor(Colors.Blue.Medium); // Color diferente
 
+                            col.Item().AlignCenter().Text($"a {empleado.Nombre} {empleado.ApellidoPaterno} {empleado.ApellidoMaterno}")
+                                .FontSize(16).Bold().FontColor(Colors.Grey.Darken3);
+
+                            col.Item().AlignCenter().Text(text =>
+                            {
+                                text.Span("por haber participado en el curso ").FontSize(11); // Texto modificado
+                                text.Span($"\"{curso?.NombreCurso}\"").Italic().FontSize(11);
+                                text.Span($" impartido por {instructor?.NombreInstructor}.").FontSize(11);
+                                // No se menciona la calificación para no enfatizar que no "acreditó"
+                            });
+
+                            col.Item().AlignCenter().Text($"{curso?.NombreCurso}")
+                                .FontSize(18).Bold().FontColor(Colors.Blue.Darken2);
+
+                            col.Item().AlignCenter().Text(text =>
+                            {
+                                text.Span("Realizado del ").FontSize(11);
+                                text.Span($"{grupo?.FechaInicial:dd 'de' MMMM} al {grupo?.FechaFinal:dd 'de' MMMM 'de' yyyy}")
+                                    .FontSize(11).FontColor(Colors.Purple.Medium);
+                            });
+                        }
 
                         col.Item().AlignCenter().Text("Modalidad presencial").FontSize(11).FontColor(Colors.Blue.Medium);
 

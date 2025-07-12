@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "o254o2oIUEyYiKWbAOJJu2yqF+y1EhODrOtSuQjAiB0=",
+  "Hash": "kfS/rctHtOKWzcaCafxwBuscbMzcZ5bDGNc7W97eU98=",
   "Source": "CFE",
   "BasePath": "_content/CFE",
   "Mode": "Default",
@@ -188,6 +188,25 @@
       "OriginalItemSpec": "wwwroot\\images\\image002.png"
     },
     {
+      "Identity": "E:\\repos\\CFE\\wwwroot\\images\\logo CFE DISTRIBUCIÓN.png",
+      "SourceId": "CFE",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\repos\\CFE\\wwwroot\\",
+      "BasePath": "_content/CFE",
+      "RelativePath": "images/logo CFE DISTRIBUCIÓN.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\logo CFE DISTRIBUCIÓN.png"
+    },
+    {
       "Identity": "E:\\repos\\CFE\\wwwroot\\images\\logo-638871611234567890.png",
       "SourceId": "CFE",
       "SourceType": "Discovered",
@@ -207,12 +226,12 @@
       "OriginalItemSpec": "wwwroot\\images\\logo-638871611234567890.png"
     },
     {
-      "Identity": "E:\\repos\\CFE\\wwwroot\\images\\logo-638872938017443492.jpg",
+      "Identity": "E:\\repos\\CFE\\wwwroot\\images\\logo-638874132696088830.png",
       "SourceId": "CFE",
       "SourceType": "Discovered",
       "ContentRoot": "E:\\repos\\CFE\\wwwroot\\",
       "BasePath": "_content/CFE",
-      "RelativePath": "images/logo-638872938017443492.jpg",
+      "RelativePath": "images/logo-638874132696088830.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -223,7 +242,26 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\logo-638872938017443492.jpg"
+      "OriginalItemSpec": "wwwroot\\images\\logo-638874132696088830.png"
+    },
+    {
+      "Identity": "E:\\repos\\CFE\\wwwroot\\images\\logo-638878314558560219.png",
+      "SourceId": "CFE",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\repos\\CFE\\wwwroot\\",
+      "BasePath": "_content/CFE",
+      "RelativePath": "images/logo-638878314558560219.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\logo-638878314558560219.png"
     },
     {
       "Identity": "E:\\repos\\CFE\\wwwroot\\images\\logo-cfe-capacitaciones.png",

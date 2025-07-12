@@ -4,228 +4,468 @@
     ViewData["Title"] = "Grupos - Index";
 }
 
-<div class="container">
-    <h2>Administración de Cursos Inscritos</h2>
+<style>
+    :root {
+        --primary-green: #008a54;
+        --light-green: #e6f5ee; 
+        --dark-green: #006b41; 
+    }
 
-    <!-- PARTE 1: Lista de empleados -->
-    <div class="mb-3">
-        <form method="get" asp-action="Index">
-            <label for="empleadoSelect">Seleccionar Empleado:</label>
-            <select name="empleadoId" id="empleadoSelect" class="form-select" onchange="this.form.submit()">
-                <option value="">-- Selecciona un empleado --</option>
-                @if (Model.Empleados != null)
-                {
-                    foreach (var emp in Model.Empleados)
-                    {
-                        if (Model.EmpleadoSeleccionadoId == emp.IdEmpleado)
+    body {
+        background-color: #f8f9fa; 
+    }
+
+    .card {
+        border-color: var(--light-green);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+
+        .card:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+    .card-header {
+        background-color: var(--primary-green);
+        color: white;
+        font-weight: bold;
+        border-bottom: 1px solid var(--primary-green);
+    }
+
+    .form-select,
+    .form-control {
+        border-color: var(--primary-green);
+    }
+
+        .form-select:focus,
+        .form-control:focus {
+            border-color: var(--dark-green);
+            box-shadow: 0 0 0 0.25rem rgba(0, 138, 84, 0.25); 
+        }
+
+    .btn-primary {
+        background-color: var(--primary-green);
+        border-color: var(--primary-green);
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: var(--dark-green);
+            border-color: var(--dark-green);
+        }
+
+    .table thead {
+        background-color: var(--light-green);
+        color: var(--dark-green);
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+        padding-bottom: 0.75rem;
+    }
+
+    .table tbody tr:last-child td {
+        padding-bottom: 0.75rem; 
+    }
+
+
+    .text-success {
+        color: var(--primary-green) !important;
+    }
+
+    .text-danger {
+        color: #dc3545 !important; 
+    }
+
+    .dropdown-item {
+        color: #333;
+    }
+
+        .dropdown-item:hover {
+            background-color: var(--light-green);
+            color: var(--dark-green);
+        }
+
+    .btn-outline-secondary {
+        border-color: var(--primary-green);
+        color: var(--primary-green);
+    }
+
+        .btn-outline-secondary:hover {
+            background-color: var(--primary-green);
+            color: white;
+        }
+
+      /* Es crucial que el contenedor de la celda de la tabla NO tenga overflow: hidden; */
+    .table-responsive .table td {
+        overflow: visible; /* Asegura que el contenido pueda desbordar la celda */
+    }
+
+
+    .table-actions-dropdown {
+        display: inline-block;
+    }
+
+        .table-actions-dropdown .dropdown-menu {
+        
+            position: fixed !important; /* Fuerza el posicionamiento respecto al viewport */
+            top: auto !important; 
+            left: auto !important; 
+            right: auto !important; 
+            bottom: auto !important; 
+
+            min-width: 14rem;
+            max-height: unset; /* Asegura que el menú no tenga una altura máxima fija que lo corte */
+            overflow: visible; /* Asegura que no haya scroll dentro del propio menú */
+            transform: none !important; /* Desactiva cualquier transformación que pueda interferir */
+
+            z-index: 1050; /* Asegura que esté por encima de otros elementos */
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
+            border: 1px solid rgba(0, 0, 0, 0.15);
+        }
+
+</style>
+
+<div class="container py-4">
+    <h2 class="mb-4 text-center text-primary-green">Administración de Cursos Inscritos</h2>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-users me-2"></i> Selección de Empleado
+        </div>
+        <div class="card-body">
+            <form method="get" asp-action="Index">
+                <div class="mb-3">
+                    <label for="empleadoNombre" class="form-label fw-bold">Seleccionar Empleado:</label>
+
+                    <!-- Campo donde el usuario escribe el nombre -->
+                    <input type="text" id="empleadoNombre" class="form-control" placeholder="Escribe el nombre del empleado" autocomplete="off" />
+
+                    <!-- Campo oculto que se llena automáticamente con el ID -->
+                    <input type="hidden" id="empleadoId" name="empleadoId" />
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+        <div class="row">
+            <div class="@((User.IsInRole("Admin") ? "col-md-7" : "col-12")) mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <i class="fas fa-book-open me-2"></i> Cursos Inscritos
+                    </div>
+                    <div class="card-body">
+                        @if (Model.CursosInscritos != null && Model.CursosInscritos.Any())
                         {
-                            <option value="@emp.IdEmpleado" selected="selected">@emp.Nombre</option>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Curso</th>
+                                            <th>Instructor</th>
+                                            <th>Fecha</th>
+                                            <th>Calificación</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var curso in Model.CursosInscritos)
+                                        {
+                                            string colorClass;
+                                            if (curso.Calificacion >= 80)
+                                            {
+                                                colorClass = "text-success"; // Aprobatoria
+                                            }
+                                            else if (curso.Calificacion >= 60 && curso.Calificacion < 80)
+                                            {
+                                                colorClass = "text-info"; 
+                                            }
+                                            else
+                                            {
+                                                colorClass = "text-danger"; // No aprobado
+                                            }
+
+                                            <tr>
+                                                <td>@curso.IdCursoNavigation?.NombreCurso</td>
+                                                <td>@(curso.IdInstructorNavigation != null ? curso.IdInstructorNavigation.NombreInstructor : "Sin Instructor")</td>
+                                                <td>@(curso.FechaInicial.ToString("dd/MM/yyyy"))</td>
+                                                <td class="@colorClass fw-bold">@curso.Calificacion</td>
+                                                <td>
+                                                    <div class="dropdown table-actions-dropdown">
+                                                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <i class="fas fa-ellipsis-v"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                   asp-action="GenerarConstancia"
+                                                                   asp-controller="Empleadocursoes"
+                                                                   asp-route-idEmpleado="@Model.EmpleadoSeleccionadoId"
+                                                                   asp-route-claveGrupo="@curso.ClaveGrupo"
+                                                                   target="_blank">
+                                                                    <i class="fas fa-file-pdf me-2"></i>Descargar Constancia
+                                                                </a>
+                                                            </li>
+                                                            <li><hr class="dropdown-divider"></li>
+
+                                                            <li>
+                                                                <a class="dropdown-item" asp-action="Details" asp-route-id="@curso.ClaveGrupo">
+                                                                    <i class="fas fa-info-circle me-2 text-info"></i>Detalles
+                                                                </a>
+                                                            </li>
+                                                            @if (User.IsInRole("Admin") || User.IsInRole("Moder"))
+                                                            {
+                                                                <li>
+                                                                    <a class="dropdown-item" asp-action="Edit" asp-route-id="@curso.ClaveGrupo">
+                                                                        <i class="fas fa-edit me-2 text-warning"></i>Editar
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item text-danger" asp-action="Delete" asp-route-id="@curso.ClaveGrupo">
+                                                                        <i class="fas fa-trash-alt me-2"></i>Eliminar
+                                                                    </a>
+                                                                </li>
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         }
                         else
                         {
-                            <option value="@emp.IdEmpleado">@emp.Nombre</option>
+                            <div class="alert alert-info" role="alert">
+                                <i class="fas fa-exclamation-circle me-2"></i> No hay cursos inscritos para el empleado seleccionado.
+                            </div>
                         }
-                    }
-                }
-            </select>
-        </form>
-    </div>
-
-    <!-- Mostrar PARTE 2 y 3 solo si hay empleado seleccionado -->
-    @if (Model.EmpleadoSeleccionadoId != null && Model.EmpleadoSeleccionadoId != 0)
-    {
-        <div class="row">
-            <!-- PARTE 2: Cursos del empleado seleccionado -->
-            <div class="@((User.IsInRole("Admin") ? "col-md-6" : "col-12"))">
-                <h4>Cursos Inscritos</h4>
-                @if (Model.CursosInscritos != null && Model.CursosInscritos.Any())
-                {
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Curso</th>
-                                <th>Instructor</th>
-                                <th>Fecha</th>
-                                <th>Calificación</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var curso in Model.CursosInscritos)
-                            {
-                                var color = curso.Calificacion < 60 ? "text-danger" : "text-success";
-                                <tr>
-                                    <td>@curso.IdCursoNavigation?.NombreCurso</td>
-                                    <td>@(curso.IdInstructorNavigation != null ? curso.IdInstructorNavigation.NombreInstructor : "Sin Instructor")</td>
-                                    <td>@(curso.FechaInicial.ToString("dd/MM/yyyy"))</td>
-                                    <td class="@color">@curso.Calificacion</td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fas fa-chevron-down"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                @if (curso.Calificacion >= 60)
-                                                {
-                                                    <li>
-                                                        <a class="dropdown-item text-success"
-                                                           asp-action="GenerarConstancia"
-                                                           asp-controller="Empleadocursoes"
-                                                           asp-route-idEmpleado="@Model.EmpleadoSeleccionadoId"
-                                                           asp-route-claveGrupo="@curso.ClaveGrupo"
-                                                           target="_blank">
-                                                            <i class="fas fa-file-pdf me-2"></i>Descargar Constancia
-                                                        </a>
-                                                    </li>
-                                                }
-                                                else
-                                                {
-                                                    <li>
-                                                        <button class="dropdown-item text-muted" disabled>
-                                                            <i class="fas fa-file-pdf me-2"></i>Constancia no disponible
-                                                        </button>
-                                                    </li>
-                                                }
-
-                                                <li>
-                                                    <a class="dropdown-item" asp-action="Details" asp-route-id="@curso.ClaveGrupo">
-                                                        <i class="fas fa-info-circle me-2 text-primary"></i>Detalles
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" asp-action="Edit" asp-route-id="@curso.ClaveGrupo">
-                                                        <i class="fas fa-cog me-2 text-warning"></i>Editar
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item text-danger" asp-action="Delete" asp-route-id="@curso.ClaveGrupo">
-                                                        <i class="fas fa-trash-alt me-2"></i>Eliminar
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
-                else
-                {
-                    <p>No hay cursos inscritos.</p>
-                }
+                    </div>
+                </div>
             </div>
 
-            <!-- PARTE 3: Formulario para inscribir a un nuevo curso -->
             @if (User.IsInRole("Admin"))
             {
-            <div class="col-md-6">
-                <h4>Inscribir a Nuevo Curso</h4>
-                <form asp-action="Inscribir" method="post">
-                    <input type="hidden" asp-for="NuevoGrupo.IdEmpleado" value="@Model.EmpleadoSeleccionadoId" />
+                <div class="col-md-5 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <i class="fas fa-plus-circle me-2"></i> Inscribir a Nuevo Curso
+                        </div>
+                        <div class="card-body">
+                            <form asp-action="Inscribir" method="post">
+                                <!-- Oculto el empleado seleccionado, aunque ya no es necesario usarlo si inscribes varios -->
+                                <input type="hidden" asp-for="NuevoGrupo.IdEmpleado" value="@Model.EmpleadoSeleccionadoId" />
 
-                    <div class="mb-3">
-                        <label asp-for="NuevoGrupo.IdCurso" class="form-label">Curso:</label>
-                        <select asp-for="NuevoGrupo.IdCurso" class="form-select" id="NuevoGrupo_IdCurso">
-                            <option value="">-- Selecciona un curso --</option>
-                            @foreach (var curso in Model.CursosDisponibles)
-                            {
-                                <option value="@curso.IdCurso"
-                                        data-instructor-id="@curso.Id_Instructor"
-                                        data-instructor-nombre="@curso.Instructor?.NombreInstructor">
-                                    @curso.NombreCurso
-                                </option>
-                            }
-                        </select>
-                        <span asp-validation-for="NuevoGrupo.IdCurso" class="text-danger"></span>
+                                <!-- Buscador para agregar empleados -->
+                                <div class="mb-3">
+                                    <label for="empleadoNombreInput" class="form-label">Agregar empleados:</label>
+                                    <div class="input-group mb-2">
+                                        <input type="text" id="empleadoNombreInput" class="form-control" placeholder="Escribe el nombre del empleado" autocomplete="off" />
+                                        <button type="button" id="btnAgregarEmpleado" class="btn btn-success">
+                                            <i class="fas fa-user-plus me-1"></i> Agregar otro empleado
+                                        </button>
+                                    </div>
+
+                                    <!-- Lista de empleados agregados con inputs ocultos para enviar -->
+                                    <div id="empleadosAgregados"></div>
+                                </div>
+
+                                <!-- Curso -->
+                                <div class="mb-3">
+                                    <label asp-for="NuevoGrupo.IdCurso" class="form-label">Curso:</label>
+                                    <select asp-for="NuevoGrupo.IdCurso" class="form-select" id="NuevoGrupo_IdCurso" required>
+                                        <option value="">-- Selecciona un curso --</option>
+                                        @foreach (var curso in Model.CursosDisponibles)
+                                        {
+                                            <option value="@curso.IdCurso"
+                                                    data-instructor-id="@curso.Id_Instructor"
+                                                    data-instructor-nombre="@curso.Instructor?.NombreInstructor">
+                                                @curso.NombreCurso
+                                            </option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="NuevoGrupo.IdCurso" class="text-danger"></span>
+                                </div>
+
+                                <!-- Fechas -->
+                                <div class="mb-3">
+                                    <label asp-for="NuevoGrupo.FechaInicial" class="form-label">Fecha de Inicio:</label>
+                                    <input asp-for="NuevoGrupo.FechaInicial" class="form-control" type="date" required />
+                                    <span asp-validation-for="NuevoGrupo.FechaInicial" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="NuevoGrupo.FechaFinal" class="form-label">Fecha Final:</label>
+                                    <input asp-for="NuevoGrupo.FechaFinal" class="form-control" type="date" required />
+                                    <span asp-validation-for="NuevoGrupo.FechaFinal" class="text-danger"></span>
+                                </div>
+
+                                <!-- Horas -->
+                                <div class="mb-3">
+                                    <label asp-for="NuevoGrupo.Horario" class="form-label">Cantidad de Horas:</label>
+                                    <input asp-for="NuevoGrupo.Horario" class="form-control" required />
+                                    <span asp-validation-for="NuevoGrupo.Horario" class="text-danger"></span>
+                                </div>
+
+                                <!-- Lugar -->
+                                <div class="mb-3">
+                                    <label asp-for="NuevoGrupo.Lugar" class="form-label">Lugar:</label>
+                                    <select asp-for="NuevoGrupo.Lugar" class="form-control" required>
+                                        <option value="">Seleccione una opción</option>
+                                        <option value="Interno">Interno</option>
+                                        <option value="Externo">Externo</option>
+                                    </select>
+                                    <span asp-validation-for="NuevoGrupo.Lugar" class="text-danger"></span>
+                                </div>
+
+                                <!-- Comentarios -->
+                                <div class="mb-3">
+                                    <label asp-for="NuevoGrupo.Comentarios" class="form-label">Comentarios extras:</label>
+                                    <input asp-for="NuevoGrupo.Comentarios" class="form-control" />
+                                    <span asp-validation-for="NuevoGrupo.Comentarios" class="text-danger"></span>
+                                </div>
+
+                                <!-- Instructor -->
+                                <div class="mb-3">
+                                    <label class="form-label">Instructor:</label>
+                                    <input type="text" id="InstructorNombre" class="form-control" readonly />
+                                    <input asp-for="NuevoGrupo.IdInstructor" type="hidden" id="NuevoGrupo_IdInstructor" />
+                                </div>
+
+                                <!-- Área que ofrece -->
+                                <div class="mb-3">
+                                    <label asp-for="NuevoGrupo.AreaOfrece" class="form-label">Área que Ofrece:</label>
+                                    <input asp-for="NuevoGrupo.AreaOfrece" class="form-control" required />
+                                    <span asp-validation-for="NuevoGrupo.AreaOfrece" class="text-danger"></span>
+                                </div>
+
+                                <!-- Estado -->
+                                <div class="mb-3">
+                                    <label asp-for="NuevoGrupo.Status" class="form-label">Estado:</label>
+                                    <select asp-for="NuevoGrupo.Status" class="form-control" required>
+                                        <option value="">Seleccione una opción</option>
+                                        <option value="Activo">Activo</option>
+                                        <option value="Inactivo">Inactivo</option>
+                                    </select>
+                                    <span asp-validation-for="NuevoGrupo.Status" class="text-danger"></span>
+                                </div>
+
+                                <!-- Botón para enviar -->
+                                <button type="submit" class="btn btn-primary w-100 mt-3">
+                                    <i class="fas fa-plus me-2"></i> Inscribir Curso
+                                </button>
+                            </form>
+                        </div>
                     </div>
-
-                    <div class="mb-3">
-                        <label asp-for="NuevoGrupo.FechaInicial" class="form-label">Fecha de Inicio:</label>
-                        <input asp-for="NuevoGrupo.FechaInicial" class="form-control" type="date" />
-                        <span asp-validation-for="NuevoGrupo.FechaInicial" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="NuevoGrupo.FechaFinal" class="form-label">Fecha Final:</label>
-                        <input asp-for="NuevoGrupo.FechaFinal" class="form-control" type="date" />
-                        <span asp-validation-for="NuevoGrupo.FechaFinal" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="NuevoGrupo.Horario" class="form-label">Cantidad de Horas:</label>
-                        <input asp-for="NuevoGrupo.Horario" class="form-control" />
-                        <span asp-validation-for="NuevoGrupo.Horario" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="NuevoGrupo.Lugar" class="form-label">Lugar:</label>
-                        <select asp-for="NuevoGrupo.Lugar" class="form-control">
-                            <option value="">Seleccione una opción</option>
-                            <option value="Interno">Interno</option>
-                            <option value="Externo">Externo</option>
-                        </select>
-                        <span asp-validation-for="NuevoGrupo.Lugar" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="NuevoGrupo.Comentarios" class="form-label">Comentarios extras:</label>
-                        <input asp-for="NuevoGrupo.Comentarios" class="form-control" />
-                        <span asp-validation-for="NuevoGrupo.Comentarios" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Instructor:</label>
-                        <input type="text" id="InstructorNombre" class="form-control" readonly />
-                        <input asp-for="NuevoGrupo.IdInstructor" type="hidden" id="NuevoGrupo_IdInstructor" />
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="NuevoGrupo.AreaOfrece" class="form-label">Área que Ofrece:</label>
-                        <input asp-for="NuevoGrupo.AreaOfrece" class="form-control" />
-                        <span asp-validation-for="NuevoGrupo.AreaOfrece" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="NuevoGrupo.Status" class="form-label">Estado:</label>
-                        <select asp-for="NuevoGrupo.Status" class="form-control">
-                            <option value="">Seleccione una opción</option>
-                            <option value="Activo">Activo</option>
-                            <option value="Inactivo">Inactivo</option>
-                        </select>
-                        <span asp-validation-for="NuevoGrupo.Status" class="text-danger"></span>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Inscribir</button>
-                </form>
-            </div>
+                </div>
             }
         </div>
-    }
+</div>
 
-    @section Scripts {
-        <script>
-            document.getElementById("NuevoGrupo_IdCurso").addEventListener("change", function () {
-                const selectedOption = this.options[this.selectedIndex];
-                const instructorId = selectedOption.getAttribute("data-instructor-id");
-                const instructorNombre = selectedOption.getAttribute("data-instructor-nombre");
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
-                document.getElementById("NuevoGrupo_IdInstructor").value = instructorId || "";
-                document.getElementById("InstructorNombre").value = instructorNombre ? instructorNombre : "Sin Instructor";
+    <script>
+        $(function () {
+            // Lista de empleados
+            var empleados = [
+        @foreach (var emp in Model.Empleados)
+        {
+            @:{ label: "@emp.Nombre", value: "@emp.IdEmpleado" },
+        }
+                ];
+
+            // Autocompletado para formulario GET (buscador principal opcional)
+            if ($("#empleadoNombre").length) {
+                $("#empleadoNombre").autocomplete({
+                    source: empleados,
+                    select: function (event, ui) {
+                        $("#empleadoNombre").val(ui.item.label);
+                        $("#empleadoId").val(ui.item.value);
+                        $(this).closest("form").submit();
+                        return false;
+                    }
+                });
+            }
+
+            // Permitir eliminar empleado agregado
+            $(document).on("click", ".btnEliminarEmpleado", function () {
+                $(this).closest("div").remove();
             });
 
-            document.addEventListener("DOMContentLoaded", function () {
-                const select = document.getElementById("NuevoGrupo_IdCurso");
-                if (select && select.value) {
-                    const selectedOption = select.options[select.selectedIndex];
+            // Autocompletado para agregar varios empleados en inscripción
+            if ($("#empleadoNombreInput").length) {
+                $("#empleadoNombreInput").autocomplete({
+                    source: empleados,
+                    select: function (event, ui) {
+                        $("#empleadoNombreInput").data("empleado-id", ui.item.value);
+                        $("#empleadoNombreInput").val(ui.item.label);
+                        return false;
+                    }
+                });
+
+                $("#btnAgregarEmpleado").click(function () {
+                    var nombre = $("#empleadoNombreInput").val();
+                    var id = $("#empleadoNombreInput").data("empleado-id");
+
+                    if (!id) {
+                        alert("Selecciona un empleado válido de la lista.");
+                        return;
+                    }
+
+                    if ($("#empleadosAgregados input[value='" + id + "']").length > 0) {
+                        alert("Este empleado ya fue agregado.");
+                        return;
+                    }
+
+                    let index = $("#empleadosAgregados input").length;
+                    $("#empleadosAgregados").append(`
+                        <div class="d-flex align-items-center mb-1">
+                            <input type="hidden" name="EmpleadosIds[${index}]" value="${id}" />
+                            <span class="badge bg-primary me-2">${nombre}</span>
+                            <button type="button" class="btn btn-sm btn-danger btnEliminarEmpleado">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `);
+
+
+                    $("#empleadoNombreInput").val("").data("empleado-id", null);
+                });
+            }
+
+            // Instructor automático al seleccionar curso
+            const cursoSelect = document.getElementById("NuevoGrupo_IdCurso");
+            if (cursoSelect) {
+                cursoSelect.addEventListener("change", function () {
+                    const selectedOption = this.options[this.selectedIndex];
                     const instructorId = selectedOption.getAttribute("data-instructor-id");
                     const instructorNombre = selectedOption.getAttribute("data-instructor-nombre");
 
                     document.getElementById("NuevoGrupo_IdInstructor").value = instructorId || "";
                     document.getElementById("InstructorNombre").value = instructorNombre ? instructorNombre : "Sin Instructor";
-                }
-            });
+                });
 
-        </script>
-    }
-</div>
+                // Mostrar instructor si ya hay uno seleccionado al cargar
+                const selected = cursoSelect.options[cursoSelect.selectedIndex];
+                if (selected && selected.value) {
+                    document.getElementById("NuevoGrupo_IdInstructor").value = selected.getAttribute("data-instructor-id") || "";
+                    document.getElementById("InstructorNombre").value = selected.getAttribute("data-instructor-nombre") || "Sin Instructor";
+                }
+            }
+
+            // (Opcional) Select2 para otros selects
+            if ($('#empleadoSelect').length) {
+                $('#empleadoSelect').select2({
+                    placeholder: "-- Selecciona un empleado --",
+                    allowClear: true
+                });
+            }
+        });
+    </script>
+
+}

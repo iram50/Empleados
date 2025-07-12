@@ -53,6 +53,7 @@
             }
     </style>
     @RenderSection("Styles", required: false)
+
 </head>
 <body>
     <header>
@@ -66,8 +67,6 @@
                 <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
                     <img src="~/images/@logo" alt="Logo" style="height: 40px;" />
                 </a>
-
-
 
                 @if (User.Identity?.IsAuthenticated ?? false)
                 {
@@ -104,20 +103,26 @@
                         </li>
                     </ul>
 
-                    <!-- Nombre del usuario y logout -->
                     <div class="d-flex ms-auto align-items-center">
-                        <a asp-controller="Home" asp-action="Bienvenida" class="text-white me-3 text-decoration-none">
+                        <span class="navbar-text text-white me-3">
                             Hola, @User.Identity.Name
-                        </a>
+                        </span>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-controller="Home" asp-action="Bienvenida" class="btn btn-outline-light btn-sm me-2">
+                                <i class="fas fa-home me-1"></i> Inicio Admin
+                            </a>
+                        }
                         <form asp-controller="Login" asp-action="Logout" method="post" class="d-inline">
-                            <button type="submit" class="btn btn-outline-light btn-sm">Cerrar sesión</button>
+                            <button type="submit" class="btn btn-outline-light btn-sm">
+                                <i class="fas fa-sign-out-alt me-1"></i> Cerrar sesión
+                            </button>
                         </form>
                     </div>
 
                 }
                 else
                 {
-                    <!-- Botón para ir a Logins -->
                     <div class="ms-auto">
                         <a class="btn btn-outline-light btn-sm" asp-controller="Login" asp-action="Index">
                             <i class="fas fa-sign-in-alt"></i> Iniciar Sesion

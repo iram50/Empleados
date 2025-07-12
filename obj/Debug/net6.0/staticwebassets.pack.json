@@ -57,12 +57,20 @@
       "PackagePath": "staticwebassets\\images\\image002.png"
     },
     {
+      "Id": "E:\\repos\\CFE\\wwwroot\\images\\logo CFE DISTRIBUCIÓN.png",
+      "PackagePath": "staticwebassets\\images\\logo CFE DISTRIBUCIÓN.png"
+    },
+    {
       "Id": "E:\\repos\\CFE\\wwwroot\\images\\logo-638871611234567890.png",
       "PackagePath": "staticwebassets\\images\\logo-638871611234567890.png"
     },
     {
-      "Id": "E:\\repos\\CFE\\wwwroot\\images\\logo-638872938017443492.jpg",
-      "PackagePath": "staticwebassets\\images\\logo-638872938017443492.jpg"
+      "Id": "E:\\repos\\CFE\\wwwroot\\images\\logo-638874132696088830.png",
+      "PackagePath": "staticwebassets\\images\\logo-638874132696088830.png"
+    },
+    {
+      "Id": "E:\\repos\\CFE\\wwwroot\\images\\logo-638878314558560219.png",
+      "PackagePath": "staticwebassets\\images\\logo-638878314558560219.png"
     },
     {
       "Id": "E:\\repos\\CFE\\wwwroot\\images\\logo-cfe-capacitaciones.png",

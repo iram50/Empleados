@@ -3,28 +3,20 @@
   "WorkspaceRootPath": "E:\\repos\\CFE\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\views\\usuarios\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:views\\usuarios\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\views\\grupoes\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:views\\grupoes\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\controllers\\grupoescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:controllers\\grupoescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\views\\usuarios\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:views\\usuarios\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\models\\gruposindexviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:models\\gruposindexviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\views\\usuarios\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:views\\usuarios\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\views\\home\\bienvenida.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:views\\home\\bienvenida.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|e:\\repos\\cfe\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{60C45FDB-72FE-4C03-90CD-65F7D5C94FD7}|CFE.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,84 +26,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "E:\\repos\\CFE\\Views\\Usuarios\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Usuarios\\Index.cshtml",
-              "ToolTip": "E:\\repos\\CFE\\Views\\Usuarios\\Index.cshtml",
-              "RelativeToolTip": "Views\\Usuarios\\Index.cshtml",
-              "ViewState": "AQIAAAEAAAAAAAAAAAAYwBAAAAAcAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-07-05T15:57:52.978Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Usuario.cs",
-              "DocumentMoniker": "E:\\repos\\CFE\\Models\\Usuario.cs",
-              "RelativeDocumentMoniker": "Models\\Usuario.cs",
-              "ToolTip": "E:\\repos\\CFE\\Models\\Usuario.cs",
-              "RelativeToolTip": "Models\\Usuario.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAeAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T15:47:35.219Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "UsuariosController.cs",
-              "DocumentMoniker": "E:\\repos\\CFE\\Controllers\\UsuariosController.cs",
-              "RelativeDocumentMoniker": "Controllers\\UsuariosController.cs",
-              "ToolTip": "E:\\repos\\CFE\\Controllers\\UsuariosController.cs",
-              "RelativeToolTip": "Controllers\\UsuariosController.cs",
-              "ViewState": "AQIAAEYAAAAAAAAAAAAAAE8AAAAlAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T15:43:05.768Z",
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "E:\\repos\\CFE\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "E:\\repos\\CFE\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AQIAAFoAAAAAAAAAAAAnwGwAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-12T19:15:37.849Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "E:\\repos\\CFE\\Views\\Usuarios\\Edit.cshtml",
-              "RelativeDocumentMoniker": "Views\\Usuarios\\Edit.cshtml",
-              "ToolTip": "E:\\repos\\CFE\\Views\\Usuarios\\Edit.cshtml",
-              "RelativeToolTip": "Views\\Usuarios\\Edit.cshtml",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAAABsAAAA1AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-07-05T15:42:57.629Z",
+              "Title": "GruposIndexViewModel.cs",
+              "DocumentMoniker": "E:\\repos\\CFE\\Models\\GruposIndexViewModel.cs",
+              "RelativeDocumentMoniker": "Models\\GruposIndexViewModel.cs",
+              "ToolTip": "E:\\repos\\CFE\\Models\\GruposIndexViewModel.cs",
+              "RelativeToolTip": "Models\\GruposIndexViewModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-12T18:54:33.953Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Delete.cshtml",
-              "DocumentMoniker": "E:\\repos\\CFE\\Views\\Usuarios\\Delete.cshtml",
-              "RelativeDocumentMoniker": "Views\\Usuarios\\Delete.cshtml",
-              "ToolTip": "E:\\repos\\CFE\\Views\\Usuarios\\Delete.cshtml",
-              "RelativeToolTip": "Views\\Usuarios\\Delete.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAgAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-07-05T15:42:53.051Z",
+              "DocumentIndex": 1,
+              "Title": "GrupoesController.cs",
+              "DocumentMoniker": "E:\\repos\\CFE\\Controllers\\GrupoesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\GrupoesController.cs",
+              "ToolTip": "E:\\repos\\CFE\\Controllers\\GrupoesController.cs",
+              "RelativeToolTip": "Controllers\\GrupoesController.cs",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAjwBMAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-12T18:51:35.719Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Bienvenida.cshtml",
-              "DocumentMoniker": "E:\\repos\\CFE\\Views\\Home\\Bienvenida.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\Bienvenida.cshtml",
-              "ToolTip": "E:\\repos\\CFE\\Views\\Home\\Bienvenida.cshtml",
-              "RelativeToolTip": "Views\\Home\\Bienvenida.cshtml",
-              "ViewState": "AQIAAE8AAAAAAAAAAAAAAGUAAAAAAAAA",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "E:\\repos\\CFE\\Views\\Grupoes\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Grupoes\\Index.cshtml",
+              "ToolTip": "E:\\repos\\CFE\\Views\\Grupoes\\Index.cshtml",
+              "RelativeToolTip": "Views\\Grupoes\\Index.cshtml",
+              "ViewState": "AQIAAPMAAAAAAAAAAAAAAPcAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-07-04T21:11:02.819Z",
+              "WhenOpened": "2025-07-11T15:41:03.219Z",
               "EditorCaption": ""
             }
           ]

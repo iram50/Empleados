@@ -4,19 +4,126 @@
     ViewData["Title"] = "Eliminar Usuario";
 }
 
-<div class="container mt-4">
-    <h2 class="text-danger mb-3">¿Estás seguro de que deseas eliminar este usuario?</h2>
+<style>
+    :root {
+        --primary-green: #008a54;
+        --light-green: #e6f5ee;
+        --dark-green: #006b41;
+    }
 
-    <div class="card shadow-sm">
+    body {
+        background-color: #f8f9fa;
+    }
+
+    /* General Card Styles */
+    .card {
+        border-color: var(--light-green);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+
+    /* Buttons */
+    .btn-primary {
+        background-color: var(--primary-green);
+        border-color: var(--primary-green);
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: var(--dark-green);
+            border-color: var(--dark-green);
+        }
+
+    .btn-outline-secondary {
+        border-color: var(--primary-green); /* Usamos el verde primario para el contorno */
+        color: var(--primary-green);
+        transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+        .btn-outline-secondary:hover {
+            background-color: var(--primary-green);
+            color: white;
+        }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+    /* Estilos específicos para la vista de eliminar */
+    .delete-confirmation-card {
+        max-width: 600px; /* Limita el ancho para mejor estética */
+        margin: 50px auto; /* Centra el contenedor y le da margen superior */
+        border: 2px solid #dc3545; /* Borde rojo para destacar peligro */
+        box-shadow: 0 6px 12px rgba(220, 53, 69, 0.15); /* Sombra roja sutil */
+        background-color: #fff;
+    }
+
+        .delete-confirmation-card .card-header {
+            background-color: #dc3545; /* Fondo rojo para el encabezado */
+            color: white;
+            font-weight: bold;
+            border-top-left-radius: calc(0.25rem - 2px); /* Ajuste por el borde */
+            border-top-right-radius: calc(0.25rem - 2px); /* Ajuste por el borde */
+            padding: 1.25rem; /* Aumenta el padding para un encabezado más prominente */
+            font-size: 1.25rem;
+        }
+
+        .delete-confirmation-card .card-body {
+            padding: 2rem; /* Más padding interno */
+        }
+
+        .delete-confirmation-card .dl-horizontal dt {
+            font-weight: bold; /* Nombres de propiedades en negrita */
+            color: #343a40;
+        }
+
+        .delete-confirmation-card .dl-horizontal dd {
+            color: #6c757d;
+        }
+
+    .delete-actions {
+        display: flex;
+        gap: 0.75rem; /* Espacio entre los botones */
+        justify-content: flex-end; /* Alinea los botones a la derecha */
+        margin-top: 2rem; /* Margen superior para separarlos del contenido */
+    }
+
+    /* Ajuste para los iconos de Font Awesome */
+    .btn i.fas {
+        margin-right: 0.5rem; 
+    }
+
+    .text-danger-custom {
+        color: #dc3545 !important;
+    }
+
+</style>
+
+<div class="container py-4">
+    <div class="card delete-confirmation-card">
+        <div class="card-header text-center">
+            <i class="fas fa-trash-alt me-2"></i> Confirmar Eliminación de Usuario
+        </div>
         <div class="card-body">
-            <dl class="row">
-                <dt class="col-sm-4">Nombre completo</dt>
+            <h2 class="text-center text-danger-custom mb-4">¿Estás seguro de que deseas eliminar este usuario?</h2>
+            <p class="text-center text-muted mb-4">Esta acción es irreversible y el usuario será eliminado permanentemente.</p>
+            <hr class="mb-4" />
+
+            <dl class="row dl-horizontal">
+                <dt class="col-sm-4">Nombre completo:</dt>
                 <dd class="col-sm-8">@Model.Nombre</dd>
 
-                <dt class="col-sm-4">Nombre de usuario</dt>
+                <dt class="col-sm-4">Nombre de usuario:</dt>
                 <dd class="col-sm-8">@Model.UsuarioNombre</dd>
 
-                <dt class="col-sm-4">Rol</dt>
+                <dt class="col-sm-4">Rol:</dt>
                 <dd class="col-sm-8">@Model.Rol?.Nombre_Rol</dd>
             </dl>
         </div>
@@ -24,12 +131,12 @@
 
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id_usuario" />
-        <div class="d-flex justify-content-between mt-4">
+        <div class="delete-actions">
             <a asp-action="Index" class="btn btn-outline-secondary">
-                <i class="bi bi-arrow-left"></i> Cancelar
+                <i class="fas fa-times-circle me-2"></i> Cancelar
             </a>
             <button type="submit" class="btn btn-danger">
-                <i class="bi bi-trash"></i> Confirmar Eliminación
+                <i class="fas fa-trash-alt me-2"></i> Confirmar Eliminación
             </button>
         </div>
     </form>

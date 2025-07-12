@@ -4,37 +4,165 @@
     ViewData["Title"] = "Usuarios";
 }
 
-<h2>Usuarios Registrados</h2>
+<style>
+    :root {
+        --primary-green: #008a54;
+        --light-green: #e6f5ee;
+        --dark-green: #006b41;
+    }
 
-<a asp-action="Create" class="btn btn-primary mb-3">
-    <i class="fas fa-user-plus me-2"></i> Agregar Usuario
-</a>
+    body {
+        background-color: #f8f9fa;
+    }
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Usuario</th>
-            <th>Rol</th>
-            <th>Acciones</th> <!-- Nueva columna -->
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var u in Model)
-        {
-            <tr>
-                <td>@u.Nombre</td>
-                <td>@u.UsuarioNombre</td>
-                <td>@u.Rol?.Nombre_Rol</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@u.Id_usuario" class="btn btn-sm btn-warning me-2">
-                        <i class="fas fa-edit"></i> Editar
-                    </a>
-                    <a asp-action="Delete" asp-route-id="@u.Id_usuario" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">
-                        <i class="fas fa-trash-alt"></i> Eliminar
-                    </a>
-                </td>
-            </tr>
+    /* Estilos generales del boton */
+    .btn-primary {
+        background-color: var(--primary-green);
+        border-color: var(--primary-green);
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: var(--dark-green);
+            border-color: var(--dark-green);
         }
-    </tbody>
-</table>
+
+    .btn-outline-secondary {
+        border-color: var(--primary-green);
+        color: var(--primary-green);
+        transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+        .btn-outline-secondary:hover {
+            background-color: var(--primary-green);
+            color: white;
+        }
+
+    /* Table Styles */
+    .table-bordered {
+        border-color: var(--light-green);
+    }
+
+    .table thead {
+        background-color: var(--light-green);
+        color: var(--dark-green);
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+        padding: 0.75rem; 
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, .03);
+    }
+
+  
+    .table-actions-buttons .btn {
+        display: inline-flex; 
+        align-items: center;  
+        gap: 0.25rem; /* Espacio entre el icono y el texto */
+        padding: 0.375rem 0.75rem; /* ajusta el espacio para los botones */
+        font-size: 0.875rem; 
+        line-height: 1.5;
+        border-radius: 0.25rem; 
+    }
+
+        .table-actions-buttons .btn i {
+            font-size: 0.875rem; 
+        }
+
+    .btn-warning {
+        background-color: #ffc107;
+        border-color: #ffc107;
+        color: #212529;
+    }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+        }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+    .top-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .table-actions-cell {
+        white-space: nowrap; 
+    }
+
+        .table-actions-cell > a.btn {
+            margin-right: 0.5rem; 
+        }
+
+            .table-actions-cell > a.btn:last-child {
+                margin-right: 0; 
+            }
+
+</style>
+
+<div class="container py-4">
+    <h2 class="mb-4 text-center text-primary-green">Administración de Usuarios</h2>
+
+    <div class="top-actions">
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="fas fa-user-plus me-2"></i> Agregar Usuario
+        </a>
+
+        @* Botón de volver a Home/Bienvenida *@
+        <a asp-controller="Home" asp-action="Bienvenida" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Volver a opciones administrativas
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Usuario</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var u in Model)
+                {
+                    <tr>
+                        <td>@u.Nombre</td>
+                        <td>@u.UsuarioNombre</td>
+                        <td>@u.Rol?.Nombre_Rol</td>
+                        <td class="table-actions-cell">
+                            <a asp-action="Edit" asp-route-id="@u.Id_usuario" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@u.Id_usuario" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">
+                                <i class="fas fa-trash-alt"></i> Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center mt-3" role="alert">
+            <i class="fas fa-info-circle me-2"></i> No hay usuarios registrados.
+        </div>
+    }
+</div>
