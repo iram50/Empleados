@@ -4,134 +4,161 @@
     ViewData["Title"] = "Crear Empleado";
 }
 
-<div class="card shadow-lg border-success">
+<div class="card shadow border-0">
     <div class="card-header bg-success text-white">
-        <h3 class="mb-0"><i class="bi bi-person-plus-fill"></i> @ViewData["Title"]</h3>
+        <h4 class="mb-0"><i class="bi bi-person-plus-fill me-2"></i> @ViewData["Title"]</h4>
     </div>
+
     <div class="card-body">
         <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
 
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label asp-for="Rfc" class="form-label"></label>
-                    <input asp-for="Rfc" class="form-control" />
-                    <span asp-validation-for="Rfc" class="text-danger"></span>
+            <!-- Datos Personales -->
+            <fieldset class="border p-3 mb-4">
+                <legend class="float-none w-auto px-3 text-success">
+                    <i class="bi bi-person-lines-fill me-1"></i> Datos Personales
+                </legend>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="Nombre" class="form-label">Nombre(s)</label>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="ApellidoPaterno" class="form-label">Apellido Paterno</label>
+                        <input asp-for="ApellidoPaterno" class="form-control" />
+                        <span asp-validation-for="ApellidoPaterno" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="ApellidoMaterno" class="form-label">Apellido Materno</label>
+                        <input asp-for="ApellidoMaterno" class="form-control" />
+                        <span asp-validation-for="ApellidoMaterno" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
+                        <input asp-for="fecha_nacimiento" type="date" class="form-control" />
+                        <span asp-validation-for="fecha_nacimiento" class="text-danger"></span>
+                    </div>
                 </div>
+            </fieldset>
 
-                <div class="col-md-6">
-                    <label asp-for="Curp" class="form-label"></label>
-                    <input asp-for="Curp" class="form-control" />
-                    <span asp-validation-for="Curp" class="text-danger"></span>
+            <!-- Documentación -->
+            <fieldset class="border p-3 mb-4">
+                <legend class="float-none w-auto px-3 text-success">
+                    <i class="bi bi-card-list me-1"></i> Documentación Oficial
+                </legend>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="Rfc" class="form-label"></label>
+                        <input asp-for="Rfc" class="form-control" />
+                        <span asp-validation-for="Rfc" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Curp" class="form-label"></label>
+                        <input asp-for="Curp" class="form-control" />
+                        <span asp-validation-for="Curp" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Nss" class="form-label"></label>
+                        <input asp-for="Nss" class="form-control" />
+                        <span asp-validation-for="Nss" class="text-danger"></span>
+                    </div>
                 </div>
+            </fieldset>
 
-                <div class="col-md-6">
-                    <label asp-for="Nss" class="form-label"></label>
-                    <input asp-for="Nss" class="form-control" />
-                    <span asp-validation-for="Nss" class="text-danger"></span>
+            <!-- Laboral -->
+            <fieldset class="border p-3 mb-4">
+                <legend class="float-none w-auto px-3 text-success">
+                    <i class="bi bi-briefcase-fill me-1"></i> Información Laboral
+                </legend>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Área</label>
+                        <select asp-for="IdArea" class="form-select" asp-items="ViewBag.IdArea"></select>
+                        <span asp-validation-for="IdArea" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Puesto</label>
+                        <select asp-for="IdPuesto" class="form-select" asp-items="ViewBag.IdPuesto"></select>
+                        <span asp-validation-for="IdPuesto" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Tipo de Contrato</label>
+                        <input asp-for="tipo_contrato" class="form-control" />
+                        <span asp-validation-for="tipo_contrato" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Ingreso en la CFE</label>
+                        <input asp-for="ingreso_cfe" type="date" class="form-control" />
+                        <span asp-validation-for="ingreso_cfe" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Escolaridad</label>
+                        <input asp-for="escolaridad" class="form-control" />
+                        <span asp-validation-for="escolaridad" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Residencia / Especialidad</label>
+                        <input asp-for="residencia_especialidad" class="form-control" />
+                        <span asp-validation-for="residencia_especialidad" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">RPE</label>
+                        <input asp-for="rpe" class="form-control text-uppercase" />
+                        <span asp-validation-for="rpe" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Jefe Inmediato</label>
+                        <input asp-for="jefe_inmediato" class="form-control" />
+                        <span asp-validation-for="jefe_inmediato" class="text-danger"></span>
+                    </div>
                 </div>
+            </fieldset>
 
-                <div class="col-md-6">
-                    <label asp-for="ApellidoPaterno" class="form-label"></label>
-                    <input asp-for="ApellidoPaterno" class="form-control" />
-                    <span asp-validation-for="ApellidoPaterno" class="text-danger"></span>
+            <!-- Contacto -->
+            <fieldset class="border p-3 mb-4">
+                <legend class="float-none w-auto px-3 text-success">
+                    <i class="bi bi-telephone-fill me-1"></i> Contacto
+                </legend>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="Telefono" class="form-label"></label>
+                        <input asp-for="Telefono" class="form-control" maxlength="25" />
+                        <span asp-validation-for="Telefono" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="CorreoElectronico" class="form-label"></label>
+                        <input asp-for="CorreoElectronico" class="form-control" />
+                        <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
+                    </div>
                 </div>
+            </fieldset>
 
-                <div class="col-md-6">
-                    <label asp-for="ApellidoMaterno" class="form-label"></label>
-                    <input asp-for="ApellidoMaterno" class="form-control" />
-                    <span asp-validation-for="ApellidoMaterno" class="text-danger"></span>
+            <!-- Archivos -->
+            <fieldset class="border p-3 mb-4">
+                <legend class="float-none w-auto px-3 text-success">
+                    <i class="bi bi-upload me-1"></i> Archivos
+                </legend>
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <label class="form-label">Documentos del Empleado (PDFs)</label>
+                        <input type="file" name="Documentos" class="form-control" accept=".pdf" multiple />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Foto</label>
+                        <input type="file" name="FotoArchivo" class="form-control" accept="image/*" />
+                        <span asp-validation-for="Foto" class="text-danger"></span>
+                    </div>
                 </div>
+            </fieldset>
 
-                <div class="col-md-6">
-                    <label asp-for="Nombre" class="form-label"></label>
-                    <input asp-for="Nombre" class="form-control" />
-                    <span asp-validation-for="Nombre" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6">
-                    <label asp-for="IdArea" class="form-label"></label>
-                    <select asp-for="IdArea" class="form-select" asp-items="ViewBag.IdArea"></select>
-                </div>
-
-                <div class="col-md-6">
-                    <label asp-for="IdPuesto" class="form-label"></label>
-                    <select asp-for="IdPuesto" class="form-select" asp-items="ViewBag.IdPuesto"></select>
-                </div>
-
-                <div class="col-md-6">
-                    <label asp-for="Telefono" class="form-label"></label>
-                    <input asp-for="Telefono" class="form-control" />
-                    <span asp-validation-for="Telefono" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6">
-                    <label asp-for="CorreoElectronico" class="form-label"></label>
-                    <input asp-for="CorreoElectronico" class="form-control" />
-                    <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6">
-                    <label asp-for="tipo_contrato" class="form-label"></label>
-                    <input asp-for="tipo_contrato" class="form-control" />
-                    <span asp-validation-for="tipo_contrato" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6">
-                    <label asp-for="fecha_nacimiento" class="form-label"></label>
-                    <input asp-for="fecha_nacimiento" type="date" class="form-control" />
-                    <span asp-validation-for="fecha_nacimiento" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6">
-                    <label asp-for="ingreso_cfe" class="form-label"></label>
-                    <input asp-for="ingreso_cfe" type="date" class="form-control" />
-                    <span asp-validation-for="ingreso_cfe" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6">
-                    <label asp-for="rpe" class="form-label"></label>
-                    <input asp-for="rpe" class="form-control" />
-                    <span asp-validation-for="rpe" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6">
-                    <label asp-for="jefe_inmediato" class="form-label"></label>
-                    <input asp-for="jefe_inmediato" class="form-control" />
-                    <span asp-validation-for="jefe_inmediato" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6">
-                    <label asp-for="escolaridad" class="form-label"></label>
-                    <input asp-for="escolaridad" class="form-control" />
-                    <span asp-validation-for="escolaridad" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6">
-                    <label asp-for="comprobante_escolaridad" class="form-label"></label>
-                    <input asp-for="comprobante_escolaridad" class="form-control" />
-                    <span asp-validation-for="comprobante_escolaridad" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6">
-                    <label asp-for="residencia_especialidad" class="form-label"></label>
-                    <input asp-for="residencia_especialidad" class="form-control" />
-                    <span asp-validation-for="residencia_especialidad" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6">
-                    <label class="form-label">Foto</label>
-                    <input type="file" name="FotoArchivo" class="form-control" accept="image/*" />
-                    <span asp-validation-for="Foto" class="text-danger"></span>
-                </div>
-            </div>
-
+            <!-- Botones -->
             <div class="mt-4 d-flex justify-content-between">
                 <a asp-action="Index" class="btn btn-outline-secondary">
                     <i class="bi bi-arrow-left-circle"></i> Volver
                 </a>
                 <button type="submit" class="btn btn-success">
-                    <i class="bi bi-save-fill"></i> Crear
+                    <i class="bi bi-save-fill me-1"></i> Crear
                 </button>
             </div>
         </form>
@@ -140,15 +167,23 @@
 
 @section Styles {
     <style>
-        .border-success {
-            border: 2px solid #198754 !important;
+        .form-label {
+            font-weight: 600;
         }
 
-        .form-label {
-            font-weight: 500;
+        fieldset {
+            border-radius: 0.5rem;
+            border-color: #198754;
+        }
+
+        legend {
+            font-size: 1rem;
+            font-weight: bold;
         }
     </style>
 }
+
+
 
 
 @section Scripts {

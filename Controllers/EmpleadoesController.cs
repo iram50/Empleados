@@ -9,6 +9,7 @@ using CFE.Models;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
+using TuProyecto.Models;
 
 namespace CFE.Controllers
 {
@@ -60,23 +61,21 @@ namespace CFE.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Empleados == null)
-            {
                 return NotFound();
-            }
 
             var empleado = await _context.Empleados
                 .Include(e => e.IdAreaNavigation)
                 .Include(e => e.IdPuestoNavigation)
+                .Include(e => e.Documentos)
                 .FirstOrDefaultAsync(m => m.IdEmpleado == id);
 
             if (empleado == null)
-            {
                 return NotFound();
-            }
 
             return View(empleado);
         }
 
+        [HttpGet]
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
@@ -88,21 +87,45 @@ namespace CFE.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create(Empleado empleado, IFormFile FotoArchivo)
+        public async Task<IActionResult> Create(Empleado empleado, IFormFile FotoArchivo, List<IFormFile> Documentos)
         {
             if (ModelState.IsValid)
             {
+                // Guardar foto
                 if (FotoArchivo != null && FotoArchivo.Length > 0)
                 {
-                    using (var ms = new MemoryStream())
-                    {
-                        await FotoArchivo.CopyToAsync(ms);
-                        empleado.Foto = ms.ToArray();
-                    }
+                    using var ms = new MemoryStream();
+                    await FotoArchivo.CopyToAsync(ms);
+                    empleado.Foto = ms.ToArray();
                 }
 
+                // Guardar empleado primero
                 _context.Add(empleado);
                 await _context.SaveChangesAsync();
+
+                // Guardar documentos
+                if (Documentos != null && Documentos.Count > 0)
+                {
+                    foreach (var archivo in Documentos)
+                    {
+                        using var ms = new MemoryStream();
+                        await archivo.CopyToAsync(ms);
+
+                        var doc = new Documento
+                        {
+                            EmpleadoId = empleado.IdEmpleado,
+                            Nombre = Path.GetFileNameWithoutExtension(archivo.FileName),
+                            Tipo = "PDF",
+                            Archivo = ms.ToArray(),
+                            FechaSubida = DateTime.Now
+                        };
+
+                        _context.Documentos.Add(doc);
+                    }
+
+                    await _context.SaveChangesAsync();
+                }
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -111,6 +134,8 @@ namespace CFE.Controllers
             return View(empleado);
         }
 
+
+        [HttpGet]
         [Authorize(Roles = "Admin,Moder")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -119,7 +144,10 @@ namespace CFE.Controllers
                 return NotFound();
             }
 
-            var empleado = await _context.Empleados.FindAsync(id);
+            var empleado = await _context.Empleados
+                .Include(e => e.Documentos) 
+                .FirstOrDefaultAsync(e => e.IdEmpleado == id);
+
             if (empleado == null)
             {
                 return NotFound();
@@ -130,78 +158,76 @@ namespace CFE.Controllers
             return View(empleado);
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,Moder")]
-        public async Task<IActionResult> Edit(int id, Empleado empleado, IFormFile? FotoArchivo)
+        public async Task<IActionResult> Edit(int id, Empleado empleado, IFormFile? FotoArchivo, List<IFormFile> DocumentosSubidos)
+
         {
-            if (id != empleado.IdEmpleado)
+            if (id != empleado.IdEmpleado) return NotFound();
+
+            var empleadoExistente = await _context.Empleados
+                .Include(e => e.Documentos)
+                .FirstOrDefaultAsync(e => e.IdEmpleado == id);
+
+            if (empleadoExistente == null) return NotFound();
+
+            // Actualizar foto
+            if (FotoArchivo != null && FotoArchivo.Length > 0)
             {
-                return NotFound();
+                using var ms = new MemoryStream();
+                await FotoArchivo.CopyToAsync(ms);
+                empleadoExistente.Foto = ms.ToArray();
             }
 
-            if (ModelState.IsValid)
+            // Actualizar campos
+            empleadoExistente.Rfc = empleado.Rfc;
+            empleadoExistente.Curp = empleado.Curp;
+            empleadoExistente.Nss = empleado.Nss;
+            empleadoExistente.ApellidoPaterno = empleado.ApellidoPaterno;
+            empleadoExistente.ApellidoMaterno = empleado.ApellidoMaterno;
+            empleadoExistente.Nombre = empleado.Nombre;
+            empleadoExistente.IdArea = empleado.IdArea;
+            empleadoExistente.IdPuesto = empleado.IdPuesto;
+            empleadoExistente.Telefono = empleado.Telefono;
+            empleadoExistente.CorreoElectronico = empleado.CorreoElectronico;
+            empleadoExistente.tipo_contrato = empleado.tipo_contrato;
+            empleadoExistente.fecha_nacimiento = empleado.fecha_nacimiento;
+            empleadoExistente.ingreso_cfe = empleado.ingreso_cfe;
+            empleadoExistente.rpe = empleado.rpe;
+            empleadoExistente.jefe_inmediato = empleado.jefe_inmediato;
+            empleadoExistente.escolaridad = empleado.escolaridad;
+            empleadoExistente.residencia_especialidad = empleado.residencia_especialidad;
+            empleadoExistente.EmpleadoActivo = empleado.EmpleadoActivo;
+
+            // Agregar documentos nuevos
+            if (DocumentosSubidos != null && DocumentosSubidos.Count > 0)
             {
-                try
+                foreach (var archivo in DocumentosSubidos)
                 {
-                    var empleadoExistente = await _context.Empleados.FindAsync(id);
-                    if (empleadoExistente == null)
-                    {
-                        return NotFound();
-                    }
+                    using var ms = new MemoryStream();
+                    await archivo.CopyToAsync(ms);
 
-                    if (FotoArchivo != null && FotoArchivo.Length > 0)
+                    var nuevoDoc = new Documento
                     {
-                        using (var ms = new MemoryStream())
-                        {
-                            await FotoArchivo.CopyToAsync(ms);
-                            empleadoExistente.Foto = ms.ToArray();
-                        }
-                    }
+                        EmpleadoId = empleadoExistente.IdEmpleado,
+                        Nombre = Path.GetFileNameWithoutExtension(archivo.FileName),
+                        Tipo = "PDF",
+                        Archivo = ms.ToArray(),
+                        FechaSubida = DateTime.Now
+                    };
 
-                    empleadoExistente.Rfc = empleado.Rfc;
-                    empleadoExistente.Curp = empleado.Curp;
-                    empleadoExistente.Nss = empleado.Nss;
-                    empleadoExistente.ApellidoPaterno = empleado.ApellidoPaterno;
-                    empleadoExistente.ApellidoMaterno = empleado.ApellidoMaterno;
-                    empleadoExistente.Nombre = empleado.Nombre;
-                    empleadoExistente.IdArea = empleado.IdArea;
-                    empleadoExistente.AreaEmpleado = empleado.AreaEmpleado;
-                    empleadoExistente.IdPuesto = empleado.IdPuesto;
-                    empleadoExistente.Puesto = empleado.Puesto;
-                    empleadoExistente.Telefono = empleado.Telefono;
-                    empleadoExistente.CorreoElectronico = empleado.CorreoElectronico;
-                    empleadoExistente.EmpleadoActivo = empleado.EmpleadoActivo;
-                    empleadoExistente.tipo_contrato = empleado.tipo_contrato;
-                    empleadoExistente.fecha_nacimiento = empleado.fecha_nacimiento;
-                    empleadoExistente.ingreso_cfe = empleado.ingreso_cfe;
-                    empleadoExistente.rpe = empleado.rpe;
-                    empleadoExistente.jefe_inmediato = empleado.jefe_inmediato;
-                    empleadoExistente.escolaridad = empleado.escolaridad;
-                    empleadoExistente.comprobante_escolaridad = empleado.comprobante_escolaridad;
-
-                    _context.Update(empleadoExistente);
-                    await _context.SaveChangesAsync();
-
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EmpleadoExists(empleado.IdEmpleado))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    _context.Documentos.Add(nuevoDoc);
                 }
             }
 
-            ViewData["IdArea"] = new SelectList(_context.Areas, "IdAreas", "DescripcionArea", empleado.IdArea);
-            ViewData["IdPuesto"] = new SelectList(_context.Puestos, "IdPuesto", "DescripcionPuesto", empleado.IdPuesto);
-            return View(empleado);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
+
+
+
 
         [Authorize(Roles = "Admin,Moder")]
         public async Task<IActionResult> Delete(int? id)
@@ -226,20 +252,38 @@ namespace CFE.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,Moder")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var empleado = await _context.Empleados.FindAsync(id);
-            if (empleado != null)
-            {
-                _context.Empleados.Remove(empleado);
-                await _context.SaveChangesAsync();
-            }
-            return RedirectToAction(nameof(Index));
+            var documento = await _context.Documentos.FindAsync(id);
+            if (documento == null) return NotFound();
+
+            int empleadoId = documento.EmpleadoId;
+            _context.Documentos.Remove(documento);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Edit", "Empleadoes", new { id = empleadoId });
         }
 
-        private bool EmpleadoExists(int id)
+        [HttpPost, ActionName("DeleteEmpleado")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Moder")]
+        public async Task<IActionResult> DeleteEmpleadoConfirmed(int id)
         {
-            return (_context.Empleados?.Any(e => e.IdEmpleado == id)).GetValueOrDefault();
+            var empleado = await _context.Empleados
+                .Include(e => e.Documentos)
+                .FirstOrDefaultAsync(e => e.IdEmpleado == id);
+
+            if (empleado == null)
+                return NotFound();
+
+            // Eliminar documentos relacionados si existen
+            if (empleado.Documentos != null)
+                _context.Documentos.RemoveRange(empleado.Documentos);
+
+            _context.Empleados.Remove(empleado);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

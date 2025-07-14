@@ -2,6 +2,7 @@ using CFE.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using CFE.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,7 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddDbContext<empresaContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("conexion"),
     Microsoft.EntityFrameworkCore.ServerVersion.Parse("9.2.0-mysql")));
-
+builder.Services.AddScoped<ConstanciaService>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {

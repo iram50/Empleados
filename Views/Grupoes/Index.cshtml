@@ -152,9 +152,19 @@
         <div class="row">
             <div class="@((User.IsInRole("Admin") ? "col-md-7" : "col-12")) mb-4">
                 <div class="card h-100">
-                    <div class="card-header">
-                        <i class="fas fa-book-open me-2"></i> Cursos Inscritos
-                    </div>
+                <div class="card-header">
+                    <i class="fas fa-book-open me-2"></i>
+                    Cursos Inscritos
+                    @if (Model.EmpleadoSeleccionadoId != null && Model.EmpleadoSeleccionadoId != 0)
+                    {
+                        var empleado = Model.Empleados.FirstOrDefault(e => e.IdEmpleado == Model.EmpleadoSeleccionadoId);
+                        if (empleado != null)
+                        {
+                            @: - @empleado.Nombre
+                        }
+                    }
+                </div>
+
                     <div class="card-body">
                         @if (Model.CursosInscritos != null && Model.CursosInscritos.Any())
                         {

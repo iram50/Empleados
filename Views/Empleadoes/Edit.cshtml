@@ -22,6 +22,7 @@
 
         <div class="card-body">
             <form asp-action="Edit" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
                 <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4"></div>
                 <input type="hidden" asp-for="IdEmpleado" />
 
@@ -175,18 +176,51 @@
                                        onchange="document.getElementById('imgPreview').src = window.URL.createObjectURL(this.files[0])" />
                                 <div class="form-text">Formatos aceptados: JPG, PNG (Max. 2MB)</div>
                             </div>
+
+                            
+                            <div class="mb-3">
+                                <label>Agregar nuevos documentos (PDF)</label>
+                                <input type="file" name="DocumentosSubidos" class="form-control" accept=".pdf" multiple />
+
+                            </div>
+
                         </fieldset>
                     </div>
                 </div>
-
                 <div class="d-flex justify-content-end mt-4">
                     <button type="submit" class="btn btn-warning me-2">
                         <i class="bi bi-save"></i> Guardar Cambios
                     </button>
+
                     <a asp-action="Index" class="btn btn-outline-secondary">
                         <i class="bi bi-x-circle"></i> Cancelar
                     </a>
+
                 </div>
+                <h5 class="mt-4"><i class="bi bi-file-earmark-pdf-fill text-danger"></i> Documentos existentes</h5>
+
+                @if (Model.Documentos != null && Model.Documentos.Any())
+                {
+                    <ul class="list-group mb-3" id="lista-documentos">
+                        @foreach (var doc in Model.Documentos)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center" id="documento-@doc.Id">
+                                <span><i class="bi bi-file-earmark-pdf"></i> @doc.Nombre</span>
+
+                                <button type="button" class="btn btn-sm btn-outline-danger eliminar-documento"
+                                        data-id="@doc.Id">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <div class="alert alert-info">No hay documentos cargados.</div>
+                }
+
+
             </form>
         </div>
     </div>
@@ -196,6 +230,46 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.eliminar-documento').click(function () {
+                const button = $(this);
+                const docId = button.data('id');
+
+                if (!confirm("¿Seguro que quieres eliminar este documento?")) return;
+
+                $.ajax({
+                    url: '@Url.Action("DeleteDocumento", "Documentos")',
+                    method: 'POST',
+                    data: {
+                        id: docId,
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            // Quitar el documento de la lista
+                            $('#documento-' + docId).fadeOut(function () {
+                                $(this).remove();
+
+                                // Si ya no hay más documentos visibles, mostrar mensaje
+                                if ($('#lista-documentos').children('li').length === 0) {
+                                    $('#lista-documentos').replaceWith(`
+                            <div id="mensaje-sin-documentos" class="alert alert-info">
+                                No hay documentos cargados.
+                            </div>
+                        `);
+                                }
+                            });
+                        } else {
+                            alert("Error: " + response.message);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 
     <script>
         // Previsualización de imagen

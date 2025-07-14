@@ -37,10 +37,10 @@
                             <dd class="col-sm-8">@Html.DisplayFor(model => model.Nombre)</dd>
 
                             <dt class="col-sm-4">Área</dt>
-                            <dd class="col-sm-8">@Html.DisplayFor(model => model.AreaEmpleado)</dd>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.IdAreaNavigation.DescripcionArea)</dd>
 
                             <dt class="col-sm-4">Puesto</dt>
-                            <dd class="col-sm-8">@Html.DisplayFor(model => model.Puesto)</dd>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.IdPuestoNavigation.DescripcionPuesto)</dd>
 
                             <dt class="col-sm-4">Teléfono</dt>
                             <dd class="col-sm-8">@Html.DisplayFor(model => model.Telefono)</dd>
@@ -64,11 +64,11 @@
                             <dt class="col-sm-4">Escolaridad</dt>
                             <dd class="col-sm-8">@Html.DisplayFor(model => model.escolaridad)</dd>
 
-                            <dt class="col-sm-4">Comprobante</dt>
-                            <dd class="col-sm-8">@Html.DisplayFor(model => model.comprobante_escolaridad)</dd>
-
                             <dt class="col-sm-4">Residencia/Especialidad</dt>
                             <dd class="col-sm-8">@Html.DisplayFor(model => model.residencia_especialidad)</dd>
+
+                            <dt class="col-sm-4">Activo</dt>
+                            <dd class="col-sm-8">@((Model.EmpleadoActivo ?? false) ? "Sí" : "No")</dd>
 
                             <dt class="col-sm-4">Foto</dt>
                             <dd class="col-sm-8">
@@ -82,20 +82,11 @@
                                 }
                             </dd>
 
-                            <dt class="col-sm-4">Activo</dt>
-                            <dd class="col-sm-8">@((Model.EmpleadoActivo ?? false) ? "Sí" : "No")</dd>
-
-                            <dt class="col-sm-4">Área (ID)</dt>
-                            <dd class="col-sm-8">@Html.DisplayFor(model => model.IdAreaNavigation.IdAreas)</dd>
-
-                            <dt class="col-sm-4">Puesto (ID)</dt>
-                            <dd class="col-sm-8">@Html.DisplayFor(model => model.IdPuestoNavigation.IdPuesto)</dd>
                         </dl>
                     </div>
                 </div>
 
-                <form asp-action="Delete">
-                    <input type="hidden" asp-for="IdEmpleado" />
+                <form asp-action="DeleteEmpleado" asp-route-id="@Model.IdEmpleado" method="post">
                     <div class="d-flex justify-content-center gap-4">
                         <button type="submit" class="btn btn-outline-danger btn-lg">
                             <i class="bi bi-trash-fill me-1"></i> Eliminar
@@ -105,6 +96,7 @@
                         </a>
                     </div>
                 </form>
+
             </div>
 
         </div>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using TuProyecto.Models;
 
 namespace CFE.Models
 {
@@ -26,6 +27,8 @@ namespace CFE.Models
         public virtual DbSet<Usuario> Usuarios { get; set; }
         public virtual DbSet<Rol> Roles { get; set; }
         public virtual DbSet<Configuracion> Configuracion { get; set; }
+        public virtual DbSet<Documento> Documentos { get; set; }
+
 
 
 
@@ -76,6 +79,42 @@ namespace CFE.Models
                     .OnDelete(DeleteBehavior.SetNull)
                     .HasConstraintName("cursos_ibfk_1");
             });
+
+            modelBuilder.Entity<Documento>(entity =>
+            {
+                entity.ToTable("documentos");
+
+                entity.HasKey(d => d.Id);
+
+                entity.HasIndex(d => d.EmpleadoId).HasDatabaseName("IX_Documentos_EmpleadoId");
+
+                entity.Property(d => d.Id).HasColumnName("Id");
+
+                entity.Property(d => d.Nombre)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(d => d.Tipo)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(d => d.Archivo)
+                    .HasColumnType("LONGBLOB");
+
+                entity.Property(d => d.FechaSubida)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.Property(d => d.EmpleadoId)
+                    .HasColumnName("EmpleadoId");
+
+                entity.HasOne(d => d.Empleado)
+                    .WithMany(e => e.Documentos)
+                    .HasForeignKey(d => d.EmpleadoId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_Documento_Empleado");
+            });
+
 
             modelBuilder.Entity<Empleado>(entity =>
             {

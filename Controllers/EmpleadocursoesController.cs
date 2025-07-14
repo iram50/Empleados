@@ -6,18 +6,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CFE.Models;
-using CFE.Services;
-
+using CFE.Services; // ¡Asegúrate de que este 'using' esté presente!
 
 namespace CFE.Controllers
 {
     public class EmpleadocursoesController : Controller
     {
         private readonly empresaContext _context;
+        private readonly ConstanciaService _constanciaService; // Declara la variable para tu servicio
 
-        public EmpleadocursoesController(empresaContext context)
+        // Constructor del controlador
+        // Ahora inyectamos tanto el contexto de la base de datos como tu servicio de constancias
+        public EmpleadocursoesController(empresaContext context, ConstanciaService constanciaService)
         {
             _context = context;
+            _constanciaService = constanciaService; // Asigna la instancia inyectada
         }
 
         // GET: Empleadocursoes
@@ -56,8 +59,6 @@ namespace CFE.Controllers
         }
 
         // POST: Empleadocursoes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdEmpleado,ClaveGrupo,EstatusCurso")] Empleadocurso empleadocurso)
@@ -92,8 +93,6 @@ namespace CFE.Controllers
         }
 
         // POST: Empleadocursoes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdEmpleado,ClaveGrupo,EstatusCurso")] Empleadocurso empleadocurso)
@@ -155,23 +154,24 @@ namespace CFE.Controllers
         {
             if (_context.Empleadocursos == null)
             {
-                return Problem("Entity set 'empresaContext.Empleadocursos'  is null.");
+                return Problem("Entity set 'empresaContext.Empleadocursos' is null.");
             }
             var empleadocurso = await _context.Empleadocursos.FindAsync(id);
             if (empleadocurso != null)
             {
                 _context.Empleadocursos.Remove(empleadocurso);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool EmpleadocursoExists(int id)
         {
-          return (_context.Empleadocursos?.Any(e => e.IdEmpleado == id)).GetValueOrDefault();
+            return (_context.Empleadocursos?.Any(e => e.IdEmpleado == id)).GetValueOrDefault();
         }
 
+        // --- MÉTODO GENERAR CONSTANCIA CORREGIDO ---
         [HttpGet]
         public async Task<IActionResult> GenerarConstancia(int idEmpleado, int claveGrupo)
         {
@@ -180,7 +180,7 @@ namespace CFE.Controllers
                 .Include(ec => ec.ClaveGrupoNavigation)
                     .ThenInclude(g => g.IdCursoNavigation)
                 .Include(ec => ec.ClaveGrupoNavigation)
-                       .ThenInclude(g => g.IdInstructorNavigation)
+                    .ThenInclude(g => g.IdInstructorNavigation)
                 .FirstOrDefaultAsync(ec => ec.IdEmpleado == idEmpleado && ec.ClaveGrupo == claveGrupo);
 
             if (empleadocurso == null)
@@ -193,13 +193,13 @@ namespace CFE.Controllers
                 return BadRequest("El empleado no alcanzó la calificación mínima para generar constancia.");
             }
 
-            var constanciaService = new ConstanciaService(); 
-            var pdfBytes = constanciaService.GenerarConstancia(empleadocurso);
+            // Llama al servicio de constancias inyectado
+            // Y accede a los elementos de la tupla por sus nombres (pdfBytes, fileName)
+            var (pdfBytes, fileName) = _constanciaService.GenerarConstancia(empleadocurso);
 
-            return File(pdfBytes, "application/pdf", "Constancia.pdf");
+
+            // Devuelve el archivo PDF con el nombre generado dinámicamente
+            return File(pdfBytes, "application/pdf", fileName);
         }
-
     }
-
-
 }

@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using CFE.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using System;
 
 namespace CFE.Controllers
 {
@@ -10,10 +14,13 @@ namespace CFE.Controllers
     public class UsuariosController : Controller
     {
         private readonly empresaContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment; // <<-- Nueva variable para el entorno web
 
-        public UsuariosController(empresaContext context)
+        // Constructor: Ahora inyecta IWebHostEnvironment
+        public UsuariosController(empresaContext context, IWebHostEnvironment webHostEnvironment) // <<-- Añade 'IWebHostEnvironment webHostEnvironment'
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment; // <<-- Asigna la instancia inyectada
         }
 
         // Mostrar lista de usuarios
@@ -66,40 +73,40 @@ namespace CFE.Controllers
         // Procesar edición del usuario
         [HttpPost]
         [ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(Usuario usuario)
-		{
-			if (ModelState.IsValid)
-			{
-				var usuarioExistente = await _context.Usuarios.FindAsync(usuario.Id_usuario);
-				if (usuarioExistente == null)
-				{
-					return NotFound();
-				}
+        public async Task<IActionResult> Edit(Usuario usuario)
+        {
+            if (ModelState.IsValid)
+            {
+                var usuarioExistente = await _context.Usuarios.FindAsync(usuario.Id_usuario);
+                if (usuarioExistente == null)
+                {
+                    return NotFound();
+                }
 
-				usuarioExistente.Nombre = usuario.Nombre;
-				usuarioExistente.UsuarioNombre = usuario.UsuarioNombre;
-				usuarioExistente.RolId = usuario.RolId;
+                usuarioExistente.Nombre = usuario.Nombre;
+                usuarioExistente.UsuarioNombre = usuario.UsuarioNombre;
+                usuarioExistente.RolId = usuario.RolId;
 
-				// Solo actualizar la contraseña si el campo tiene valor
-				if (!string.IsNullOrWhiteSpace(usuario.Clave))
-				{
-					usuarioExistente.Clave = usuario.Clave;
-				}
+                // Solo actualizar la contraseña si el campo tiene valor
+                if (!string.IsNullOrWhiteSpace(usuario.Clave))
+                {
+                    usuarioExistente.Clave = usuario.Clave;
+                }
 
-				await _context.SaveChangesAsync();
-				return RedirectToAction(nameof(Index));
-			}
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
 
-			ViewBag.Roles = new SelectList(_context.Roles.ToList(), "IdRol", "NombreRol", usuario.RolId);
-			return View(usuario);
-		}
-
-
+            ViewBag.Roles = new SelectList(_context.Roles.ToList(), "IdRol", "NombreRol", usuario.RolId);
+            return View(usuario);
+        }
 
 
 
-		// Mostrar confirmación de borrado
-		[HttpGet]
+
+
+        // Mostrar confirmación de borrado
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using TuProyecto.Models;
 
 namespace CFE.Models
 {
@@ -22,7 +24,10 @@ namespace CFE.Models
         public string? AreaEmpleado { get; set; }
         public int? IdPuesto { get; set; }
         public string? Puesto { get; set; }
+
+        [StringLength(25, ErrorMessage = "El número no debe exceder 25 caracteres.")]
         public string? Telefono { get; set; }
+
         public string? CorreoElectronico { get; set; }
         public byte[]? Foto { get; set; }
 
@@ -35,8 +40,6 @@ namespace CFE.Models
         public string? jefe_inmediato { get; set; }
 
         public string? escolaridad { get; set; }
-
-        public string? comprobante_escolaridad { get; set; }
         public bool? EmpleadoActivo { get; set; }
 
         public string? residencia_especialidad { get; set; }
@@ -45,6 +48,10 @@ namespace CFE.Models
         public virtual Area? IdAreaNavigation { get; set; }
         public virtual Puesto? IdPuestoNavigation { get; set; }
         public virtual ICollection<Empleadocurso> Empleadocursos { get; set; }
+
+        public ICollection<Documento> Documentos { get; set; }
+
+
 
         [NotMapped]
         public int? Edad
