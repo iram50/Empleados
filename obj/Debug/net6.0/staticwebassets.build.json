@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "wHnmnQd5SHYhRXYlOmBBS6luCq6+/s4fVUhwRvsE96w=",
+  "Hash": "9dycv42duJDWZhZirftlnB4OgIpPRygA3JhqR0RcCN0=",
   "Source": "CFE",
   "BasePath": "_content/CFE",
   "Mode": "Default",
@@ -245,12 +245,12 @@
       "OriginalItemSpec": "wwwroot\\images\\logo-638874132696088830.png"
     },
     {
-      "Identity": "E:\\repos\\CFE\\wwwroot\\images\\logo-638880950464187985.png",
+      "Identity": "E:\\repos\\CFE\\wwwroot\\images\\logo-638881717725122125.png",
       "SourceId": "CFE",
       "SourceType": "Discovered",
       "ContentRoot": "E:\\repos\\CFE\\wwwroot\\",
       "BasePath": "_content/CFE",
-      "RelativePath": "images/logo-638880950464187985.png",
+      "RelativePath": "images/logo-638881717725122125.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -261,7 +261,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\logo-638880950464187985.png"
+      "OriginalItemSpec": "wwwroot\\images\\logo-638881717725122125.png"
     },
     {
       "Identity": "E:\\repos\\CFE\\wwwroot\\images\\logo-cfe-capacitaciones.png",

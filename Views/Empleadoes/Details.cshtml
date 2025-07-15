@@ -87,13 +87,33 @@
                         }
                     </dd>
                     <h4 class="mt-4">Documentos del Empleado</h4>
+
                     @if (Model.Documentos != null && Model.Documentos.Any())
                     {
-                        <ul class="list-group">
+                        <div class="mb-3">
+                            <label for="filtroAnio" class="form-label fw-bold">Filtrar por Año:</label>
+                            <select id="filtroAnio" class="form-select" onchange="filtrarPorAnio()">
+                                <option value="">Todos</option>
+                                @{
+                                    var años = Model.Documentos
+                                    .Select(d => d.FechaSubida.Year)
+                                    .Distinct()
+                                    .OrderByDescending(a => a);
+
+                                    foreach (var anio in años)
+                                    {
+                                        <option value="@anio">@anio</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <ul id="listaDocumentos" class="list-group">
                             @foreach (var doc in Model.Documentos)
                             {
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    @doc.Nombre
+                                <li class="list-group-item d-flex justify-content-between align-items-center documento"
+                                    data-anio="@doc.FechaSubida.Year">
+                                    @doc.Nombre (@doc.FechaSubida.ToString("yyyy-MM-dd"))
                                     <a asp-controller="Documentos" asp-action="Download" asp-route-id="@doc.Id" class="btn btn-sm btn-primary">
                                         Descargar
                                     </a>
@@ -105,6 +125,7 @@
                     {
                         <p>No hay documentos cargados.</p>
                     }
+
 
                 </dl>
             </div>
@@ -193,3 +214,15 @@
             color: white;
         }
 </style>
+
+<script>
+    function filtrarPorAnio() {
+        const anioSeleccionado = document.getElementById("filtroAnio").value;
+        const documentos = document.querySelectorAll(".documento");
+
+        documentos.forEach(doc => {
+            const anio = doc.getAttribute("data-anio");
+            doc.style.display = (!anioSeleccionado || anio === anioSeleccionado) ? "flex" : "none";
+        });
+    }
+</script>

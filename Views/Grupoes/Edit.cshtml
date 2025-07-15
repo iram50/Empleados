@@ -74,11 +74,8 @@
                             <span asp-validation-for="IdInstructor" class="text-danger small"></span>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="AreaOfrece" class="form-label fw-bold">Área que ofrece:</label>
-                            <input asp-for="AreaOfrece" class="form-control" />
-                            <span asp-validation-for="AreaOfrece" class="text-danger"></span>
-                        </div>
+                        <input type="hidden" asp-for="AreaOfrece" value="." />
+
 
                         <div class="mb-3">
                             <label asp-for="Status" class="form-label fw-bold">Estado:</label>

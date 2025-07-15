@@ -83,10 +83,17 @@
                         <span asp-validation-for="IdPuesto" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Tipo de Contrato</label>
-                        <input asp-for="tipo_contrato" class="form-control" />
+                        <label asp-for="tipo_contrato" class="form-label">Tipo de Contrato</label>
+                        <select asp-for="tipo_contrato" class="form-select">
+                            <option value="">Seleccione una opción</option>
+                            <option>Permanente de confianza</option>
+                            <option>Permanente sindicalizado</option>
+                            <option>Eventual de confianza</option>
+                            <option>Eventual sindicalizado</option>
+                        </select>
                         <span asp-validation-for="tipo_contrato" class="text-danger"></span>
                     </div>
+
                     <div class="col-md-6">
                         <label class="form-label">Ingreso en la CFE</label>
                         <input asp-for="ingreso_cfe" type="date" class="form-control" />
@@ -94,11 +101,63 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Escolaridad</label>
-                        <input asp-for="escolaridad" class="form-control" />
+
+                        <!-- Select principal -->
+                        <select id="escolaridadBase" class="form-select">
+                            <option value="">Seleccione una opción</option>
+                            <option value="Primaria">Primaria</option>
+                            <option value="Secundaria">Secundaria</option>
+                            <option value="Bachillerato">Bachillerato</option>
+                            <option value="Licenciatura">Licenciatura</option>
+                        </select>
+
+                        <!-- Select detalle solo visible si es licenciatura -->
+                        <select id="detalleLicenciatura" class="form-select mt-2" style="display:none;">
+                            <option value="">Seleccione detalle</option>
+                            <option value="Titulado">Titulado</option>
+                            <option value="Carta Pasante">Carta Pasante</option>
+                            <option value="Trunca">Trunca</option>
+                        </select>
+
+                        <!-- Campo oculto que se envía con el formulario -->
+                        <input type="hidden" asp-for="escolaridad" id="escolaridad" />
+
                         <span asp-validation-for="escolaridad" class="text-danger"></span>
                     </div>
+
+                    <script>
+                        const baseSelect = document.getElementById('escolaridadBase');
+                        const detalleSelect = document.getElementById('detalleLicenciatura');
+                        const finalInput = document.getElementById('escolaridad');
+
+                        function actualizarValorFinal() {
+                            const base = baseSelect.value;
+                            const detalle = detalleSelect.value;
+
+                            if (base === "Licenciatura" && detalle) {
+                                finalInput.value = `${base} - ${detalle}`;
+                            } else {
+                                finalInput.value = base;
+                            }
+                        }
+
+                        baseSelect.addEventListener('change', function () {
+                            if (this.value === "Licenciatura") {
+                                detalleSelect.style.display = "block";
+                            } else {
+                                detalleSelect.style.display = "none";
+                                detalleSelect.value = "";
+                            }
+                            actualizarValorFinal();
+                        });
+
+                        detalleSelect.addEventListener('change', actualizarValorFinal);
+                    </script>
+
+
+
                     <div class="col-md-6">
-                        <label class="form-label">Residencia / Especialidad</label>
+                        <label class="form-label">Carrera</label>
                         <input asp-for="residencia_especialidad" class="form-control" />
                         <span asp-validation-for="residencia_especialidad" class="text-danger"></span>
                     </div>

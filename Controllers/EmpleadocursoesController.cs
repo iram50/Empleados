@@ -170,36 +170,6 @@ namespace CFE.Controllers
         {
             return (_context.Empleadocursos?.Any(e => e.IdEmpleado == id)).GetValueOrDefault();
         }
-
-        // --- MÉTODO GENERAR CONSTANCIA CORREGIDO ---
-        [HttpGet]
-        public async Task<IActionResult> GenerarConstancia(int idEmpleado, int claveGrupo)
-        {
-            var empleadocurso = await _context.Empleadocursos
-                .Include(ec => ec.IdEmpleadoNavigation)
-                .Include(ec => ec.ClaveGrupoNavigation)
-                    .ThenInclude(g => g.IdCursoNavigation)
-                .Include(ec => ec.ClaveGrupoNavigation)
-                    .ThenInclude(g => g.IdInstructorNavigation)
-                .FirstOrDefaultAsync(ec => ec.IdEmpleado == idEmpleado && ec.ClaveGrupo == claveGrupo);
-
-            if (empleadocurso == null)
-            {
-                return NotFound("No se encontró el registro de inscripción del empleado al grupo.");
-            }
-
-            if (empleadocurso.ClaveGrupoNavigation.Calificacion < 59)
-            {
-                return BadRequest("El empleado no alcanzó la calificación mínima para generar constancia.");
-            }
-
-            // Llama al servicio de constancias inyectado
-            // Y accede a los elementos de la tupla por sus nombres (pdfBytes, fileName)
-            var (pdfBytes, fileName) = _constanciaService.GenerarConstancia(empleadocurso);
-
-
-            // Devuelve el archivo PDF con el nombre generado dinámicamente
-            return File(pdfBytes, "application/pdf", fileName);
-        }
+        
     }
 }

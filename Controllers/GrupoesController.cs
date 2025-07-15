@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CFE.Models;
 using CFE.ViewModels;
+using CFE.Services;
 
 namespace CFE.Controllers
 {
     public class GrupoesController : Controller
     {
         private readonly empresaContext _context;
+        private readonly ConstanciaService _constanciaService;
 
-        public GrupoesController(empresaContext context)
+        public GrupoesController(empresaContext context, ConstanciaService constanciaService)
         {
             _context = context;
+            _constanciaService = constanciaService;
         }
 
         // GET: Grupoes
@@ -24,25 +27,21 @@ namespace CFE.Controllers
         {
             var model = new GruposIndexViewModel();
 
-            // Siempre carga la lista de empleados y cursos disponibles
             model.Empleados = await _context.Empleados.ToListAsync();
             model.CursosDisponibles = await _context.Cursos
                 .Include(c => c.Instructor)
                 .ToListAsync();
 
-
             if (empleadoId != null && empleadoId != 0)
             {
                 model.EmpleadoSeleccionadoId = empleadoId.Value;
 
-                // Obtener empleado seleccionado
                 var empleado = await _context.Empleados.FindAsync(empleadoId.Value);
                 if (empleado != null)
                 {
                     model.NombreEmpleadoSeleccionado = empleado.Nombre;
                 }
 
-                // Cargar cursos inscritos para el empleado seleccionado
                 model.CursosInscritos = await _context.Grupos
                     .Where(g => g.IdEmpleado == empleadoId.Value)
                     .Include(g => g.IdCursoNavigation)
@@ -51,15 +50,12 @@ namespace CFE.Controllers
             }
             else
             {
-                // Si no hay empleado seleccionado, inicializa listas vacías
                 model.CursosInscritos = new List<Grupo>();
                 model.NombreEmpleadoSeleccionado = string.Empty;
             }
 
             return View(model);
         }
-
-
 
         // POST: Grupoes/Inscribir
         [HttpPost]
@@ -72,6 +68,7 @@ namespace CFE.Controllers
             }
 
             var grupoBase = model.NuevoGrupo;
+            int? redirectToEmpleadoId = null;
 
             foreach (var empleadoId in model.EmpleadosIds)
             {
@@ -91,17 +88,18 @@ namespace CFE.Controllers
                 };
 
                 _context.Grupos.Add(nuevoGrupo);
+
+                if (redirectToEmpleadoId == null)
+                {
+                    redirectToEmpleadoId = empleadoId;
+                }
             }
 
             await _context.SaveChangesAsync();
 
             TempData["Success"] = "Grupos creados correctamente.";
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { empleadoId = redirectToEmpleadoId });
         }
-
-
-
-
 
         // GET: Grupoes/RenderNuevoFormulario
         public IActionResult RenderNuevoFormulario(int index)
@@ -181,17 +179,6 @@ namespace CFE.Controllers
             try
             {
                 _context.Update(grupo);
-
-                var empleadocurso = await _context.Empleadocursos
-                    .FirstOrDefaultAsync(ec => ec.ClaveGrupo == grupo.ClaveGrupo);
-
-                if (empleadocurso != null)
-                {
-                    empleadocurso.IdEmpleado = grupo.IdEmpleado ?? empleadocurso.IdEmpleado;
-                    empleadocurso.Calificacion = grupo.Calificacion;
-                    _context.Update(empleadocurso);
-                }
-
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -236,7 +223,7 @@ namespace CFE.Controllers
         {
             if (_context.Grupos == null)
             {
-                return Problem("Entity set 'empresaContext.Grupos'  is null.");
+                return Problem("Entity set 'empresaContext.Grupos' is null.");
             }
             var grupo = await _context.Grupos.FindAsync(id);
             if (grupo != null)
@@ -253,19 +240,34 @@ namespace CFE.Controllers
             return (_context.Grupos?.Any(e => e.ClaveGrupo == id)).GetValueOrDefault();
         }
 
+        // MÉTODO GENERAR CONSTANCIA
         [HttpGet]
-        public async Task<IActionResult> ObtenerInstructorPorCurso(int cursoId)
+        public async Task<IActionResult> GenerarConstancia(int idEmpleado, int claveGrupo)
         {
-            var curso = await _context.Cursos
-                .Include(c => c.Instructor)
-                .FirstOrDefaultAsync(c => c.IdCurso == cursoId);
+            // Cargar el objeto Grupo directamente, incluyendo todas sus navegaciones necesarias
+            var grupo = await _context.Grupos
+                .Include(g => g.IdEmpleadoNavigation) // Incluye el empleado asociado a este grupo
+                .Include(g => g.IdCursoNavigation)    // Incluye el curso asociado a este grupo
+                .Include(g => g.IdInstructorNavigation) // Incluye el instructor asociado a este grupo
+                .FirstOrDefaultAsync(g => g.IdEmpleado == idEmpleado && g.ClaveGrupo == claveGrupo);
 
-            if (curso == null || curso.Instructor == null)
-                return Json(new { success = false });
+            // Verificar si se encontró el registro del grupo
+            if (grupo == null)
+            {
+                return NotFound("No se encontró el registro de inscripción del empleado al grupo.");
+            }
 
-            return Json(new { success = true, idInstructor = curso.Instructor.Id_Instructor });
+            // Verificar la calificación mínima para generar la constancia desde el objeto Grupo
+            if (grupo.Calificacion < 59)
+            {
+                return BadRequest("El empleado no alcanzó la calificación mínima para generar constancia.");
+            }
+
+            // Llama a tu servicio de constancias inyectado, pasándole el objeto Grupo
+            var (pdfBytes, fileName) = _constanciaService.GenerarConstancia(grupo); // <<-- ¡AHORA PASA EL OBJETO GRUPO!
+
+            // Devuelve el archivo PDF con el nombre generado dinámicamente
+            return File(pdfBytes, "application/pdf", fileName);
         }
-
-        
     }
 }

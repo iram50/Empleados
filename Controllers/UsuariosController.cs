@@ -14,13 +14,12 @@ namespace CFE.Controllers
     public class UsuariosController : Controller
     {
         private readonly empresaContext _context;
-        private readonly IWebHostEnvironment _webHostEnvironment; // <<-- Nueva variable para el entorno web
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        // Constructor: Ahora inyecta IWebHostEnvironment
-        public UsuariosController(empresaContext context, IWebHostEnvironment webHostEnvironment) // <<-- Añade 'IWebHostEnvironment webHostEnvironment'
+        public UsuariosController(empresaContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
-            _webHostEnvironment = webHostEnvironment; // <<-- Asigna la instancia inyectada
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // Mostrar lista de usuarios
@@ -67,9 +66,6 @@ namespace CFE.Controllers
             return View(usuario);
         }
 
-
-
-
         // Procesar edición del usuario
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -100,10 +96,6 @@ namespace CFE.Controllers
             ViewBag.Roles = new SelectList(_context.Roles.ToList(), "IdRol", "NombreRol", usuario.RolId);
             return View(usuario);
         }
-
-
-
-
 
         // Mostrar confirmación de borrado
         [HttpGet]
@@ -149,7 +141,10 @@ namespace CFE.Controllers
             if (nuevoLogo != null && nuevoLogo.Length > 0)
             {
                 var nombreArchivoNuevo = "logo-" + DateTime.Now.Ticks + Path.GetExtension(nuevoLogo.FileName);
-                var carpeta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+
+                // ¡¡¡CORRECCIÓN CLAVE AQUÍ!!!
+                // Usar _webHostEnvironment.WebRootPath para la ruta correcta a wwwroot
+                var carpeta = Path.Combine(_webHostEnvironment.WebRootPath, "images");
 
                 if (!Directory.Exists(carpeta))
                     Directory.CreateDirectory(carpeta);
@@ -164,19 +159,31 @@ namespace CFE.Controllers
                 var config = await _context.Configuracion.FirstOrDefaultAsync();
                 if (config != null)
                 {
-                    if (!string.IsNullOrEmpty(config.NombreLogo))
+                    // Elimina el logo anterior si no es uno por defecto
+                    if (!string.IsNullOrEmpty(config.NombreLogo) && !config.NombreLogo.StartsWith("logo-default", StringComparison.OrdinalIgnoreCase) && System.IO.File.Exists(Path.Combine(carpeta, config.NombreLogo)))
                     {
-                        var rutaAnterior = Path.Combine(carpeta, config.NombreLogo);
-                        if (System.IO.File.Exists(rutaAnterior) && !config.NombreLogo.StartsWith("logo-default"))
-                        {
-                            System.IO.File.Delete(rutaAnterior);
-                        }
+                        System.IO.File.Delete(Path.Combine(carpeta, config.NombreLogo));
+                        Console.WriteLine($"[UsuariosController] Eliminado logo anterior: {config.NombreLogo}"); // Depuración
                     }
 
+                    // Actualiza el nombre del logo en la base de datos
                     config.NombreLogo = nombreArchivoNuevo;
                     _context.Update(config);
                     await _context.SaveChangesAsync();
+                    Console.WriteLine($"[UsuariosController] Nuevo logo guardado en DB: {nombreArchivoNuevo}"); // Depuración
                 }
+                else
+                {
+                    // Si no hay ninguna configuración, crea una nueva entrada
+                    var nuevaConfig = new Configuracion { NombreLogo = nombreArchivoNuevo };
+                    _context.Configuracion.Add(nuevaConfig);
+                    await _context.SaveChangesAsync();
+                    Console.WriteLine($"[UsuariosController] Nueva configuración creada con logo: {nombreArchivoNuevo}"); // Depuración
+                }
+            }
+            else
+            {
+                Console.WriteLine("[UsuariosController] No se seleccionó ningún archivo de logo o el archivo está vacío."); // Depuración
             }
 
             return RedirectToAction("CambiarLogo");

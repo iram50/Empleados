@@ -223,7 +223,8 @@ namespace CFE.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Edit", new { id = empleadoExistente.IdEmpleado });
+
         }
 
 

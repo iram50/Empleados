@@ -7,12 +7,12 @@
 <style>
     :root {
         --primary-green: #008a54;
-        --light-green: #e6f5ee; 
-        --dark-green: #006b41; 
+        --light-green: #e6f5ee;
+        --dark-green: #006b41;
     }
 
     body {
-        background-color: #f8f9fa; 
+        background-color: #f8f9fa;
     }
 
     .card {
@@ -40,7 +40,7 @@
         .form-select:focus,
         .form-control:focus {
             border-color: var(--dark-green);
-            box-shadow: 0 0 0 0.25rem rgba(0, 138, 84, 0.25); 
+            box-shadow: 0 0 0 0.25rem rgba(0, 138, 84, 0.25);
         }
 
     .btn-primary {
@@ -65,7 +65,7 @@
     }
 
     .table tbody tr:last-child td {
-        padding-bottom: 0.75rem; 
+        padding-bottom: 0.75rem;
     }
 
 
@@ -74,7 +74,7 @@
     }
 
     .text-danger {
-        color: #dc3545 !important; 
+        color: #dc3545 !important;
     }
 
     .dropdown-item {
@@ -96,7 +96,7 @@
             color: white;
         }
 
-      /* Es crucial que el contenedor de la celda de la tabla NO tenga overflow: hidden; */
+    /* Es crucial que el contenedor de la celda de la tabla NO tenga overflow: hidden; */
     .table-responsive .table td {
         overflow: visible; /* Asegura que el contenido pueda desbordar la celda */
     }
@@ -107,23 +107,19 @@
     }
 
         .table-actions-dropdown .dropdown-menu {
-        
-            position: fixed !important; /* Fuerza el posicionamiento respecto al viewport */
-            top: auto !important; 
-            left: auto !important; 
-            right: auto !important; 
-            bottom: auto !important; 
-
+            position: fixed !important;
+            top: auto !important;
+            left: auto !important;
+            right: auto !important;
+            bottom: auto !important;
             min-width: 14rem;
-            max-height: unset; /* Asegura que el menú no tenga una altura máxima fija que lo corte */
-            overflow: visible; /* Asegura que no haya scroll dentro del propio menú */
-            transform: none !important; /* Desactiva cualquier transformación que pueda interferir */
-
-            z-index: 1050; /* Asegura que esté por encima de otros elementos */
+            max-height: unset;
+            overflow: visible;
+            transform: none !important;
+            z-index: 1050;
             box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
             border: 1px solid rgba(0, 0, 0, 0.15);
         }
-
 </style>
 
 <div class="container py-4">
@@ -149,9 +145,9 @@
         </div>
     </div>
 
-        <div class="row">
-            <div class="@((User.IsInRole("Admin") ? "col-md-7" : "col-12")) mb-4">
-                <div class="card h-100">
+    <div class="row">
+        <div class="@((User.IsInRole("Admin") ? "col-md-7" : "col-12")) mb-4">
+            <div class="card h-100">
                 <div class="card-header">
                     <i class="fas fa-book-open me-2"></i>
                     Cursos Inscritos
@@ -165,213 +161,207 @@
                     }
                 </div>
 
-                    <div class="card-body">
-                        @if (Model.CursosInscritos != null && Model.CursosInscritos.Any())
-                        {
-                            <div class="table-responsive">
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Curso</th>
-                                            <th>Instructor</th>
-                                            <th>Fecha</th>
-                                            <th>Calificación</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var curso in Model.CursosInscritos)
+                <div class="card-body">
+                    @if (Model.CursosInscritos != null && Model.CursosInscritos.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Curso</th>
+                                        <th>Instructor</th>
+                                        <th>Fecha</th>
+                                        <th>Calificación</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var curso in Model.CursosInscritos)
+                                    {
+                                        string colorClass;
+                                        if (curso.Calificacion >= 80)
                                         {
-                                            string colorClass;
-                                            if (curso.Calificacion >= 80)
-                                            {
-                                                colorClass = "text-success"; // Aprobatoria
-                                            }
-                                            else if (curso.Calificacion >= 60 && curso.Calificacion < 80)
-                                            {
-                                                colorClass = "text-info"; 
-                                            }
-                                            else
-                                            {
-                                                colorClass = "text-danger"; // No aprobado
-                                            }
-
-                                            <tr>
-                                                <td>@curso.IdCursoNavigation?.NombreCurso</td>
-                                                <td>@(curso.IdInstructorNavigation != null ? curso.IdInstructorNavigation.NombreInstructor : "Sin Instructor")</td>
-                                                <td>@(curso.FechaInicial.ToString("dd/MM/yyyy"))</td>
-                                                <td class="@colorClass fw-bold">@curso.Calificacion</td>
-                                                <td>
-                                                    <div class="dropdown table-actions-dropdown">
-                                                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <i class="fas fa-ellipsis-v"></i>
-                                                        </button>
-                                                        <ul class="dropdown-menu">
-                                                            <li>
-                                                                <a class="dropdown-item"
-                                                                   asp-action="GenerarConstancia"
-                                                                   asp-controller="Empleadocursoes"
-                                                                   asp-route-idEmpleado="@Model.EmpleadoSeleccionadoId"
-                                                                   asp-route-claveGrupo="@curso.ClaveGrupo"
-                                                                   target="_blank">
-                                                                    <i class="fas fa-file-pdf me-2"></i>Descargar Constancia
-                                                                </a>
-                                                            </li>
-                                                            <li><hr class="dropdown-divider"></li>
-
-                                                            <li>
-                                                                <a class="dropdown-item" asp-action="Details" asp-route-id="@curso.ClaveGrupo">
-                                                                    <i class="fas fa-info-circle me-2 text-info"></i>Detalles
-                                                                </a>
-                                                            </li>
-                                                            @if (User.IsInRole("Admin") || User.IsInRole("Moder"))
-                                                            {
-                                                                <li>
-                                                                    <a class="dropdown-item" asp-action="Edit" asp-route-id="@curso.ClaveGrupo">
-                                                                        <i class="fas fa-edit me-2 text-warning"></i>Editar
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item text-danger" asp-action="Delete" asp-route-id="@curso.ClaveGrupo">
-                                                                        <i class="fas fa-trash-alt me-2"></i>Eliminar
-                                                                    </a>
-                                                                </li>
-                                                            }
-                                                        </ul>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            colorClass = "text-success"; // Aprobatoria
                                         }
-                                    </tbody>
-                                </table>
+                                        else if (curso.Calificacion >= 60 && curso.Calificacion < 80)
+                                        {
+                                            colorClass = "text-info";
+                                        }
+                                        else
+                                        {
+                                            colorClass = "text-danger"; // No aprobado
+                                        }
+
+                                        <tr>
+                                            <td>@curso.IdCursoNavigation?.NombreCurso</td>
+                                            <td>@(curso.IdInstructorNavigation != null ? curso.IdInstructorNavigation.NombreInstructor : "Sin Instructor")</td>
+                                            <td>@(curso.FechaInicial.ToString("dd/MM/yyyy"))</td>
+                                            <td class="@colorClass fw-bold">@curso.Calificacion</td>
+                                            <td>
+                                                <div class="dropdown table-actions-dropdown">
+                                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="fas fa-ellipsis-v"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <a class="dropdown-item text-success"
+                                                               asp-action="GenerarConstancia"
+                                                               asp-controller="Grupoes"
+                                                               asp-route-idEmpleado="@Model.EmpleadoSeleccionadoId"
+                                                               asp-route-claveGrupo="@curso.ClaveGrupo"
+                                                               target="_blank">
+                                                                <i class="fas fa-file-pdf me-2"></i>Descargar Constancia
+                                                            </a>
+                                                        </li>
+                                                        <li><hr class="dropdown-divider"></li>
+
+                                                        <li>
+                                                            <a class="dropdown-item" asp-action="Details" asp-route-id="@curso.ClaveGrupo">
+                                                                <i class="fas fa-info-circle me-2 text-info"></i>Detalles
+                                                            </a>
+                                                        </li>
+                                                        @if (User.IsInRole("Admin") || User.IsInRole("Moder"))
+                                                        {
+                                                            <li>
+                                                                <a class="dropdown-item" asp-action="Edit" asp-route-id="@curso.ClaveGrupo">
+                                                                    <i class="fas fa-edit me-2 text-warning"></i>Editar
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item text-danger" asp-action="Delete" asp-route-id="@curso.ClaveGrupo">
+                                                                    <i class="fas fa-trash-alt me-2"></i>Eliminar
+                                                                </a>
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i> No hay cursos inscritos para el empleado seleccionado.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="col-md-5 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <i class="fas fa-plus-circle me-2"></i> Inscribir a Nuevo Curso
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Inscribir" method="post">
+                            <!-- Oculto el empleado seleccionado, aunque ya no es necesario usarlo si inscribes varios -->
+                            <input type="hidden" asp-for="NuevoGrupo.IdEmpleado" value="@Model.EmpleadoSeleccionadoId" />
+
+                            <!-- Buscador para agregar empleados -->
+                            <div class="mb-3">
+                                <label for="empleadoNombreInput" class="form-label">Agregar empleados:</label>
+                                <div class="input-group mb-2">
+                                    <input type="text" id="empleadoNombreInput" class="form-control" placeholder="Escribe el nombre del empleado" autocomplete="off" />
+                                    <button type="button" id="btnAgregarEmpleado" class="btn btn-success">
+                                        <i class="fas fa-user-plus me-1"></i> Agregar otro empleado
+                                    </button>
+                                </div>
+
+                                <!-- Lista de empleados agregados con inputs ocultos para enviar -->
+                                <div id="empleadosAgregados"></div>
                             </div>
-                        }
-                        else
-                        {
-                            <div class="alert alert-info" role="alert">
-                                <i class="fas fa-exclamation-circle me-2"></i> No hay cursos inscritos para el empleado seleccionado.
+
+                            <!-- Curso -->
+                            <div class="mb-3">
+                                <label asp-for="NuevoGrupo.IdCurso" class="form-label">Curso:</label>
+                                <select asp-for="NuevoGrupo.IdCurso" class="form-select" id="NuevoGrupo_IdCurso" required>
+                                    <option value="">-- Selecciona un curso --</option>
+                                    @foreach (var curso in Model.CursosDisponibles)
+                                    {
+                                        <option value="@curso.IdCurso"
+                                                data-instructor-id="@curso.Id_Instructor"
+                                                data-instructor-nombre="@curso.Instructor?.NombreInstructor">
+                                            @curso.NombreCurso
+                                        </option>
+                                    }
+                                </select>
+                                <span asp-validation-for="NuevoGrupo.IdCurso" class="text-danger"></span>
                             </div>
-                        }
+
+                            <!-- Fechas -->
+                            <div class="mb-3">
+                                <label asp-for="NuevoGrupo.FechaInicial" class="form-label">Fecha de Inicio:</label>
+                                <input asp-for="NuevoGrupo.FechaInicial" class="form-control" type="date" required />
+                                <span asp-validation-for="NuevoGrupo.FechaInicial" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="NuevoGrupo.FechaFinal" class="form-label">Fecha Final:</label>
+                                <input asp-for="NuevoGrupo.FechaFinal" class="form-control" type="date" required />
+                                <span asp-validation-for="NuevoGrupo.FechaFinal" class="text-danger"></span>
+                            </div>
+
+                            <!-- Horas -->
+                            <div class="mb-3">
+                                <label asp-for="NuevoGrupo.Horario" class="form-label">Cantidad de Horas:</label>
+                                <input asp-for="NuevoGrupo.Horario" class="form-control" required />
+                                <span asp-validation-for="NuevoGrupo.Horario" class="text-danger"></span>
+                            </div>
+
+                            <!-- Lugar -->
+                            <div class="mb-3">
+                                <label asp-for="NuevoGrupo.Lugar" class="form-label">Lugar:</label>
+                                <select asp-for="NuevoGrupo.Lugar" class="form-control" required>
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="Interno">Interno</option>
+                                    <option value="Externo">Externo</option>
+                                </select>
+                                <span asp-validation-for="NuevoGrupo.Lugar" class="text-danger"></span>
+                            </div>
+
+                            <!-- Comentarios -->
+                            <div class="mb-3">
+                                <label asp-for="NuevoGrupo.Comentarios" class="form-label">Comentarios extras:</label>
+                                <input asp-for="NuevoGrupo.Comentarios" class="form-control" />
+                                <span asp-validation-for="NuevoGrupo.Comentarios" class="text-danger"></span>
+                            </div>
+
+                            <!-- Instructor -->
+                            <div class="mb-3">
+                                <label class="form-label">Instructor:</label>
+                                <input type="text" id="InstructorNombre" class="form-control" readonly />
+                                <input asp-for="NuevoGrupo.IdInstructor" type="hidden" id="NuevoGrupo_IdInstructor" />
+                            </div>
+
+
+                            <!-- Estado -->
+                            <div class="mb-3">
+                                <label asp-for="NuevoGrupo.Status" class="form-label">Estado:</label>
+                                <select asp-for="NuevoGrupo.Status" class="form-control" required>
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="Activo">Activo</option>
+                                    <option value="Inactivo">Inactivo</option>
+                                </select>
+                                <span asp-validation-for="NuevoGrupo.Status" class="text-danger"></span>
+                            </div>
+
+                            <!-- Botón para enviar -->
+                            <button type="submit" class="btn btn-primary w-100 mt-3">
+                                <i class="fas fa-plus me-2"></i> Inscribir Curso
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
-
-            @if (User.IsInRole("Admin"))
-            {
-                <div class="col-md-5 mb-4">
-                    <div class="card h-100">
-                        <div class="card-header">
-                            <i class="fas fa-plus-circle me-2"></i> Inscribir a Nuevo Curso
-                        </div>
-                        <div class="card-body">
-                            <form asp-action="Inscribir" method="post">
-                                <!-- Oculto el empleado seleccionado, aunque ya no es necesario usarlo si inscribes varios -->
-                                <input type="hidden" asp-for="NuevoGrupo.IdEmpleado" value="@Model.EmpleadoSeleccionadoId" />
-
-                                <!-- Buscador para agregar empleados -->
-                                <div class="mb-3">
-                                    <label for="empleadoNombreInput" class="form-label">Agregar empleados:</label>
-                                    <div class="input-group mb-2">
-                                        <input type="text" id="empleadoNombreInput" class="form-control" placeholder="Escribe el nombre del empleado" autocomplete="off" />
-                                        <button type="button" id="btnAgregarEmpleado" class="btn btn-success">
-                                            <i class="fas fa-user-plus me-1"></i> Agregar otro empleado
-                                        </button>
-                                    </div>
-
-                                    <!-- Lista de empleados agregados con inputs ocultos para enviar -->
-                                    <div id="empleadosAgregados"></div>
-                                </div>
-
-                                <!-- Curso -->
-                                <div class="mb-3">
-                                    <label asp-for="NuevoGrupo.IdCurso" class="form-label">Curso:</label>
-                                    <select asp-for="NuevoGrupo.IdCurso" class="form-select" id="NuevoGrupo_IdCurso" required>
-                                        <option value="">-- Selecciona un curso --</option>
-                                        @foreach (var curso in Model.CursosDisponibles)
-                                        {
-                                            <option value="@curso.IdCurso"
-                                                    data-instructor-id="@curso.Id_Instructor"
-                                                    data-instructor-nombre="@curso.Instructor?.NombreInstructor">
-                                                @curso.NombreCurso
-                                            </option>
-                                        }
-                                    </select>
-                                    <span asp-validation-for="NuevoGrupo.IdCurso" class="text-danger"></span>
-                                </div>
-
-                                <!-- Fechas -->
-                                <div class="mb-3">
-                                    <label asp-for="NuevoGrupo.FechaInicial" class="form-label">Fecha de Inicio:</label>
-                                    <input asp-for="NuevoGrupo.FechaInicial" class="form-control" type="date" required />
-                                    <span asp-validation-for="NuevoGrupo.FechaInicial" class="text-danger"></span>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label asp-for="NuevoGrupo.FechaFinal" class="form-label">Fecha Final:</label>
-                                    <input asp-for="NuevoGrupo.FechaFinal" class="form-control" type="date" required />
-                                    <span asp-validation-for="NuevoGrupo.FechaFinal" class="text-danger"></span>
-                                </div>
-
-                                <!-- Horas -->
-                                <div class="mb-3">
-                                    <label asp-for="NuevoGrupo.Horario" class="form-label">Cantidad de Horas:</label>
-                                    <input asp-for="NuevoGrupo.Horario" class="form-control" required />
-                                    <span asp-validation-for="NuevoGrupo.Horario" class="text-danger"></span>
-                                </div>
-
-                                <!-- Lugar -->
-                                <div class="mb-3">
-                                    <label asp-for="NuevoGrupo.Lugar" class="form-label">Lugar:</label>
-                                    <select asp-for="NuevoGrupo.Lugar" class="form-control" required>
-                                        <option value="">Seleccione una opción</option>
-                                        <option value="Interno">Interno</option>
-                                        <option value="Externo">Externo</option>
-                                    </select>
-                                    <span asp-validation-for="NuevoGrupo.Lugar" class="text-danger"></span>
-                                </div>
-
-                                <!-- Comentarios -->
-                                <div class="mb-3">
-                                    <label asp-for="NuevoGrupo.Comentarios" class="form-label">Comentarios extras:</label>
-                                    <input asp-for="NuevoGrupo.Comentarios" class="form-control" />
-                                    <span asp-validation-for="NuevoGrupo.Comentarios" class="text-danger"></span>
-                                </div>
-
-                                <!-- Instructor -->
-                                <div class="mb-3">
-                                    <label class="form-label">Instructor:</label>
-                                    <input type="text" id="InstructorNombre" class="form-control" readonly />
-                                    <input asp-for="NuevoGrupo.IdInstructor" type="hidden" id="NuevoGrupo_IdInstructor" />
-                                </div>
-
-                                <!-- Área que ofrece -->
-                                <div class="mb-3">
-                                    <label asp-for="NuevoGrupo.AreaOfrece" class="form-label">Área que Ofrece:</label>
-                                    <input asp-for="NuevoGrupo.AreaOfrece" class="form-control" required />
-                                    <span asp-validation-for="NuevoGrupo.AreaOfrece" class="text-danger"></span>
-                                </div>
-
-                                <!-- Estado -->
-                                <div class="mb-3">
-                                    <label asp-for="NuevoGrupo.Status" class="form-label">Estado:</label>
-                                    <select asp-for="NuevoGrupo.Status" class="form-control" required>
-                                        <option value="">Seleccione una opción</option>
-                                        <option value="Activo">Activo</option>
-                                        <option value="Inactivo">Inactivo</option>
-                                    </select>
-                                    <span asp-validation-for="NuevoGrupo.Status" class="text-danger"></span>
-                                </div>
-
-                                <!-- Botón para enviar -->
-                                <button type="submit" class="btn btn-primary w-100 mt-3">
-                                    <i class="fas fa-plus me-2"></i> Inscribir Curso
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
+        }
+    </div>
 </div>
 
 @section Scripts {
@@ -385,9 +375,9 @@
             var empleados = [
         @foreach (var emp in Model.Empleados)
         {
-            @:{ label: "@emp.Nombre", value: "@emp.IdEmpleado" },
+            @:{ label: "@emp.Nombre", value: "@emp.IdEmpleado" }@((emp == Model.Empleados.Last()) ? "" : ",")
         }
-                ];
+                    ];
 
             // Autocompletado para formulario GET (buscador principal opcional)
             if ($("#empleadoNombre").length) {
@@ -434,14 +424,14 @@
 
                     let index = $("#empleadosAgregados input").length;
                     $("#empleadosAgregados").append(`
-                        <div class="d-flex align-items-center mb-1">
-                            <input type="hidden" name="EmpleadosIds[${index}]" value="${id}" />
-                            <span class="badge bg-primary me-2">${nombre}</span>
-                            <button type="button" class="btn btn-sm btn-danger btnEliminarEmpleado">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    `);
+                                <div class="d-flex align-items-center mb-1">
+                                    <input type="hidden" name="EmpleadosIds[${index}]" value="${id}" />
+                                    <span class="badge bg-primary me-2">${nombre}</span>
+                                    <button type="button" class="btn btn-sm btn-danger btnEliminarEmpleado">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            `);
 
 
                     $("#empleadoNombreInput").val("").data("empleado-id", null);
@@ -477,5 +467,4 @@
             }
         });
     </script>
-
 }

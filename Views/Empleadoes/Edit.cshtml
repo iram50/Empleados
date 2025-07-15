@@ -106,12 +106,20 @@
                                 </select>
                                 <span asp-validation-for="IdPuesto" class="text-danger small"></span>
                             </div>
+                            
 
                             <div class="mb-3">
                                 <label asp-for="tipo_contrato" class="form-label fw-bold">Tipo de Contrato</label>
-                                <input asp-for="tipo_contrato" class="form-control" placeholder="Tipo de contrato" />
+                                <select asp-for="tipo_contrato" class="form-select">
+                                    <option value="">Seleccione tipo de contrato</option>
+                                    <option value="Permanente de confianza">Permanente de confianza</option>
+                                    <option value="Permanente sindicalizado">Permanente sindicalizado</option>
+                                    <option value="Eventual de confianza">Eventual de confianza</option>
+                                    <option value="Eventual sindicalizado">Eventual sindicalizado</option>
+                                </select>
                                 <span asp-validation-for="tipo_contrato" class="text-danger small"></span>
                             </div>
+
 
                             <div class="mb-3">
                                 <label asp-for="rpe" class="form-label fw-bold">RPE</label>
@@ -201,11 +209,35 @@
 
                 @if (Model.Documentos != null && Model.Documentos.Any())
                 {
+                    <div class="mb-3">
+                        <label for="filtroAnio" class="form-label fw-bold">Filtrar por Año:</label>
+                        <select id="filtroAnio" class="form-select" onchange="filtrarPorAnio()">
+                            <option value="">Todos</option>
+                            @{
+                                var años = Model.Documentos
+                                .Select(d => d.FechaSubida.Year)
+                                .Distinct()
+                                .OrderByDescending(a => a);
+
+                                foreach (var anio in años)
+                                {
+                                    <option value="@anio">@anio</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
                     <ul class="list-group mb-3" id="lista-documentos">
                         @foreach (var doc in Model.Documentos)
                         {
-                            <li class="list-group-item d-flex justify-content-between align-items-center" id="documento-@doc.Id">
-                                <span><i class="bi bi-file-earmark-pdf"></i> @doc.Nombre</span>
+                            <li class="list-group-item d-flex justify-content-between align-items-center documento"
+                                id="documento-@doc.Id"
+                                data-anio="@doc.FechaSubida.Year">
+
+                                <span>
+                                    <i class="bi bi-file-earmark-pdf"></i> @doc.Nombre
+                                    <small class="text-muted">(@doc.FechaSubida.ToString("yyyy-MM-dd"))</small>
+                                </span>
 
                                 <button type="button" class="btn btn-sm btn-outline-danger eliminar-documento"
                                         data-id="@doc.Id">
@@ -219,6 +251,7 @@
                 {
                     <div class="alert alert-info">No hay documentos cargados.</div>
                 }
+
 
 
             </form>
@@ -270,6 +303,19 @@
             });
         });
     </script>
+
+    <script> //filtro de años
+        function filtrarPorAnio() {
+            const anioSeleccionado = document.getElementById("filtroAnio").value;
+            const documentos = document.querySelectorAll(".documento");
+
+            documentos.forEach(doc => {
+                const anio = doc.getAttribute("data-anio");
+                doc.style.display = (!anioSeleccionado || anio === anioSeleccionado) ? "flex" : "none";
+            });
+        }
+    </script>
+
 
     <script>
         // Previsualización de imagen
